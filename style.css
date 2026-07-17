@@ -38,6 +38,7 @@ img { max-width: 100%; display: block; }
 .hero p { font-size: 17px; color: #d7ddec; max-width: 520px; }
 .hero-logo { flex: 0 0 220px; display: flex; justify-content: center; }
 .hero-logo .brand-logo-img { width: 200px; height: 200px; }
+.hero-logo-img { width: 200px; height: 200px; object-fit: contain; }
 .btn { display: inline-block; padding: 14px 30px; border-radius: 30px; font-weight: 700; margin-top: 20px; }
 .btn-primary { background: var(--orange); color: var(--navy-dark); }
 .btn-primary:hover { background: var(--orange-dark); }
