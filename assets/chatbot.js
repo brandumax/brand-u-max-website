@@ -6,7 +6,7 @@
     { k: ['audit'], a: "You can get a free marketing audit by visiting our Contact page and sending us a message, or calling us directly." },
     { k: ['contact', 'email', 'phone', 'call', 'reach', 'number', 'whatsapp', 'mobile'], a: "You can reach us at info@brandumax.com or call +91 7401555777. Office hours are Monday to Saturday, 9:00 AM to 6:00 PM." },
     { k: ['hour', 'open', 'time'], a: "Our office hours are Monday to Saturday, 9:00 AM to 6:00 PM." },
-    { k: ['about', 'who are you', 'company', 'mission'], a: "Brand U Max is a digital marketing agency focused on growth, revenue and profit, not just vanity metrics. Visit our About page to learn more." },
+    { k: ['about', 'who are you', 'company', 'mission'], a: "Brand U Max is a Business Growth Consultant focused on growth, revenue and profit, not just vanity metrics. Visit our About page to learn more." },
     { k: ['thank'], a: "You're welcome! Let us know if there's anything else you'd like to know." }
   ];
 
