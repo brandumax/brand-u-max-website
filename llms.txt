@@ -1,0 +1,27 @@
+# Brand U Max
+
+> Brand U Max is an AI-first branding and business growth consultant helping ambitious brands build identity, open new growth channels, and scale revenue and profit.
+
+Brand U Max combines branding, business growth strategy, and AI-driven marketing execution in one team. Unlike agencies that only deliver strategy decks, Brand U Max runs day-to-day execution across SEO, paid advertising, social media marketing, conversion optimization, and analytics.
+
+## Services
+
+- SEO and content marketing
+- Paid advertising (PPC)
+- Social media marketing
+- Branding and creative
+- Conversion rate optimization
+- Email and CRM marketing
+- Business growth strategy consulting
+
+## Pages
+
+- [Home](https://brandumax.com/index.html): Overview of Brand U Max and its branding, business growth, and AI marketing approach
+- [About](https://brandumax.com/about.html): Company mission, vision, values, and process
+- [Services](https://brandumax.com/services.html): Full list of digital marketing services offered
+- [Contact](https://brandumax.com/contact.html): Contact form, email, phone, and free audit request
+
+## Contact
+
+Email: info@brandumax.com
+Phone: +91 7401555777
