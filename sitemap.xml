@@ -3,5 +3,15 @@
   <url><loc>https://brandumax.com/</loc><changefreq>monthly</changefreq><priority>1.0</priority></url>
   <url><loc>https://brandumax.com/about.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://brandumax.com/services.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://brandumax.com/branding-agency.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://brandumax.com/business-development.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://brandumax.com/seo-services.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://brandumax.com/ppc-advertising.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://brandumax.com/social-media-marketing.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://brandumax.com/marketplace-onboarding.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://brandumax.com/conversion-rate-optimization.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://brandumax.com/email-crm-marketing.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://brandumax.com/blog.html</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://brandumax.com/blog-branding-and-business-development.html</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://brandumax.com/contact.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
 </urlset>
