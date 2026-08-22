@@ -366,7 +366,7 @@ img { max-width: 100%; display: block; }
 }
 
 .hero h1 {
-    font-size: clamp(2.5rem, 5.6vw, 4.25rem);
+    font-size: clamp(2.25rem, 4.2vw, 3.5rem);
     font-weight: 700;
     letter-spacing: -0.035em;
     color: var(--text-inverse);
@@ -381,18 +381,40 @@ img { max-width: 100%; display: block; }
     margin: 0 0 var(--space-4);
 }
 
+/* Media panel. The hero video is 16:9, so it is framed at its true ratio
+   and centred, rather than squeezed into a square box. */
 .hero-logo {
-    flex: 0 0 clamp(180px, 22vw, 260px);
+    flex: 0 1 420px;
     display: flex;
+    align-items: center;
     justify-content: center;
+    min-width: 0;
 }
 
-.hero-logo .brand-logo-img,
 .hero-logo-img {
+    display: block;
     width: 100%;
+    max-width: 480px;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    /* The clip has a light background baked in, so it is presented as a
+       deliberately framed media card instead of a floating pale rectangle. */
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5),
+                0 0 0 1px rgba(255, 255, 255, 0.10);
+    animation: none;
+}
+
+/* A still logo image, if one is ever placed in the hero, stays square */
+.hero-logo .brand-logo-img {
+    width: 100%;
+    max-width: 220px;
     height: auto;
     aspect-ratio: 1;
     object-fit: contain;
+    border-radius: 0;
+    box-shadow: none;
     animation: none;
 }
 
@@ -924,7 +946,8 @@ a.card:hover {
 
     .hero { padding: var(--space-10) var(--space-5); }
     .hero-inner { gap: var(--space-8); }
-    .hero-logo { order: -1; flex-basis: 150px; }
+    .hero-logo { order: -1; flex-basis: auto; width: 100%; }
+    .hero-logo-img { max-width: 100%; }
 
     .section,
     .cta-band { padding: var(--space-10) var(--space-5); }
