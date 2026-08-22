@@ -4,11 +4,16 @@
 
 Brand U Max combines branding, business growth strategy, and AI-driven marketing execution in one team. Unlike agencies that only deliver strategy decks, Brand U Max runs day-to-day execution across SEO, paid advertising, social media marketing, conversion optimization, and analytics.
 
+Based in Coimbatore, Tamil Nadu, India.
+
 ## Services
 
+- Social media content creation
+- Promotional video production
+- Website design and development
 - SEO and content marketing
-- Paid advertising (PPC)
-- Social media marketing
+- Paid advertising (Google Ads)
+- Social media advertising (Meta Ads)
 - Branding and creative
 - Conversion rate optimization
 - Email and CRM marketing
@@ -16,12 +21,22 @@ Brand U Max combines branding, business growth strategy, and AI-driven marketing
 
 ## Pages
 
-- [Home](https://brandumax.com/index.html): Overview of Brand U Max and its branding, business growth, and AI marketing approach
+- [Home](https://brandumax.com/): Overview of Brand U Max and its branding, business growth, and AI marketing approach
 - [About](https://brandumax.com/about.html): Company mission, vision, values, and process
-- [Services](https://brandumax.com/services.html): Full list of digital marketing services offered
+- [Services](https://brandumax.com/services.html): Full list of services offered
+- [Branding & Creative](https://brandumax.com/branding-agency.html): Brand strategy, logo and visual identity, creative assets
+- [Business Growth](https://brandumax.com/business-development.html): Market research, partnerships, new revenue channels
+- [SEO Services](https://brandumax.com/seo-services.html): Keyword strategy, on-page and technical SEO, content marketing
+- [Paid Advertising](https://brandumax.com/ppc-advertising.html): Google Ads, paid social, display and shopping campaigns
+- [Social Media Marketing](https://brandumax.com/social-media-marketing.html): Strategy, content, community management, paid social
+- [Marketplace Onboarding](https://brandumax.com/marketplace-onboarding.html): Later-stage support for selling on Amazon, Flipkart, Myntra, Nykaa, Ajio and Blinkit
+- [Conversion Rate Optimization](https://brandumax.com/conversion-rate-optimization.html): Landing page and funnel optimization, A/B testing
+- [Email & CRM Marketing](https://brandumax.com/email-crm-marketing.html): Automation, segmentation, retention campaigns
+- [Blog](https://brandumax.com/blog.html): Articles on branding, business growth and marketing
 - [Contact](https://brandumax.com/contact.html): Contact form, email, phone, and free audit request
 
 ## Contact
 
 Email: info@brandumax.com
 Phone: +91 7401555777
+Address: 19/4 Lakshmipuram, Rathanapuri Main Road, Ganapathy, Coimbatore - 641006, Tamil Nadu, India
