@@ -90,38 +90,35 @@
     /* ---------------------------------------------------------------------
        3. Reveal on scroll
        --------------------------------------------------------------------- */
-    function reveal(el) {
-        el.classList.add('is-visible');
-        // Drop the compositor hint once the transition has finished
-        window.setTimeout(function () {
-            el.style.willChange = 'auto';
-        }, 1200);
-    }
+    function show(el) { el.classList.add('is-visible'); }
+    function hide(el) { el.classList.remove('is-visible'); }
 
     function initReveals() {
         var targets = document.querySelectorAll('[data-reveal]');
 
         if (reduceMotion || !('IntersectionObserver' in window)) {
-            Array.prototype.forEach.call(targets, reveal);
+            Array.prototype.forEach.call(targets, show);
             return;
         }
 
+        // Reveals replay: an element animates in every time it enters the
+        // viewport, and resets only once it has fully left. threshold 0 with a
+        // shrunk bottom margin means it triggers just after entering from
+        // below, and never flickers while any part of it is still on screen.
         var io = new IntersectionObserver(function (entries) {
             entries.forEach(function (entry) {
-                if (entry.isIntersecting) {
-                    reveal(entry.target);
-                    io.unobserve(entry.target);
-                }
+                if (entry.isIntersecting) show(entry.target);
+                else hide(entry.target);
             });
-        }, { rootMargin: '0px 0px -12% 0px', threshold: 0.08 });
+        }, { rootMargin: '0px 0px -10% 0px', threshold: 0 });
 
         Array.prototype.forEach.call(targets, function (el) { io.observe(el); });
 
-        // Watchdog: never leave content stranded invisible.
+        // Watchdog: never leave on-screen content stranded invisible.
         window.setTimeout(function () {
             document.querySelectorAll('[data-reveal]:not(.is-visible)').forEach(function (el) {
                 var box = el.getBoundingClientRect();
-                if (box.top < window.innerHeight) reveal(el);
+                if (box.top < window.innerHeight && box.bottom > 0) show(el);
             });
         }, 3000);
     }
