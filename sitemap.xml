@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://brandumax.com/</loc><changefreq>monthly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://brandumax.com/about.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://brandumax.com/services.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://brandumax.com/branding-agency.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://brandumax.com/business-development.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://brandumax.com/seo-services.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://brandumax.com/ppc-advertising.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://brandumax.com/social-media-marketing.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://brandumax.com/marketplace-onboarding.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://brandumax.com/conversion-rate-optimization.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://brandumax.com/email-crm-marketing.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
-  <url><loc>https://brandumax.com/blog.html</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
-  <url><loc>https://brandumax.com/blog-branding-and-business-development.html</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://brandumax.com/blog-social-media-advertising-for-retailers-and-brands.html</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
-  <url><loc>https://brandumax.com/contact.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://brandumax.com/</loc><lastmod>2026-08-28</lastmod><changefreq>monthly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://brandumax.com/about.html</loc><lastmod>2026-08-28</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://brandumax.com/services.html</loc><lastmod>2026-08-28</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://brandumax.com/branding-agency.html</loc><lastmod>2026-08-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://brandumax.com/business-development.html</loc><lastmod>2026-08-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://brandumax.com/seo-services.html</loc><lastmod>2026-08-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://brandumax.com/ppc-advertising.html</loc><lastmod>2026-08-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://brandumax.com/social-media-marketing.html</loc><lastmod>2026-08-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://brandumax.com/marketplace-onboarding.html</loc><lastmod>2026-08-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://brandumax.com/conversion-rate-optimization.html</loc><lastmod>2026-08-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://brandumax.com/email-crm-marketing.html</loc><lastmod>2026-08-28</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://brandumax.com/blog.html</loc><lastmod>2026-08-28</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://brandumax.com/blog-branding-and-business-development.html</loc><lastmod>2026-08-01</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://brandumax.com/blog-social-media-advertising-for-retailers-and-brands.html</loc><lastmod>2026-08-28</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://brandumax.com/contact.html</loc><lastmod>2026-08-28</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
 </urlset>
