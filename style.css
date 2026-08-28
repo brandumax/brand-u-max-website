@@ -888,6 +888,32 @@ a.card:hover {
 .section .container > p > a { color: var(--accent-ink); font-weight: 500; }
 .section .container > p > a:hover { text-decoration: underline; text-underline-offset: 3px; }
 
+/* Article bullet lists. The global reset (section 2) strips all list
+   styling, so long-form content needs its own marker and spacing. */
+.section .container > ul {
+    margin: 0 0 var(--space-5);
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+.section .container > ul > li {
+    position: relative;
+    padding-left: 22px;
+    color: var(--text-secondary);
+    font-size: 1.0625rem;
+    line-height: 1.65;
+}
+.section .container > ul > li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.72em;
+    width: 8px;
+    height: 1px;
+    background: var(--accent);
+}
+
 .pull-quote {
     font-family: var(--font-serif);
     font-size: clamp(1.25rem, 2.2vw, 1.75rem);
