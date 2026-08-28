@@ -374,7 +374,13 @@ img { max-width: 100%; display: block; }
     flex-wrap: wrap;
 }
 
-.hero-text { flex: 1 1 520px; min-width: 0; }
+.hero-text {
+    /* 440 not 520: with the 80px gap and the 460px media panel, a 520 basis
+       totals 1060 and wrapped the hero onto two rows at ~1120px viewport --
+       a very common laptop width. The text grows to fill regardless. */
+    flex: 1 1 440px;
+    min-width: 0;
+}
 
 .hero-eyebrow {
     display: inline-block;

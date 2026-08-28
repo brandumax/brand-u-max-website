@@ -114,13 +114,35 @@
 
         Array.prototype.forEach.call(targets, function (el) { io.observe(el); });
 
-        // Watchdog: never leave on-screen content stranded invisible.
+        // Watchdog, and the crawler safety net.
+        //
+        // A visitor scrolls, moves a mouse, taps, or presses a key. A search
+        // engine renderer does none of those and never scrolls -- so anything
+        // still at opacity 0 because it never entered the viewport is invisible
+        // to it, which here was three quarters of the homepage copy.
+        //
+        // Testing for any sign of a human, rather than for scrolling alone,
+        // is what keeps the effect for someone who reads the hero for a while
+        // before scrolling: they have almost certainly moved a pointer.
+        var humanSeen = false;
+        ['scroll', 'mousemove', 'wheel', 'pointerdown', 'touchstart', 'keydown']
+            .forEach(function (evt) {
+                window.addEventListener(evt, function () { humanSeen = true; },
+                                        { passive: true, once: true });
+            });
+
         window.setTimeout(function () {
+            if (!humanSeen) {
+                document.querySelectorAll('[data-reveal]').forEach(show);
+                return;
+            }
+            // Someone is here: keep the effect, and only rescue anything on
+            // screen that the observer somehow missed.
             document.querySelectorAll('[data-reveal]:not(.is-visible)').forEach(function (el) {
                 var box = el.getBoundingClientRect();
                 if (box.top < window.innerHeight && box.bottom > 0) show(el);
             });
-        }, 3000);
+        }, 2500);
     }
 
     /* ---------------------------------------------------------------------
