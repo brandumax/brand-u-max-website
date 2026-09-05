@@ -575,6 +575,18 @@ img { max-width: 100%; display: block; }
     margin-bottom: var(--space-5);
 }
 
+.icon-svg {
+    width: 46px;
+    height: 46px;
+    padding: 11px;
+    box-sizing: border-box;
+    border-radius: var(--radius-md);
+    background: var(--accent-soft);
+    color: var(--accent-ink);
+    display: block;
+    margin-bottom: var(--space-5);
+}
+
 a.card { display: block; cursor: pointer; }
 
 .card:hover,
@@ -1006,4 +1018,38 @@ a.card:hover {
 
     .card { padding: var(--space-5); }
     .faq-item { padding: var(--space-4) var(--space-5); }
+}
+
+/* --------------------------------------------------------------------------
+   20. WhatsApp
+   -------------------------------------------------------------------------- */
+.btn-whatsapp {
+    background: #25d366;
+    color: #fff;
+    border: none;
+    box-shadow: var(--shadow-btn);
+}
+.btn-whatsapp:hover { background: #1eb154; transform: translateY(-2px); }
+
+.wa-float {
+    position: fixed;
+    bottom: 22px;
+    right: 22px;
+    width: 54px;
+    height: 54px;
+    background: #25d366;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+    z-index: 999;
+    transition: transform var(--motion-fast) var(--ease),
+                background var(--motion-fast) var(--ease);
+}
+.wa-float:hover { background: #1eb154; transform: translateY(-3px) scale(1.04); }
+.wa-float svg { width: 28px; height: 28px; fill: #fff; display: block; }
+@media (max-width: 520px) {
+    .wa-float { width: 46px; height: 46px; bottom: 16px; right: 16px; }
+    .wa-float svg { width: 24px; height: 24px; }
 }
