@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0d0d1a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Clever Candidate — Election Management Command Centre</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+<style>
+/* ==================== DESIGN TOKENS ==================== */
+:root {
+  --font-primary: 'Inter', system-ui, sans-serif;
+  --font-display: 'Playfair Display', serif;
+
+  --c-navy: #1a1a2e;
+  --c-navy-dark: #0d0d1a;
+  --c-navy-light: #2d2d44;
+  --c-text: #2d2d44;
+  --c-text-muted: #6b7084;
+  --c-white: #ffffff;
+  --c-warm: #fef9f5;
+  --c-light: #f8f9fc;
+  --c-orange: #E85D26;
+  --c-blue: #3B82F6;
+  --c-green: #10B981;
+  --c-purple: #8B5CF6;
+  --c-amber: #F59E0B;
+  --c-sky: #0EA5E9;
+
+  /* Pearl + Brown + Golden */
+  --c-pearl: #FAFAF8;
+  --c-brown-dark: #3E2723;
+  --c-brown-mid: #5D4037;
+  --c-brown-light: #8D6E63;
+  --c-golden: #C6A04B;
+  --c-golden-light: #D4AF37;
+
+  --c-green-vote: #2E7D32;
+
+  --radius: 16px;
+  --radius-sm: 12px;
+  --radius-pill: 50px;
+  --shadow: 0 4px 20px rgba(26,26,46,0.08);
+  --shadow-lg: 0 10px 40px rgba(26,26,46,0.15);
+  --shadow-accent: rgba(232,93,38,0.3) 0 4px 20px 0;
+  --transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-primary);font-size:16px;line-height:1.6;background:var(--c-pearl);color:var(--c-text);overflow-x:hidden;}
+*:focus-visible{outline:3px solid var(--c-orange);outline-offset:2px;border-radius:4px;}
+
+/* ==================== LOADING ==================== */
+#loader{position:fixed;inset:0;background:linear-gradient(135deg,var(--c-pearl),var(--c-warm));z-index:10000;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .6s,visibility .6s;}
+#loader.hidden{opacity:0;visibility:hidden;}
+.vote-paper{width:140px;height:180px;background:#fff;border:2px solid var(--c-golden-soft,#e8d48b);border-radius:10px;position:relative;box-shadow:0 10px 40px rgba(26,26,46,.15);animation:float 3s ease-in-out infinite;overflow:hidden;}
+.vote-paper::before{content:'';position:absolute;top:14px;left:50%;transform:translateX(-50%);width:38px;height:5px;background:var(--c-brown-light);border-radius:3px;opacity:.4;}
+.vote-paper::after{content:'';position:absolute;top:30px;left:18px;right:18px;height:3px;background:var(--c-brown-light);opacity:.3;border-radius:2px;box-shadow:0 12px 0 var(--c-brown-light),0 24px 0 var(--c-brown-light),0 36px 0 var(--c-brown-light);}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-2deg);}50%{transform:translateY(-14px) rotate(2deg);}}
+.checks{position:absolute;width:100%;height:100%;}
+.check{position:absolute;font-size:26px;color:var(--c-green-vote);font-weight:900;opacity:0;animation:fly 2.5s ease-in-out infinite;}
+.check:nth-child(1){left:15%;top:70%;animation-delay:0s;}
+.check:nth-child(2){left:45%;top:80%;animation-delay:.4s;}
+.check:nth-child(3){left:75%;top:75%;animation-delay:.8s;}
+.check:nth-child(4){left:25%;top:85%;animation-delay:1.2s;}
+.check:nth-child(5){left:60%;top:65%;animation-delay:1.6s;}
+.check:nth-child(6){left:85%;top:90%;animation-delay:.2s;}
+.check:nth-child(7){left:8%;top:60%;animation-delay:.6s;}
+.check:nth-child(8){left:50%;top:55%;animation-delay:1.0s;}
+@keyframes fly{0%{opacity:0;transform:translateY(40px) scale(.3);}20%{opacity:1;}50%{opacity:1;transform:translateY(-80px) scale(1.2) rotate(15deg);}100%{opacity:0;transform:translateY(-160px) scale(.5);}}
+.load-title{margin-top:36px;font-family:var(--font-display);font-size:26px;font-weight:800;color:var(--c-navy);letter-spacing:1px;}
+.load-title span{color:var(--c-golden);}
+.load-sub{margin-top:6px;font-size:12px;color:var(--c-text-muted);letter-spacing:4px;text-transform:uppercase;}
+.load-bar{margin-top:22px;width:200px;height:4px;background:var(--c-warm);border-radius:4px;overflow:hidden;}
+.load-fill{height:100%;width:0;background:linear-gradient(90deg,var(--c-golden),var(--c-golden-light));animation:bar 2.5s ease forwards;}
+@keyframes bar{0%{width:0;}50%{width:70%;}100%{width:100%;}}
+
+/* ==================== APP ==================== */
+#app{display:none;}
+#app.show{display:block;animation:appfade .6s ease;}
+@keyframes appfade{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
+/* ==================== NAVBAR ==================== */
+.navbar{position:fixed;top:0;left:0;right:0;background:rgba(13,13,26,.95);backdrop-filter:blur(12px);z-index:1000;border-bottom:1px solid rgba(255,255,255,.08);}
+.navbar .nav-container{max-width:1400px;margin:0 auto;padding:14px 28px;display:flex;align-items:center;justify-content:space-between;}
+.nav-brand{display:flex;align-items:center;gap:12px;text-decoration:none;}
+.nav-logo{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--c-golden),var(--c-golden-light));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:16px;}
+.nav-brand-text{color:#fff;font-size:17px;font-weight:700;}
+.nav-brand-text span{color:var(--c-golden);}
+.nav-links{display:flex;align-items:center;gap:6px;list-style:none;}
+.nav-links a,.nav-links .nav-link{padding:9px 15px;color:rgba(255,255,255,.75);text-decoration:none;font-size:14px;font-weight:500;border-radius:8px;transition:var(--transition);cursor:pointer;background:none;border:none;font-family:var(--font-primary);}
+.nav-links a:hover,.nav-links .nav-link:hover{color:#fff;background:rgba(255,255,255,.08);}
+.nav-links .nav-link.active{color:var(--c-golden);background:rgba(198,160,75,.12);}
+.cta-btn{padding:10px 20px;border-radius:50px;background:linear-gradient(135deg,var(--c-orange),#f07b3a);color:#fff!important;font-weight:600;}
+.cta-btn:hover{box-shadow:var(--shadow-accent);transform:translateY(-2px);}
+.menu-toggle{display:none;background:none;border:none;cursor:pointer;}
+.menu-toggle span{display:block;width:24px;height:2px;background:#fff;margin:5px 0;transition:var(--transition);}
+
+/* ==================== LAYOUT ==================== */
+.main{max-width:1400px;margin:0 auto;padding:0 28px;}
+
+/* Sections */
+.section{padding:72px 0;display:none;}
+.section.active{display:block;animation:slideIn .4s ease;}
+@keyframes slideIn{from{opacity:0;transform:translateY(15px);}to{opacity:1;transform:translateY(0);}}
+
+.sec-head{text-align:center;margin-bottom:48px;}
+.sec-label{display:inline-block;padding:6px 16px;border-radius:50px;background:rgba(198,160,75,.12);color:var(--c-golden);font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px;}
+.sec-head h2{font-family:var(--font-display);font-size:34px;color:var(--c-navy);font-weight:800;}
+.sec-head p{color:var(--c-text-muted);max-width:640px;margin:10px auto 0;}
+
+/* ==================== HERO ==================== */
+.hero{padding:130px 0 60px;background:linear-gradient(135deg,var(--c-navy-dark) 0%,var(--c-navy) 55%,var(--c-brown-dark) 100%);color:#fff;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;top:-40%;right:-10%;width:500px;height:500px;background:radial-gradient(circle,rgba(198,160,75,.18) 0%,transparent 70%);border-radius:50%;}
+.hero::after{content:'';position:absolute;bottom:-30%;left:-10%;width:400px;height:400px;background:radial-gradient(circle,rgba(232,93,38,.12) 0%,transparent 70%);border-radius:50%;}
+.hero .main{position:relative;z-index:1;display:flex;align-items:center;gap:56px;}
+.hero-text{flex:1;}
+.hero-label{display:inline-block;padding:6px 16px;border-radius:50px;background:rgba(198,160,75,.15);color:var(--c-golden);font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:18px;}
+.hero-text h1{font-family:var(--font-display);font-size:46px;font-weight:800;line-height:1.15;}
+.hero-text h1 span{background:linear-gradient(90deg,var(--c-golden),var(--c-golden-light));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+.hero-text p{color:rgba(255,255,255,.7);margin-top:16px;font-size:17px;max-width:520px;}
+.hero-btns{display:flex;gap:14px;margin-top:30px;flex-wrap:wrap;}
+.btn{padding:12px 26px;border-radius:50px;font-family:var(--font-primary);font-size:14px;font-weight:600;cursor:pointer;transition:var(--transition);text-decoration:none;display:inline-block;border:none;}
+.btn-primary{background:linear-gradient(135deg,var(--c-orange),#f07b3a);color:#fff;box-shadow:var(--shadow-accent);}
+.btn-primary:hover{transform:translateY(-2px);}
+.btn-gold{background:linear-gradient(135deg,var(--c-golden),var(--c-golden-light));color:#fff;}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 6px 25px rgba(198,160,75,.4);}
+.btn-outline{background:transparent;border:1.5px solid rgba(255,255,255,.4);color:#fff;}
+.btn-outline:hover{border-color:var(--c-golden);color:var(--c-golden);}
+
+.hero-stats{display:flex;gap:40px;margin-top:40px;flex-wrap:wrap;}
+.hstat .hv{font-family:var(--font-display);font-size:30px;font-weight:800;color:var(--c-golden);}
+.hstat .hl{font-size:12px;color:rgba(255,255,255,.5);letter-spacing:1px;text-transform:uppercase;}
+
+.hero-visual{flex:1;display:flex;justify-content:center;}
+.war-room{width:100%;max-width:440px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:var(--radius);padding:28px;backdrop-filter:blur(8px);}
+.war-room-tag{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--c-golden);text-transform:uppercase;letter-spacing:1px;margin-bottom:20px;}
+.pulse{width:8px;height:8px;border-radius:50%;background:var(--c-green);box-shadow:0 0 0 0 rgba(16,185,129,.5);animation:pulse 2s infinite;}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(16,185,129,.5);}70%{box-shadow:0 0 0 10px rgba(16,185,129,0);}100%{box-shadow:0 0 0 0 rgba(16,185,129,0);}}
+.wr-metric{background:rgba(255,255,255,.06);border-radius:12px;padding:18px;margin-bottom:14px;}
+.wr-metric .mv{font-size:28px;font-weight:800;color:#fff;}
+.wr-metric .ml{font-size:12px;color:rgba(255,255,255,.5);}
+.wr-bar{margin:22px 0;}
+.wr-bar .blabel{display:flex;justify-content:space-between;font-size:13px;color:rgba(255,255,255,.7);margin-bottom:8px;}
+.wr-progress{height:12px;background:rgba(255,255,255,.1);border-radius:6px;overflow:hidden;}
+.wr-progress .f{height:100%;border-radius:6px;}
+
+/* ==================== FEATURE ROWS ==================== */
+.feature-row{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center;padding:56px 0;border-bottom:1px solid rgba(26,26,46,.06);}
+.feature-row:last-child{border-bottom:none;}
+.feature-row.reverse .feature-content{order:2;}
+.feature-row.reverse .feature-visual{order:1;}
+.feature-tag{display:inline-block;padding:6px 14px;border-radius:50px;font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px;background:rgba(198,160,75,.12);color:var(--c-golden);}
+.feature-tag.green{background:rgba(16,185,129,.12);color:var(--c-green);}
+.feature-tag.blue{background:rgba(59,130,246,.12);color:var(--c-blue);}
+.feature-tag.purple{background:rgba(139,92,246,.12);color:var(--c-purple);}
+.feature-tag.orange{background:rgba(232,93,38,.12);color:var(--c-orange);}
+.feature-content h3{font-family:var(--font-display);font-size:26px;color:var(--c-navy);font-weight:800;margin-bottom:12px;}
+.feature-content>p{color:var(--c-text-muted);margin-bottom:20px;}
+.feature-highlights{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.feature-highlights li{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--c-text);}
+.feature-highlights li::before{content:'✓';color:var(--c-green);font-weight:800;flex-shrink:0;}
+
+.feature-visual{display:flex;justify-content:center;}
+.feature-card{width:100%;max-width:420px;background:var(--c-white);border-radius:var(--radius);box-shadow:var(--shadow-lg);padding:26px;border:1px solid rgba(26,26,46,.06);}
+.feature-card h4{font-size:15px;color:var(--c-navy);margin-bottom:16px;font-weight:700;}
+.mock-list{margin-top:14px;}
+.mock-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--c-light);font-size:13px;}
+.mock-row:last-child{border-bottom:none;}
+.mock-row .mr{color:var(--c-text-muted);}
+.mock-row .mrv{font-weight:600;color:var(--c-navy);}
+
+/* ==================== CARDS GRID ==================== */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:22px;}
+.product-card{background:var(--c-white);border-radius:var(--radius);padding:30px;box-shadow:var(--shadow);border:1px solid rgba(26,26,46,.06);transition:var(--transition);position:relative;overflow:hidden;}
+.product-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--c-golden);}
+.product-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);}
+.product-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:18px;}
+.product-icon.pi-golden{background:rgba(198,160,75,.12);}
+.product-icon.pi-orange{background:rgba(232,93,38,.12);}
+.product-icon.pi-green{background:rgba(16,185,129,.12);}
+.product-icon.pi-blue{background:rgba(59,130,246,.12);}
+.product-icon.pi-purple{background:rgba(139,92,246,.12);}
+.product-icon.pi-amber{background:rgba(245,158,11,.12);}
+.product-icon.pi-sky{background:rgba(14,165,233,.12);}
+.product-card h3{font-size:16px;color:var(--c-navy);font-weight:700;margin-bottom:10px;}
+.product-card p{font-size:14px;color:var(--c-text-muted);}
+
+/* ==================== CANDIDATE ==================== */
+.candidate-card{background:linear-gradient(135deg,var(--c-navy-dark),var(--c-navy) 60%,var(--c-brown-dark));border-radius:var(--radius);padding:40px;display:flex;align-items:center;gap:32px;color:#fff;margin-bottom:32px;position:relative;overflow:hidden;}
+.candidate-card::before{content:'';position:absolute;top:-40%;right:-10%;width:300px;height:300px;background:radial-gradient(circle,rgba(198,160,75,.2),transparent 70%);border-radius:50%;}
+.candidate-avatar{width:110px;height:110px;border-radius:50%;background:linear-gradient(135deg,var(--c-golden),var(--c-golden-light));display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:38px;font-weight:800;color:#fff;border:4px solid rgba(198,160,75,.4);flex-shrink:0;position:relative;z-index:1;}
+.candidate-info{position:relative;z-index:1;}
+.candidate-info h2{font-family:var(--font-display);font-size:28px;font-weight:800;}
+.candidate-info .party{color:var(--c-golden);font-size:15px;font-weight:500;margin-top:4px;}
+.candidate-info .constituency{color:rgba(255,255,255,.6);font-size:13px;margin-top:2px;}
+
+/* ==================== STATS ==================== */
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-bottom:32px;}
+.stat-card{background:var(--c-white);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);border:1px solid rgba(26,26,46,.05);transition:var(--transition);position:relative;overflow:hidden;}
+.stat-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;}
+.stat-card:nth-child(1)::after{background:var(--c-golden);}
+.stat-card:nth-child(2)::after{background:var(--c-green);}
+.stat-card:nth-child(3)::after{background:var(--c-orange);}
+.stat-card:nth-child(4)::after{background:var(--c-blue);}
+.stat-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);}
+.stat-icon{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:14px;}
+.stat-icon.sg{background:rgba(198,160,75,.12);}
+.stat-icon.sgr{background:rgba(16,185,129,.12);}
+.stat-icon.so{background:rgba(232,93,38,.12);}
+.stat-icon.sb{background:rgba(59,130,246,.12);}
+.stat-value{font-family:var(--font-display);font-size:30px;font-weight:800;color:var(--c-navy);}
+.stat-label{font-size:13px;color:var(--c-text-muted);margin-top:2px;}
+.stat-change{font-size:12px;margin-top:8px;font-weight:500;}
+.stat-change.up{color:var(--c-green);}
+.stat-change.down{color:#C62828;}
+
+/* ==================== GRID ==================== */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:28px;}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:24px;margin-bottom:28px;}
+.card{background:var(--c-white);border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid rgba(26,26,46,.05);padding:28px;transition:var(--transition);position:relative;overflow:hidden;}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--c-golden),var(--c-golden-light));}
+.card:hover{box-shadow:var(--shadow-lg);}
+.card-title{font-size:16px;color:var(--c-navy);font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+.card-title .icon{color:var(--c-golden);}
+
+/* ==================== TABLES ==================== */
+.table-wrap{overflow-x:auto;border-radius:12px;}
+table{width:100%;border-collapse:collapse;}
+thead th{background:var(--c-navy);color:var(--c-golden);padding:14px 16px;text-align:left;font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1px;white-space:nowrap;}
+tbody td{padding:13px 16px;border-bottom:1px solid var(--c-light);font-size:14px;color:var(--c-text);white-space:nowrap;}
+tbody tr{transition:var(--transition);}
+tbody tr:hover{background:rgba(198,160,75,.04);}
+
+.rank-badge{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;font-weight:700;font-size:13px;}
+.rank-1{background:linear-gradient(135deg,#FFD700,#FFA000);color:#fff;}
+.rank-2{background:linear-gradient(135deg,#C0C0C0,#9E9E9E);color:#fff;}
+.rank-3{background:linear-gradient(135deg,#CD7F32,#8D6E63);color:#fff;}
+.rank-default{background:var(--c-light);color:var(--c-text);}
+
+.progress-bar{width:100%;height:8px;background:var(--c-light);border-radius:4px;overflow:hidden;}
+.progress-fill{height:100%;border-radius:4px;transition:width 1s ease;}
+.progress-fill.golden{background:linear-gradient(90deg,var(--c-golden),var(--c-golden-light));}
+.progress-fill.green{background:linear-gradient(90deg,var(--c-green-vote),var(--c-green));}
+.progress-fill.orange{background:linear-gradient(90deg,var(--c-orange),#f07b3a);}
+
+/* ==================== FORMS ==================== */
+.form-group{margin-bottom:20px;}
+.form-group label{display:block;font-size:13px;font-weight:500;color:var(--c-text);margin-bottom:8px;}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:12px 16px;border:1.5px solid var(--c-light);border-radius:12px;font-family:var(--font-primary);font-size:14px;color:var(--c-text);background:var(--c-pearl);transition:var(--transition);}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{outline:none;border-color:var(--c-golden);box-shadow:0 0 0 3px rgba(198,160,75,.15);}
+.form-group textarea{resize:vertical;min-height:90px;}
+select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238D6E63' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;padding-right:40px;}
+
+/* ==================== SELECTOR ==================== */
+.selector{display:flex;align-items:center;gap:16px;margin-bottom:24px;flex-wrap:wrap;}
+.selector select{max-width:280px;}
+.count-badge{display:inline-flex;align-items:center;gap:6px;background:var(--c-light);padding:6px 14px;border-radius:50px;font-size:13px;color:var(--c-text);}
+.count-badge strong{color:var(--c-golden);}
+
+/* ==================== ACTUAL DATA PANEL ==================== */
+.pos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:6px;}
+.pos-card{background:var(--c-warm);border:1.5px solid var(--c-light);border-radius:14px;padding:18px;position:relative;transition:var(--transition);}
+.pos-card.active{background:linear-gradient(135deg,var(--c-navy-dark),var(--c-brown-dark));color:#fff;border-color:var(--c-golden);box-shadow:var(--shadow-accent);}
+.pos-card .pos-head{font-size:14px;font-weight:800;color:var(--c-brown-dark);margin-bottom:2px;}
+.pos-card.active .pos-head{color:var(--c-golden);}
+.pos-card .pos-seat{font-size:11px;color:var(--c-text-muted);margin-bottom:12px;}
+.pos-card.active .pos-seat{color:rgba(255,255,255,.7);}
+.pos-card .pos-chip{position:absolute;top:12px;right:12px;font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;padding:3px 8px;border-radius:50px;background:rgba(198,160,75,.15);color:var(--c-golden);}
+.pos-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
+.pos-stat{background:#fff;border-radius:10px;padding:10px 12px;text-align:center;}
+.pos-card.active .pos-stat{background:rgba(255,255,255,.08);}
+.pos-stat span{display:block;font-size:10px;letter-spacing:.4px;text-transform:uppercase;color:var(--c-text-muted);margin-bottom:2px;}
+.pos-stat b{font-family:var(--font-display);font-size:20px;font-weight:800;color:var(--c-navy);}
+.pos-card.active .pos-stat b{color:#fff;}
+.pos-card.active .pos-stat span{color:rgba(255,255,255,.65);}
+.pos-share{display:flex;justify-content:space-between;font-size:11px;font-weight:600;color:var(--c-text-muted);margin-bottom:10px;}
+.pos-bar{height:8px;border-radius:4px;overflow:hidden;display:flex;background:var(--c-light);margin-bottom:10px;}
+.pos-bar i{display:block;height:100%;}
+.pos-tier{font-size:12px;font-weight:700;color:var(--c-brown-mid);}
+.pos-card.active .pos-tier{color:var(--c-golden);}
+.pos-note{margin-top:12px;font-size:11px;color:var(--c-text-muted);text-align:center;}
+.bmap-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:10px;margin-top:8px;}
+.btile{background:var(--c-warm);border:2px solid var(--c-light);border-radius:12px;padding:10px 12px 6px;cursor:pointer;transition:var(--transition);position:relative;overflow:hidden;}
+.btile:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);}
+.btile.strong{border-color:var(--c-green);}
+.btile.split{border-color:var(--c-amber);}
+.btile.trail{border-color:var(--c-orange);}
+.btile-top{display:inline-block;font-size:9px;font-weight:800;letter-spacing:.5px;color:#fff;padding:2px 7px;border-radius:50px;margin-bottom:6px;}
+.btile-name{font-size:12px;font-weight:800;color:var(--c-brown-dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.btile-nums{font-size:11px;color:var(--c-text-muted);margin:2px 0 4px;line-height:1.45;}
+.btile-nums b{color:var(--c-navy);}
+.btile-lead{font-size:13px;font-weight:800;padding:3px 8px;border-radius:8px;display:inline-block;margin-bottom:4px;}
+.btile-lead.pos{background:rgba(16,185,129,.12);color:var(--c-green);}
+.btile-lead.neg{background:rgba(232,93,38,.12);color:var(--c-orange);}
+.bmap-summary{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:6px;}
+.bmap-bar{flex:1 1 220px;height:14px;border-radius:7px;overflow:hidden;display:flex;background:var(--c-light);min-width:220px;}
+.bmap-bar i{display:block;height:100%;}
+.bmap-legend{display:flex;gap:12px;flex-wrap:wrap;font-size:11px;font-weight:600;color:var(--c-text-muted);}
+.bmap-legend span{display:inline-flex;align-items:center;gap:5px;}
+.bmap-legend i{width:10px;height:10px;border-radius:3px;display:inline-block;}
+@media(max-width:640px){.bmap-grid{grid-template-columns:repeat(auto-fill,minmax(120px,1fr));}}
+@media(max-width:1024px){.pos-grid{grid-template-columns:1fr;}}
+@media(max-width:640px){.pos-grid{grid-template-columns:1fr;}.pos-stat b{font-size:18px;}}
+
+/* ==================== TASKS ==================== */
+.task-list{display:flex;flex-direction:column;gap:12px;}
+.task-item{display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--c-warm);border-radius:12px;border-left:4px solid var(--c-golden);transition:var(--transition);cursor:pointer;}
+.task-item:hover{background:#fff;box-shadow:var(--shadow);}
+.task-item.completed{border-left-color:var(--c-green);opacity:.7;}
+.task-check{width:22px;height:22px;border-radius:50%;border:2px solid var(--c-brown-light);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--transition);flex-shrink:0;font-size:12px;background:transparent;}
+.task-check:hover{border-color:var(--c-green);}
+.task-check.done{background:var(--c-green);border-color:var(--c-green);color:#fff;}
+.task-content{flex:1;}
+.task-content h4{font-size:14px;font-weight:500;color:var(--c-text);}
+.task-content p{font-size:12px;color:var(--c-text-muted);margin-top:2px;}
+.task-time{font-size:12px;color:var(--c-golden);font-weight:600;white-space:nowrap;}
+.task-tag{padding:3px 10px;border-radius:50px;font-size:11px;font-weight:500;white-space:nowrap;}
+.tag-video{background:rgba(16,185,129,.12);color:var(--c-green);}
+.tag-social{background:rgba(198,160,75,.15);color:var(--c-golden);}
+.tag-ground{background:rgba(93,64,55,.12);color:var(--c-brown-mid);}
+.tag-meeting{background:rgba(59,130,246,.12);color:var(--c-blue);}
+
+/* ==================== WEEKLY ==================== */
+.week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:10px;}
+.day-card{background:var(--c-warm);border-radius:12px;padding:14px 10px;text-align:center;border:1px solid transparent;transition:var(--transition);cursor:pointer;}
+.day-card:hover{border-color:var(--c-golden);background:#fff;}
+.day-card.today{border-color:var(--c-golden);background:rgba(198,160,75,.08);}
+.day-card .dn{font-size:11px;font-weight:600;color:var(--c-text-muted);text-transform:uppercase;letter-spacing:1px;}
+.day-card .dd{font-family:var(--font-display);font-size:22px;font-weight:800;color:var(--c-navy);margin:6px 0;}
+.day-card .dt{font-size:11px;color:var(--c-green);font-weight:500;}
+.day-card .dh{font-size:11px;color:var(--c-golden);font-weight:500;margin-top:2px;}
+
+/* ==================== GOAL ==================== */
+.goal-card{background:linear-gradient(135deg,var(--c-navy-dark),var(--c-brown-dark));border-radius:var(--radius);padding:26px;color:#fff;position:relative;overflow:hidden;margin-bottom:16px;}
+.goal-card::before{content:'';position:absolute;top:-30%;right:-10%;width:180px;height:180px;background:radial-gradient(circle,rgba(198,160,75,.2),transparent 70%);border-radius:50%;}
+.goal-card h3{font-size:16px;color:var(--c-golden);margin-bottom:12px;position:relative;z-index:1;font-weight:700;}
+.goal-bar{height:12px;background:rgba(255,255,255,.15);border-radius:6px;overflow:hidden;margin:10px 0;position:relative;z-index:1;}
+.goal-bar .f{height:100%;background:linear-gradient(90deg,var(--c-golden),var(--c-golden-light));border-radius:6px;}
+.goal-meta{display:flex;justify-content:space-between;font-size:13px;color:rgba(255,255,255,.7);position:relative;z-index:1;}
+.goal-meta span{color:var(--c-golden);font-weight:600;}
+
+/* ==================== HOURS RING ==================== */
+.hours-ring{width:150px;height:150px;position:relative;margin:0 auto 18px;}
+.hours-ring svg{width:100%;height:100%;transform:rotate(-90deg);}
+.hours-ring circle{fill:none;stroke-width:10;stroke-linecap:round;}
+.hours-ring .bg{stroke:var(--c-light);}
+.hours-ring .fg{stroke:var(--c-golden);transition:stroke-dashoffset 1.5s ease;}
+.hours-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;}
+.hours-center .val{font-family:var(--font-display);font-size:32px;font-weight:800;color:var(--c-navy);}
+.hours-center .lbl{font-size:11px;color:var(--c-text-muted);text-transform:uppercase;letter-spacing:1px;}
+
+/* ==================== CHARTS ==================== */
+.bar-chart{display:flex;align-items:flex-end;gap:8px;height:200px;padding:0 8px;}
+.bar-group{flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;height:100%;justify-content:flex-end;}
+.bar{width:100%;max-width:40px;border-radius:6px 6px 0 0;transition:height .6s ease;position:relative;cursor:pointer;}
+.bar:hover{opacity:.85;filter:brightness(1.1);}
+.bar-label{font-size:11px;color:var(--c-text-muted);white-space:nowrap;}
+.bar-value{position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-size:11px;font-weight:600;color:var(--c-text);white-space:nowrap;}
+
+/* ==================== SEARCH ==================== */
+.search-box{position:relative;max-width:320px;}
+.search-box input{width:100%;padding:10px 16px 10px 40px;border:1.5px solid var(--c-light);border-radius:12px;font-family:var(--font-primary);font-size:13px;background:var(--c-pearl);transition:var(--transition);}
+.search-box input:focus{outline:none;border-color:var(--c-golden);}
+.search-box::before{content:'🔍';position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:14px;}
+
+/* ==================== PORTFOLIO ==================== */
+.portfolio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.portfolio-item{background:var(--c-warm);border-radius:12px;padding:18px;text-align:center;border:1px solid rgba(198,160,75,.1);transition:var(--transition);cursor:pointer;}
+.portfolio-item:hover{background:#fff;border-color:var(--c-golden);box-shadow:var(--shadow);transform:translateY(-2px);}
+.portfolio-item .p-icon{font-size:26px;margin-bottom:8px;}
+.portfolio-item h4{font-size:14px;color:var(--c-text);font-weight:600;}
+.portfolio-item p{font-size:12px;color:var(--c-text-muted);margin-top:3px;}
+
+/* ==================== ASSEMBLY ==================== */
+.assembly-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;}
+.assembly-item{background:var(--c-warm);border-radius:12px;padding:18px;border:1px solid transparent;transition:var(--transition);cursor:pointer;}
+.assembly-item:hover{border-color:var(--c-golden);background:#fff;box-shadow:var(--shadow);}
+.assembly-item h4{font-size:14px;color:var(--c-text);font-weight:600;}
+.assembly-item .a-meta{display:flex;justify-content:space-between;margin-top:8px;font-size:12px;color:var(--c-text-muted);}
+.assembly-item .a-meta strong{color:var(--c-green);}
+
+/* ==================== FAQ ==================== */
+.faq-list{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:12px;}
+.faq-item{background:var(--c-white);border-radius:12px;box-shadow:var(--shadow);border:1px solid rgba(26,26,46,.05);overflow:hidden;}
+.faq-item summary{padding:18px 22px;cursor:pointer;font-size:15px;font-weight:600;color:var(--c-navy);list-style:none;display:flex;align-items:center;justify-content:space-between;}
+.faq-item summary::-webkit-details-marker{display:none;}
+.faq-item summary::after{content:'+';font-size:22px;color:var(--c-golden);transition:var(--transition);}
+.faq-item[open] summary::after{transform:rotate(45deg);}
+.faq-item p{padding:0 22px 18px;color:var(--c-text-muted);font-size:14px;}
+
+/* ==================== CTA ==================== */
+.mini-cta{background:linear-gradient(135deg,var(--c-navy-dark),var(--c-navy) 55%,var(--c-brown-dark));color:#fff;text-align:center;position:relative;overflow:hidden;}
+.mini-cta::before{content:'';position:absolute;top:-50%;left:50%;transform:translateX(-50%);width:500px;height:500px;background:radial-gradient(circle,rgba(198,160,75,.2),transparent 70%);border-radius:50%;}
+.mini-cta .main{position:relative;z-index:1;}
+.mini-cta h2{font-family:var(--font-display);font-size:32px;font-weight:800;margin-bottom:24px;}
+.cta-buttons{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+
+/* ==================== FOOTER ==================== */
+.footer{background:var(--c-navy-dark);color:#fff;padding:60px 0 30px;}
+.footer .main{display:grid;grid-template-columns:1.5fr 1fr 1fr 1.2fr;gap:40px;}
+.footer-brand{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.footer-logo{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--c-golden),var(--c-golden-light));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:13px;}
+.footer-brand-text{font-weight:700;}
+.footer-brand-text span{color:var(--c-golden);}
+.footer-desc{color:rgba(255,255,255,.5);font-size:13px;line-height:1.7;}
+.footer h4{font-size:14px;font-weight:600;color:var(--c-golden);margin-bottom:16px;}
+.footer ul{list-style:none;}
+.footer ul li{margin-bottom:10px;}
+.footer ul a{color:rgba(255,255,255,.6);text-decoration:none;font-size:13px;transition:var(--transition);}
+.footer ul a:hover{color:#fff;}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.08);margin-top:40px;padding-top:24px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
+.footer-copyright{color:rgba(255,255,255,.4);font-size:12px;}
+.footer-badges{display:flex;gap:20px;}
+.badge-item{display:flex;align-items:center;gap:8px;font-size:12px;color:rgba(255,255,255,.5);}
+.badge-item svg{width:16px;height:16px;fill:var(--c-golden);}
+
+/* ==================== RESPONSIVE ==================== */
+@media(max-width:1024px){
+  .hero .main{flex-direction:column;text-align:center;}
+  .hero-text p,.hero-text h1{margin-left:auto;margin-right:auto;}
+  .hero-btns,.hero-stats{justify-content:center;}
+  .feature-row{grid-template-columns:1fr;gap:32px;}
+  .feature-row.reverse .feature-content{order:1;}
+  .feature-row.reverse .feature-visual{order:2;}
+  .stat-grid{grid-template-columns:repeat(2,1fr);}
+  .grid-2,.grid-3{grid-template-columns:1fr;}
+  .week-grid{grid-template-columns:repeat(4,1fr);}
+  .portfolio-grid{grid-template-columns:repeat(2,1fr);}
+  .footer .main{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:640px){
+  .menu-toggle{display:block;}
+  .nav-links{position:fixed;top:68px;left:0;right:0;background:var(--c-navy-dark);flex-direction:column;padding:20px;gap:4px;display:none;box-shadow:var(--shadow-lg);}
+  .nav-links.show{display:flex;}
+  .hero{padding:110px 0 50px;}
+  .hero-text h1{font-size:32px;}
+  .stat-grid{grid-template-columns:1fr;}
+  .week-grid{grid-template-columns:repeat(3,1fr);}
+  .portfolio-grid{grid-template-columns:1fr;}
+  .candidate-card{flex-direction:column;text-align:center;}
+  .candidate-stats{justify-content:center;}
+  .feature-highlights{grid-template-columns:1fr;}
+  .footer .main{grid-template-columns:1fr;}
+}
+
+/* ==================== MODAL ==================== */
+/* ==================== ROLE CONTROLS ==================== */
+.role-controls{display:flex;align-items:center;gap:8px;margin-left:8px;}
+.select-mini{padding:7px 12px;border-radius:999px;border:1.5px solid rgba(198,160,75,.35);background:rgba(255,255,255,.06);color:#fff;font-family:var(--font-body);font-size:12px;font-weight:600;cursor:pointer;transition:var(--transition);}
+.select-mini:focus{outline:none;border-color:var(--c-golden);box-shadow:0 0 0 3px rgba(198,160,75,.2);}
+.select-mini option{background:var(--c-navy-dark);color:#fff;}
+.role-pill{padding:6px 12px;border-radius:999px;background:rgba(46,125,50,.18);border:1px solid rgba(46,125,50,.4);color:#8fe0a0;font-size:12px;font-weight:700;white-space:nowrap;}
+.nav-links .role-controls{margin-left:auto;}
+@media(max-width:1024px){.nav-links .role-controls{margin-left:0;width:100%;flex-wrap:wrap;}}
+
+/* ==================== MODAL ==================== */
+.modal-overlay{position:fixed;inset:0;background:rgba(13,13,26,.72);backdrop-filter:blur(4px);display:none;align-items:center;justify-content:center;z-index:2000;padding:20px;}
+.modal-overlay.open{display:flex;}
+.modal{background:var(--c-warm);border-radius:var(--radius);padding:28px;max-width:560px;width:100%;max-height:88vh;overflow-y:auto;box-shadow:0 24px 60px rgba(0,0,0,.4);border:1px solid rgba(198,160,75,.25);animation:modalIn .3s ease;}
+.modal h3{font-family:var(--font-display);font-size:24px;font-weight:800;color:var(--c-brown-dark);margin-bottom:20px;}
+@keyframes modalIn{from{opacity:0;transform:translateY(16px) scale(.98);}to{opacity:1;transform:none;}}
+.modal .form-group{margin-bottom:14px;}
+.modal input,.modal textarea{width:100%;padding:12px 14px;border:1.5px solid #d9d3c5;border-radius:12px;background:#fff;font-family:var(--font-body);font-size:14px;color:var(--c-text);transition:var(--transition);}
+.modal input:focus,.modal textarea:focus{outline:none;border-color:var(--c-golden);box-shadow:0 0 0 3px rgba(198,160,75,.18);}
+.modal select{appearance:none;padding-right:34px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24'%3E%3Cpath fill='%235D4037' d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;}
+.modal select:focus{outline:none;border-color:var(--c-golden);box-shadow:0 0 0 3px rgba(198,160,75,.18);}
+.modal .form-group label{font-size:12px;font-weight:700;color:var(--c-brown-mid);letter-spacing:.4px;text-transform:uppercase;margin-bottom:6px;display:block;}
+
+/* ==================== MOBILE-APP POLISH ==================== */
+*{-webkit-tap-highlight-color:transparent;}
+@media(max-width:640px){
+  .navbar .nav-container{padding:10px 16px;}
+  .nav-brand-text{font-size:15px;}
+  .nav-links{top:56px;max-height:calc(100vh - 56px);overflow-y:auto;}
+  .nav-links a,.nav-links .nav-link{padding:14px 16px;font-size:16px;border-radius:10px;}
+  .nav-links .role-controls{padding:6px 10px;}
+  .nav-links .select-mini{padding:12px 14px;font-size:14px;}
+  .section{padding:44px 0;}
+  .main{padding:0 16px;}
+  .sec-head{margin-bottom:32px;}
+  .sec-head h2{font-size:26px;line-height:1.25;}
+  .sec-head p{font-size:14px;}
+  .hero{padding:96px 0 44px;}
+  .card{padding:20px;}
+  .stat-grid{grid-template-columns:repeat(2,1fr);gap:12px;margin-bottom:24px;}
+  .stat-card{padding:18px;}
+  .stat-value{font-size:26px;}
+  .selector{gap:10px;align-items:stretch;}
+  .selector .form-group{flex:1 1 100%;margin-bottom:0;}
+  .selector select{max-width:none;width:100%;}
+  .count-badge{width:100%;justify-content:center;}
+  .form-group input,.form-group select,.form-group textarea{padding:14px 16px;font-size:16px;}
+  .candidate-card{padding:24px;gap:18px;}
+  .candidate-avatar{width:84px;height:84px;font-size:30px;}
+  .candidate-info h2{font-size:24px;}
+  .modal{padding:22px 16px;max-height:92vh;border-radius:18px 18px 0 0;}
+  .modal-overlay{padding:0;align-items:flex-end;}
+  .modal h3{font-size:20px;}
+  .modal .form-group label{font-size:11px;}
+  .week-grid{grid-template-columns:repeat(3,1fr);gap:8px;}
+  .task-item{padding:12px 14px;}
+  .product-card{padding:22px;}
+  .portfolio-grid{grid-template-columns:repeat(2,1fr);gap:10px;}
+  .btn{padding:12px 20px;font-size:14px;}
+  .cta-btn{padding:12px 22px;font-size:14px;}
+  .bar-chart{height:180px;overflow-x:auto;}
+  .hours-ring{width:130px;height:130px;}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important;}}
+</style>
+</head>
+<body>
+
+<!-- LOADING -->
+<div id="loader" role="status" aria-label="Loading">
+  <div class="vote-paper" aria-hidden="true">
+    <div class="checks">
+      <span class="check">✓</span><span class="check">✓</span><span class="check">✓</span><span class="check">✓</span>
+      <span class="check">✓</span><span class="check">✓</span><span class="check">✓</span><span class="check">✓</span>
+    </div>
+  </div>
+  <div class="load-title">Clever <span>Candidate</span></div>
+  <div class="load-sub">Election Management Command Centre</div>
+  <div class="load-bar"><div class="load-fill"></div></div>
+</div>
+
+<!-- APP -->
+<div id="app">
+
+<!-- NAVBAR -->
+<nav class="navbar" role="navigation">
+  <div class="nav-container">
+    <a class="nav-brand" href="#sec-dashboard">
+      <div class="nav-logo">CC</div>
+      <div class="nav-brand-text">Clever <span>Candidate™</span></div>
+    </a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    <ul class="nav-links" id="navLinks">
+      <li><a class="nav-link active" data-sec="dashboard">Dashboard</a></li>
+      <li><a class="nav-link" data-sec="candidate">Candidate</a></li>
+      <li><a class="nav-link" data-sec="villages">Villages</a></li>
+      <li><a class="nav-link" data-sec="assembly">Assembly</a></li>
+      <li><a class="nav-link" data-sec="voters">Voters</a></li>
+      <li><a class="nav-link" data-sec="tasks">Tasks</a></li>
+      <li><a class="nav-link" data-sec="weekly">Weekly</a></li>
+      <li><a class="nav-link" data-sec="hours">Hours</a></li>
+      <li><a class="nav-link" data-sec="goals">Goals</a></li>
+      <li>
+        <div class="role-controls">
+          <select id="constituency-select" class="select-mini" aria-label="Select constituency" onchange="onConstituencyChange(this.value)">
+            <option value="AC 37 Kanchipuram">AC 37 Kanchipuram</option>
+            <option value="AC 29 Sriperumbudur (SC)">AC 29 Sriperumbudur (SC)</option>
+          </select>
+          <select id="role-select" class="select-mini" aria-label="View as role" onchange="onRoleChange()">
+            <option value="admin">👑 Admin (All Data)</option>
+            <option value="candidate">🗳️ Candidate</option>
+          </select>
+          <select id="scope-village" class="select-mini" aria-label="Candidate village" onchange="onScopeChange()" style="display:none;">
+            <option value="">Select your village</option>
+          </select>
+          <span id="role-pill" class="role-pill" style="display:none;"></span>
+        </div>
+      </li>
+      <li><button class="cta-btn btn-primary" type="button" onclick="openCandidateModal()">+ Add Candidate</button></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ==================== DASHBOARD ==================== -->
+<section class="section active" id="sec-dashboard">
+  <div class="hero">
+    <div class="main">
+      <div class="hero-text">
+        <span class="hero-label">Election Campaign Platform</span>
+        <h1>Win Every Booth With The <span>Clever Command Centre</span></h1>
+        <p>One integrated platform for canvassing, membership, voter intelligence, election day GOTV and real-time war-room strategy — built for winning campaigns.</p>
+        <div class="hero-btns">
+          <button class="btn btn-primary" data-sec="candidate">View Candidate</button>
+          <button class="btn btn-gold" data-sec="villages">Explore Villages</button>
+          <button class="btn btn-outline" data-sec="tasks">Today's Tasks</button>
+        </div>
+        <div class="hero-stats">
+          <div class="hstat"><div class="hv" data-villages>66</div><div class="hl">Villages / Units</div></div>
+          <div class="hstat"><div class="hv" data-electors>2,78,841</div><div class="hl">Electors</div></div>
+          <div class="hstat"><div class="hv" data-booths>358</div><div class="hl">Booths</div></div>
+          <div class="hstat"><div class="hv" data-votes>2,03,505</div><div class="hl">Votes Polled</div></div>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="war-room">
+          <div class="war-room-tag"><span class="pulse"></span> Command Centre — Live</div>
+          <div class="wr-metric"><div class="mv" id="constituency-title">AC 37 Kanchipuram · 2026</div><div class="ml">Assembly Constituency</div></div>
+          <div class="wr-bar">
+            <div class="blabel"><span>Your Party (<span id="party-short">DMK</span>)</span><span id="party-val">41%</span></div>
+            <div class="wr-progress"><div class="f" id="party-fill" style="width:41%;background:linear-gradient(90deg,var(--c-golden),var(--c-golden-light));"></div></div>
+          </div>
+          <div class="wr-bar">
+            <div class="blabel"><span id="party-lead-label">DMK Lead vs Runner-up</span><span id="opp-val">9.2 pp</span></div>
+            <div class="wr-progress"><div class="f" id="party-booths" style="width:65%;background:linear-gradient(90deg,var(--c-orange),#f07b3a);"></div></div>
+          </div>
+          <div class="wr-metric" style="border-top:1px solid rgba(255,255,255,.1);border-radius:0 0 12px 12px;margin-bottom:0;">
+            <div class="ml" style="margin-bottom:8px;">Units Led by <span id="party-units-label">DMK</span></div>
+            <div class="mv" id="party-units" style="font-size:20px;">Computing strength...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
+    <div class="stat-grid" style="margin-top:32px;">
+      <div class="stat-card"><div class="stat-icon sg" aria-hidden="true">🏘️</div><div class="stat-value" data-count="66">0</div><div class="stat-label">Total Villages / Units</div><div class="stat-change up">↑ Top 28 tracked live</div></div>
+      <div class="stat-card"><div class="stat-icon sgr" aria-hidden="true">🗳️</div><div class="stat-value" data-count="278841">0</div><div class="stat-label">Total Electors</div><div class="stat-change up">2026 election</div></div>
+      <div class="stat-card"><div class="stat-icon so" aria-hidden="true">🗳️</div><div class="stat-value" data-count="203505">0</div><div class="stat-label">Votes Polled</div><div class="stat-change up">↑ Units listed</div></div>
+      <div class="stat-card"><div class="stat-icon sb" aria-hidden="true">🏆</div><div class="stat-value" data-count="234" id="stat-winner-booths">0</div><div class="stat-label">Booths Led by Our Party</div><div class="stat-change up">↑ of <span id="stat-total-booths">358</span> total</div></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title"><span class="icon" aria-hidden="true">📈</span> Polling Trend (Last 2 Years)</div>
+        <div class="bar-chart" id="trend-chart"></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="icon" aria-hidden="true">🏆</span> Top 5 Village / Unit Rankings <span id="trend-year-badge" style="font-size:11px;color:var(--c-golden);font-weight:700;">· 2026</span></div>
+        <div class="table-wrap"><table><thead><tr><th>Rank</th><th>Village</th><th>Vote Share</th><th>Booths</th></tr></thead><tbody id="top-villages"></tbody></table></div>
+      </div>
+    </div>
+
+    <div class="grid-3">
+      <div class="card"><div class="card-title"><span class="icon" aria-hidden="true">📋</span> Today's Tasks</div><div class="task-list" id="dash-tasks"></div></div>
+      <div class="card"><div class="card-title"><span class="icon" aria-hidden="true">⏱️</span> Hours Today</div><div class="hours-ring" id="dash-hours-ring"></div><p style="text-align:center;font-size:13px;color:var(--c-text-muted);">Target: 10 hrs/day</p></div>
+      <div class="card"><div class="card-title"><span class="icon" aria-hidden="true">🎯</span> Campaign Goal</div><div class="goal-card" style="padding:20px;"><h3>Win Margin Target</h3><div class="goal-bar"><div class="f" style="width:73%"></div></div><div class="goal-meta"><span>73% achieved</span><span>Target: 5000+</span></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CANDIDATE ==================== -->
+<section class="section" id="sec-candidate">
+  <div class="main">
+    <div class="candidate-card">
+      <div class="candidate-avatar" id="cand-avatar">TVK</div>
+      <div class="candidate-info">
+        <h2 id="cand-name">Clever Candidate</h2>
+        <div class="party" id="cand-party">🌅 Dravida Munnetra Kazhagam</div>
+        <div class="constituency" id="cand-position" data-position="CO">🏛️ Standing for · Councillor</div>
+        <div class="constituency" id="cand-localbody">🗺️ Assign your village in registration</div>
+        <div class="constituency" id="cand-constituency">AC 37 · Kancheepuram Assembly Constituency</div>
+        <div class="hero-stats" style="margin-top:16px;gap:16px;">
+          <div class="hstat"><div class="hv" style="font-size:22px;" data-villages>66</div><div class="hl">Villages / Units</div></div>
+          <div class="hstat"><div class="hv" style="font-size:22px;" data-electors>2,78,841</div><div class="hl">Electors</div></div>
+          <div class="hstat"><div class="hv" style="font-size:22px;" data-booths>358</div><div class="hl">Booths</div></div>
+          <div class="hstat"><div class="hv" style="font-size:22px;">41%</div><div class="hl">Avg Support</div></div>
+        </div>
+        <button class="btn btn-gold" type="button" style="margin-top:20px;font-size:13px;padding:10px 22px;" onclick="openCandidateModal()">✏️ Edit Candidate</button>
+      </div>
+    </div>
+
+    <div class="card" id="seat-profile" style="margin-bottom:28px;"></div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title"><span class="icon" aria-hidden="true">📞</span> Contact Details <button class="btn btn-outline" type="button" style="margin-left:auto;font-size:12px;padding:6px 14px;color:var(--c-brown-mid);border-color:var(--c-brown-light);" onclick="openCandidateModal()">Edit</button></div>
+        <div class="form-group"><label>Primary Mobile</label><input type="tel" id="cand-mobile1" value="+91 98765 43210" readonly aria-readonly="true"></div>
+        <div class="form-group"><label>Secondary Mobile</label><input type="tel" id="cand-mobile2" value="+91 98765 12345" readonly aria-readonly="true"></div>
+        <div class="form-group"><label>Email</label><input type="email" id="cand-email" value="candidate@clever.in" readonly aria-readonly="true"></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="icon" aria-hidden="true">📁</span> Portfolio & Responsibilities</div>
+        <div class="portfolio-grid">
+          <div class="portfolio-item" tabindex="0"><div class="p-icon" aria-hidden="true">🏫</div><h4>Education</h4><p>12 Schools</p></div>
+          <div class="portfolio-item" tabindex="0"><div class="p-icon" aria-hidden="true">🏥</div><h4>Healthcare</h4><p>8 Camps</p></div>
+          <div class="portfolio-item" tabindex="0"><div class="p-icon" aria-hidden="true">🛣️</div><h4>Infrastructure</h4><p>24 Roads</p></div>
+          <div class="portfolio-item" tabindex="0"><div class="p-icon" aria-hidden="true">💧</div><h4>Water Supply</h4><p>16 Ponds</p></div>
+          <div class="portfolio-item" tabindex="0"><div class="p-icon" aria-hidden="true">⚡</div><h4>Electricity</h4><p>48 Areas</p></div>
+          <div class="portfolio-item" tabindex="0"><div class="p-icon" aria-hidden="true">🌾</div><h4>Agriculture</h4><p>32 Farms</p></div>
+          <div class="portfolio-item" tabindex="0"><div class="p-icon" aria-hidden="true">👩</div><h4>Women Welfare</h4><p>20 Groups</p></div>
+          <div class="portfolio-item" tabindex="0"><div class="p-icon" aria-hidden="true">👴</div><h4>Senior Citizens</h4><p>9 Pensions</p></div>
+          <div class="portfolio-item" tabindex="0"><div class="p-icon" aria-hidden="true">🤲</div><h4>Social Welfare</h4><p>14 Schemes</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card"><div class="card-title"><span class="icon" aria-hidden="true">📊</span> Past 2 Year Contributions</div><div class="bar-chart" id="contribution-chart" style="height:220px;"></div></div>
+      <div class="card"><div class="card-title"><span class="icon" aria-hidden="true">🗳️</span> Portfolio Contribution Analysis</div><div class="bar-chart" id="portfolio-chart" style="height:220px;"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== VILLAGES ==================== -->
+<section class="section" id="sec-villages">
+  <div class="main">
+    <div class="sec-head"><span class="sec-label">Village Analytics</span><h2>Village / Unit-wise Polling Intelligence</h2><p>2026 vote-share by village unit — booth range, TVK vs runner-up, tier strength and turnout change vs 2021.</p></div>
+
+    <div class="selector">
+      <div class="form-group" style="margin-bottom:0;"><select id="village-select" onchange="selectVillage(this.value)" aria-label="Select village"><option value="all">All Villages</option></select></div>
+      <div class="form-group" style="margin-bottom:0;"><select id="part-select" onchange="selectPart(this.value)" aria-label="Filter by strength"><option value="all">All Tiers</option><option value="Fortress">Fortress</option><option value="Lean">Lean</option><option value="Thin ice">Thin ice</option><option value="Opposition">Opposition</option></select></div>
+      <div class="form-group" style="margin-bottom:0;"><select id="rank-filter" onchange="filterByRank(this.value)" aria-label="Filter by rank"><option value="all">All Ranks</option><option value="1">Rank 1 - Top</option><option value="2">Rank 2</option><option value="3">Rank 3</option><option value="low">Below Average</option></select></div>
+      <div class="count-badge">Showing: <strong id="showing-count">28</strong> units</div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card"><div class="card-title"><span class="icon" aria-hidden="true">📊</span> Polling Strength by Unit — <span id="selected-village-label">All Villages</span></div><div class="bar-chart" id="polling-chart" style="height:240px;"></div></div>
+      <div class="card"><div class="card-title"><span class="icon" aria-hidden="true">📈</span> Last 2 Years Comparison</div><div class="bar-chart" id="comparison-chart"></div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" aria-hidden="true">🏆</span> Unit Rankings — 2026 Vote Share</div>
+      <div class="table-wrap"><table><thead><tr><th>Rank</th><th>Village / Unit</th><th>Booths</th><th>Vote Share %</th><th>Votes Polled</th><th>Turnout Δ</th></tr></thead><tbody id="village-rank-table"></tbody></table></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" aria-hidden="true">🗺️</span> Battle Map — INC Lead vs Runner-up <span style="font-size:12px;color:var(--c-text-muted);font-weight:500;">click a tile to drill into the village</span></div>
+      <div class="bmap-summary"><div class="bmap-bar" id="bmap-bar"></div><div class="bmap-legend" id="bmap-legend"></div></div>
+      <div class="bmap-grid" id="battle-map"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><span class="icon" aria-hidden="true">⚔️</span> Lead vs Runner-up — Alignment Check <span id="align-ctx" style="font-size:12px;color:var(--c-text-muted);font-weight:500;"></span></div>
+      <div class="stat-grid" id="align-tiles" style="margin-bottom:14px;"></div>
+      <div id="align-insight" style="font-size:13px;line-height:1.7;padding:12px 14px;border-radius:12px;background:var(--c-warm);border:1px solid var(--c-light);margin-bottom:14px;"></div>
+      <div class="table-wrap"><table id="align-table"></table></div>
+    </div>
+
+    <div class="card" id="village-data" style="display:none;"></div>
+
+    <div class="card" id="booth-detail" style="display:none;"></div>
+  </div>
+</section>
+
+<!-- ==================== ASSEMBLY ==================== -->
+<section class="section" id="sec-assembly">
+  <div class="main">
+    <div class="sec-head"><span class="sec-label">Assembly</span><h2>Assembly Constituency Contributions</h2><p>Track contributions, voter bases and events across every assembly segment.</p></div>
+
+    <div class="selector"><div class="form-group" style="margin-bottom:0;"><select id="assembly-filter" aria-label="Filter constituency"><option value="all">All Constituencies</option></select></div></div>
+
+    <div class="card" style="margin-bottom:24px;"><div class="card-title"><span class="icon" aria-hidden="true">🏛️</span> Assembly Constituency Contributions</div><div class="assembly-grid" id="assembly-grid"></div></div>
+
+    <div class="grid-2">
+      <div class="card"><div class="card-title"><span class="icon" aria-hidden="true">📊</span> Contribution by Constituency</div><div class="bar-chart" id="assembly-chart" style="height:240px;"></div></div>
+      <div class="card"><div class="card-title"><span class="icon" aria-hidden="true">🗺️</span> Assembly Voter Analysis</div><div class="bar-chart" id="assembly-voter-chart" style="height:240px;"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== VOTERS DB ==================== -->
+<section class="section" id="sec-voters">
+  <div class="main">
+    <div class="sec-head"><span class="sec-label">Voter Database</span><h2>Voter Intelligence & Mobile Numbers</h2><p>Search every voter by name or mobile number, filtered by village — the core of last-mile GOTV mobilisation.</p></div>
+
+    <div class="selector">
+      <div class="form-group" style="margin-bottom:0;"><select id="voter-village-filter" onchange="filterVoters()" aria-label="Filter voters"><option value="all">All Villages</option></select></div>
+      <div class="search-box"><input type="search" id="voter-search" placeholder="Search by name or mobile..." oninput="filterVoters()" aria-label="Search voters"></div>
+      <div class="count-badge">Total: <strong id="voter-total">2,436</strong> voters</div>
+    </div>
+
+    <div class="card">
+      <div class="table-wrap"><table><thead><tr><th>#</th><th>Name</th><th>Mobile</th><th>Village</th><th>Part</th><th>Age</th><th>Status</th></tr></thead><tbody id="voter-table-body"></tbody></table></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== TASKS ==================== -->
+<section class="section" id="sec-tasks">
+  <div class="main">
+    <div class="sec-head"><span class="sec-label">Field Operations</span><h2>Today's Task Schedule & Social Media Impact</h2><p>Schedule videos, posts and ground work with planned social media reach and live issue tracking.</p></div>
+
+    <div class="grid-2">
+      <div class="card"><div class="card-title"><span class="icon" aria-hidden="true">📋</span> Today's Task Schedule</div><div class="task-list" id="today-tasks"></div></div>
+      <div>
+        <div class="card" style="margin-bottom:24px;">
+          <div class="card-title"><span class="icon" aria-hidden="true">📱</span> Social Media Impact</div>
+          <div class="stat-grid" style="grid-template-columns:1fr 1fr;gap:14px;">
+            <div class="stat-card" style="padding:16px;"><div class="stat-icon sgr" style="width:34px;height:34px;font-size:16px;" aria-hidden="true">📹</div><div class="stat-value" style="font-size:22px;">6</div><div class="stat-label">Videos Planned</div></div>
+            <div class="stat-card" style="padding:16px;"><div class="stat-icon sg" style="width:34px;height:34px;font-size:16px;" aria-hidden="true">📝</div><div class="stat-value" style="font-size:22px;">12</div><div class="stat-label">Posts Scheduled</div></div>
+            <div class="stat-card" style="padding:16px;"><div class="stat-icon so" style="width:34px;height:34px;font-size:16px;" aria-hidden="true">🌍</div><div class="stat-value" style="font-size:22px;">45K</div><div class="stat-label">Reach Today</div></div>
+            <div class="stat-card" style="padding:16px;"><div class="stat-icon sb" style="width:34px;height:34px;font-size:16px;" aria-hidden="true">💬</div><div class="stat-value" style="font-size:22px;">1.2K</div><div class="stat-label">Engagements</div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title"><span class="icon" aria-hidden="true">🔧</span> Ground Issues Tracker</div>
+          <div class="task-list" id="ground-issues"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== WEEKLY ==================== -->
+<section class="section" id="sec-weekly">
+  <div class="main">
+    <div class="sec-head"><span class="sec-label">Performance</span><h2>Weekly Summary</h2><p>Track villages covered, voters contacted and hours worked across the week.</p></div>
+
+    <div class="card" style="margin-bottom:24px;"><div class="card-title"><span class="icon" aria-hidden="true">📅</span> Weekly Overview</div><div class="week-grid" id="week-grid"></div></div>
+
+    <div class="grid-2">
+      <div class="card"><div class="card-title"><span class="icon" aria-hidden="true">📊</span> This Week's Performance</div><div class="bar-chart" id="weekly-chart"></div></div>
+      <div class="card">
+        <div class="card-title"><span class="icon" aria-hidden="true">📋</span> Weekly Summary Report</div>
+        <div id="weekly-summary"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== HOURS ==================== -->
+<section class="section" id="sec-hours">
+  <div class="main">
+    <div class="sec-head"><span class="sec-label">Time Tracking</span><h2>Daily Hours Worked</h2><p>Measure field work hours with an hour-wise activity log.</p></div>
+
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title"><span class="icon" aria-hidden="true">⏱️</span> Today's Hours Tracker</div>
+        <div class="hours-ring" id="main-hours-ring"></div>
+        <div style="text-align:center;"><p style="font-size:14px;color:var(--c-text);">Target: <strong style="color:var(--c-golden);">10 hours</strong></p><p style="font-size:12px;color:var(--c-green);margin-top:4px;">On Track — 7.5 hrs completed</p></div>
+      </div>
+      <div class="card"><div class="card-title"><span class="icon" aria-hidden="true">📊</span> This Week's Hours</div><div class="bar-chart" id="hours-week-chart"></div></div>
+    </div>
+
+    <div class="card" style="margin-top:24px;">
+      <div class="card-title"><span class="icon" aria-hidden="true">📋</span> Hour-wise Activity Log</div>
+      <div class="table-wrap"><table><thead><tr><th>Time</th><th>Activity</th><th>Category</th><th>Duration</th><th>Village</th></tr></thead>
+        <tbody><tr><td>06:00 AM</td><td>Morning walk - voter interaction</td><td>Ground</td><td>1.5 hrs</td><td>Kundrathur</td></tr><tr><td>07:30 AM</td><td>Social media video shoot</td><td>Video</td><td>1.0 hrs</td><td>Office</td></tr><tr><td>09:00 AM</td><td>Village meeting - Sriperumbudur</td><td>Meeting</td><td>2.0 hrs</td><td>Sriperumbudur</td></tr><tr><td>11:00 AM</td><td>Post scheduling & content</td><td>Social</td><td>1.0 hrs</td><td>Office</td></tr><tr><td>12:30 PM</td><td>Ground issue follow-up</td><td>Ground</td><td>1.0 hrs</td><td>Mangadu</td></tr><tr><td>02:00 PM</td><td>Youth meeting & campaign</td><td>Meeting</td><td>1.5 hrs</td><td>Nandambakkam</td></tr><tr><td>04:00 PM</td><td>Voter database update</td><td>Office</td><td>0.5 hrs</td><td>Office</td></tr></tbody></table></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== GOALS ==================== -->
+<section class="section" id="sec-goals">
+  <div class="main">
+    <div class="sec-head"><span class="sec-label">Mission</span><h2>Campaign Goals & Milestones</h2><p>Track every target from voter contact to social media reach.</p></div>
+
+    <div class="stat-grid">
+      <div class="stat-card"><div class="stat-icon sg" aria-hidden="true">🎯</div><div class="stat-value" data-electors>2,78,841</div><div class="stat-label">Total Electors</div><div class="stat-change up">2026 rolls</div></div>
+      <div class="stat-card"><div class="stat-icon sgr" aria-hidden="true">🗳️</div><div class="stat-value" data-booths>358</div><div class="stat-label">Booths to Defend</div><div class="stat-change up"><span id="goal-booths-led">234</span> led by TVK</div></div>
+      <div class="stat-card"><div class="stat-icon so" aria-hidden="true">🏘️</div><div class="stat-value" data-villages>66</div><div class="stat-label">Units to Cover</div><div class="stat-change up"><span id="goal-units-led">32</span> led by TVK</div></div>
+      <div class="stat-card"><div class="stat-icon sb" aria-hidden="true">📹</div><div class="stat-value">100</div><div class="stat-label">Videos Target</div><div class="stat-change up">38 published</div></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="card"><div class="card-title"><span class="icon" aria-hidden="true">🎯</span> Campaign Goals Progress</div>
+        <div class="goal-card"><h3>Voter Contact Goal</h3><div class="goal-bar"><div class="f" style="width:62%"></div></div><div class="goal-meta"><span>1,856 / 3,000</span><span>62%</span></div></div>
+        <div class="goal-card"><h3>Social Media Reach</h3><div class="goal-bar"><div class="f" style="width:85%"></div></div><div class="goal-meta"><span>450K / 500K</span><span>85%</span></div></div>
+        <div class="goal-card"><h3>Events Conducted</h3><div class="goal-bar"><div class="f" style="width:78%"></div></div><div class="goal-meta"><span>156 / 200</span><span>78%</span></div></div>
+      </div>
+      <div class="card"><div class="card-title"><span class="icon" aria-hidden="true">🏆</span> Milestones Achieved</div><div class="task-list" id="milestones"></div></div>
+    </div>
+
+    <div class="card"><div class="card-title"><span class="icon" aria-hidden="true">📊</span> Goal-wise Progress Chart</div><div class="bar-chart" id="goals-chart" style="height:220px;"></div></div>
+  </div>
+</section>
+
+<!-- MINI CTA -->
+<section class="section mini-cta" id="sec-cta">
+  <div class="main">
+    <h2>See How It All Comes Together</h2>
+    <div class="cta-buttons">
+      <button class="btn btn-primary" data-sec="goals" style="background:linear-gradient(135deg,var(--c-golden),var(--c-golden-light));box-shadow:0 6px 25px rgba(198,160,75,.4);">View Goals</button>
+      <button class="btn btn-outline" data-sec="tasks">Today's Tasks</button>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES - Smart Neta Style -->
+<section class="section" id="sec-features">
+  <div class="main">
+    <div class="sec-head"><span class="sec-label">Platform Capabilities</span><h2>Built Into Every Module</h2><p>The voter intelligence, mapping and coordination that ties the whole Clever Candidate campaign together.</p></div>
+    <div class="card-grid">
+      <div class="product-card"><div class="product-icon pi-sky" aria-hidden="true">🧠</div><h3>Voter Intelligence & Data</h3><p>Upload voter rolls and booth data, let AI enrichment surface patterns and demographics — every decision data-backed.</p></div>
+      <div class="product-card"><div class="product-icon pi-orange" aria-hidden="true">🗺️</div><h3>GIS & Geospatial Mapping</h3><p>Interactive maps identify swing booths, map member locations and power micro-targeting so resources move to decider booths.</p></div>
+      <div class="product-card"><div class="product-icon pi-green" aria-hidden="true">👥</div><h3>Volunteer & Karyakarta Tracking</h3><p>Assign geo-tagged booth tasks and track field activity with GPS accountability and real-time status.</p></div>
+      <div class="product-card"><div class="product-icon pi-purple" aria-hidden="true">🌐</div><h3>Multi-Language Communication</h3><p>Send instant multi-language push notifications to members and workers across constituencies in one tap.</p></div>
+      <div class="product-card"><div class="product-icon pi-amber" aria-hidden="true">📊</div><h3>Reports & Analytics</h3><p>Real-time dashboards plus automated reports exportable to PDF and Excel — booth status, progress and sentiment.</p></div>
+      <div class="product-card"><div class="product-icon pi-blue" aria-hidden="true">🛡️</div><h3>Secure & Role-based Platform</h3><p>Role-based access keeps voter intelligence within your authorised party hierarchy on patented technology.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="footer">
+  <div class="main">
+    <div class="footer-brand-col">
+      <div class="footer-brand"><div class="footer-logo">CC</div><div class="footer-brand-text">Clever <span>Candidate™</span></div></div>
+      <p class="footer-desc">Election campaign software for canvassing, membership, voter intelligence and command-centre strategy — built for winning campaigns.</p>
+    </div>
+    <div><h4>Platform</h4><ul><li><a data-sec="dashboard">Dashboard</a></li><li><a data-sec="candidate">Candidate</a></li><li><a data-sec="villages">Villages</a></li><li><a data-sec="assembly">Assembly</a></li><li><a data-sec="goals">Goals</a></li></ul></div>
+    <div><h4>Field Ops</h4><ul><li><a data-sec="voters">Voters</a></li><li><a data-sec="tasks">Today's Tasks</a></li><li><a data-sec="weekly">Weekly Summary</a></li><li><a data-sec="hours">Daily Hours</a></li></ul></div>
+  </div>
+  <div class="main footer-bottom">
+    <div class="footer-copyright">© 2026 Clever Candidate™. All rights reserved.</div>
+    <div class="footer-badges">
+      <div class="badge-item"><svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg><span>Patented Platform</span></div>
+      <div class="badge-item"><svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg><span>Command Centre Ready</span></div>
+    </div>
+  </div>
+</footer>
+
+</div>
+
+<!-- ==================== CANDIDATE MODAL ==================== -->
+<div class="modal-overlay" id="cand-modal" role="dialog" aria-modal="true" aria-labelledby="cand-modal-title">
+  <div class="modal" onclick="event.stopPropagation()">
+    <h3 id="cand-modal-title">Add Candidate</h3>
+    <div class="form-group"><label>Candidate Name *</label><input type="text" id="f-name" placeholder="Full name"></div>
+    <div class="form-group"><label>Party / Alliance</label><select id="f-party" class="modal-select"><option value="">Select party...</option></select></div>
+    <div class="form-group"><label>Standing Position *</label><select id="f-position" class="modal-select">
+      <option value="">Select position...</option>
+      <option value="WM">1. Ward Member — Village Panchayat Ward</option>
+      <option value="PP">2. Panchayat President — Village Panchayat</option>
+      <option value="CO">3. Councillor — Town Panchayat / Corporation Ward</option>
+    </select></div>
+    <div class="form-group"><label>Constituency</label><select id="f-constituency" class="modal-select"><option value="">Select constituency...</option></select></div>
+    <div class="form-group"><label>Assigned Village</label><select id="f-village" class="modal-select"><option value="">Select village...</option></select></div>
+    <div class="form-group"><label>Primary Mobile *</label><input type="tel" id="f-mobile1" placeholder="+91 ..."></div>
+    <div class="form-group"><label>Secondary Mobile</label><input type="tel" id="f-mobile2" placeholder="+91 ..."></div>
+    <div class="form-group"><label>Email</label><input type="email" id="f-email" placeholder="email@example.com"></div>
+    <div style="display:flex;gap:12px;justify-content:flex-end;margin-top:20px;">
+      <button class="btn btn-outline" type="button" style="color:var(--c-brown-mid);border-color:var(--c-brown-light);" onclick="closeCandidateModal()">Cancel</button>
+      <button class="btn btn-gold" type="button" onclick="saveCandidate()">Save Candidate</button>
+    </div>
+  </div>
+</div>
+
+<script src="ac29-booths.js"></script>
+<script>
+/* ==================== DATA — 2026, REAL AC DATA ==================== */
+const PARTY_TOKENS=[['Tamilaga Vettri Kazhagam','TVK','🔑'],['Indian National Congress','INC','🖐️'],['All India Anna Dravida Munnetra Kazhagam','AIADMK','🪶'],['Dravida Munnetra Kazhagam','DMK','🌅'],['Bharatiya Janata Party','BJP','🌷'],['Aam Aadmi Party','AAP','🧹']];
+const partyMeta=t=>{const m=PARTY_TOKENS.find(x=>x[1]===t);return m?{name:m[0],short:m[1],symbol:m[2]}:{name:t,short:t,symbol:'🗳️'};};
+
+function normaliseVillages(raw,p1,p2,p3,asm){return raw.map((r)=>{
+  const support=r.tvk;
+  return {name:r.name,range:r.range,booths:r.booths,parts:[r.range],voters:r.voters,tvk:support,p2:r[p2],p3:r[p3],lead:r.lead,tier:r.tier,support:Math.round(support),trend:r.trend,assembly:asm,rank:r.rank};
+}).sort((a,b)=>a.rank-b.rank);}
+
+function dmkTier(lead){if(lead>=10)return 'Fortress';if(lead>=2)return 'Lean';if(lead>=0)return 'Thin ice';return 'Opposition';}
+function trendCell(t){return t?'<span style="color:'+(t.startsWith('+')?'var(--c-green)':'#C62828')+';font-weight:600;">'+t+'</span>':'<span style="color:var(--c-text-muted);">—</span>';}
+function normaliseHome(raw,home,p2k,p3k,asm){return raw.map((r)=>{
+  const us=Math.round(r[home]*10)/10,p2=r[p2k],p3=r[p3k];
+  const lead=Math.round((us-Math.max(p2,p3))*10)/10;
+  return {name:r.name,range:r.range,booths:r.booths,parts:[r.range],voters:r.voters,p2,p3,lead,tier:dmkTier(lead),support:us,trend:r.trend,assembly:asm};
+}).sort((a,b)=>b.lead-a.lead).map((v,i)=>({...v,rank:i+1}));}
+function normaliseDMK(raw,asm){return normaliseHome(raw,'dmk','tvk','aiadmk',asm);}
+function normaliseINC(raw,asm){return normaliseHome(raw,'inc','tvk','aiadmk',asm);}
+
+/* --- AC 37 KANCHIPURAM --- */
+const RAW_AC37=[
+ {name:'Kanchipuram town · blk 327–346',range:'#327–346',booths:20,voters:15005,lead:21.4,tier:'Lean',tvk:46.9,aiadmk:23.5,dmk:25.5,trend:'+26%',rank:1},
+ {name:'Kanchipuram town · blk 347–351',range:'#347–351',booths:5,voters:3354,lead:24.9,tier:'Fortress',tvk:49.3,aiadmk:24.4,dmk:22.9,trend:'+2%',rank:2},
+ {name:'Kanchipuram town · blk 214–233',range:'#214–233',booths:20,voters:12611,lead:14.7,tier:'Lean',tvk:42.6,aiadmk:27.9,dmk:25.2,trend:'-7%',rank:3},
+ {name:'Kanchipuram town · blk 174–193',range:'#174–193',booths:20,voters:11219,lead:14.1,tier:'Lean',tvk:43.2,aiadmk:24.1,dmk:29.1,trend:'-1%',rank:4},
+ {name:'Kanchipuram town · blk 194–213',range:'#194–213',booths:20,voters:12191,lead:13.8,tier:'Lean',tvk:41.5,aiadmk:26.2,dmk:27.7,trend:'+7%',rank:5},
+ {name:'Kanchipuram town · blk 154–173',range:'#154–173',booths:20,voters:12313,lead:11.1,tier:'Lean',tvk:40.4,aiadmk:29.3,dmk:26.0,trend:'+9%',rank:6},
+ {name:'Kanchipuram town · blk 94–113',range:'#94–113',booths:20,voters:12253,lead:11.3,tier:'Lean',tvk:40.9,aiadmk:25.5,dmk:29.6,trend:'+6%',rank:7},
+ {name:'Vaiyavoor',range:'#307–316',booths:5,voters:4074,lead:10.4,tier:'Lean',tvk:39.4,aiadmk:29.0,dmk:28.6,trend:'+23%',rank:8},
+ {name:'Kanchipuram town · blk 234–245',range:'#234–245',booths:12,voters:7298,lead:7.7,tier:'Lean',tvk:39.0,aiadmk:31.3,dmk:24.9,trend:'+5%',rank:9},
+ {name:'Unmapped cluster · booths 261–266',range:'#261–266',booths:6,voters:4617,lead:7.8,tier:'Lean',tvk:38.7,aiadmk:30.9,dmk:26.8,trend:'+5%',rank:10},
+ {name:'Unmapped cluster · booths 318–322',range:'#318–322',booths:5,voters:3293,lead:16.8,tier:'Lean',tvk:43.5,aiadmk:24.5,dmk:26.7,trend:'+10%',rank:11},
+ {name:'Unmapped cluster · booths 250–257',range:'#250–257',booths:8,voters:6357,lead:17.2,tier:'Lean',tvk:45.3,aiadmk:23.1,dmk:28.1,trend:'+11%',rank:12},
+ {name:'Enathur',range:'#299–312',booths:5,voters:3492,lead:7.2,tier:'Lean',tvk:36.5,aiadmk:29.0,dmk:29.3,trend:'-17%',rank:13},
+ {name:'Kanchipuram town · blk 54–73',range:'#54–73',booths:20,voters:12520,lead:7.3,tier:'Lean',tvk:37.3,aiadmk:30.0,dmk:28.0,trend:'+1%',rank:14},
+ {name:'Kanchipuram town · blk 114–133',range:'#114–133',booths:20,voters:12108,lead:6.4,tier:'Lean',tvk:37.7,aiadmk:31.3,dmk:26.6,trend:'-8%',rank:15},
+ {name:'Kanchipuram town · blk 134–153',range:'#134–153',booths:20,voters:13923,lead:2.0,tier:'Thin ice',tvk:36.2,aiadmk:34.2,dmk:25.6,trend:'+10%',rank:16},
+ {name:'Iruppukuppam',range:'#21–26',booths:6,voters:4873,lead:3.7,tier:'Thin ice',tvk:35.1,aiadmk:30.0,dmk:31.4,trend:'+39%',rank:17},
+ {name:'Kanchipuram town · blk 74–93',range:'#74–93',booths:20,voters:14010,lead:0.9,tier:'Thin ice',tvk:35.1,aiadmk:26.7,dmk:34.2,trend:'+15%',rank:18},
+ {name:'Unmapped cluster · booths 43–51',range:'#43–51',booths:9,voters:7365,lead:2.1,tier:'Thin ice',tvk:34.2,aiadmk:32.1,dmk:30.3,trend:'+1%',rank:19},
+ {name:'Musaravakkam',range:'#10–16',booths:6,voters:4879,lead:0.0,tier:'Thin ice',tvk:34.3,aiadmk:34.3,dmk:28.6,trend:'+25%',rank:20},
+ {name:'Damal',range:'#1–29',booths:9,voters:6080,lead:-15.9,tier:'Opposition',tvk:24.8,aiadmk:40.7,dmk:31.1,trend:'+2%',rank:21},
+ {name:'Kanchipuram town · blk 272–277',range:'#272–277',booths:6,voters:4276,lead:-9.5,tier:'Opposition',tvk:29.1,aiadmk:38.6,dmk:29.1,trend:'-9%',rank:22},
+ {name:'Pullalur',range:'#280–282',booths:3,voters:2143,lead:-12.5,tier:'Opposition',tvk:31.1,aiadmk:43.6,dmk:19.8,trend:'-1%',rank:23},
+ {name:'Parandur',range:'#287–324',booths:4,voters:2849,lead:-3.5,tier:'Opposition',tvk:31.3,aiadmk:34.8,dmk:30.7,trend:'+11%',rank:24},
+ {name:'Putheri',range:'#246–271',booths:5,voters:3605,lead:-1.8,tier:'Opposition',tvk:35.2,aiadmk:24.6,dmk:37.0,trend:'+24%',rank:25},
+ {name:'Kavanthandalam',range:'#35–291',booths:4,voters:2331,lead:-0.3,tier:'Opposition',tvk:33.8,aiadmk:28.3,dmk:34.1,trend:'-18%',rank:26},
+ {name:'Keelambi',range:'#38–40',booths:3,voters:2235,lead:-8.5,tier:'Opposition',tvk:27.2,aiadmk:35.7,dmk:33.6,trend:'+9%',rank:27},
+ {name:'Karai',range:'#296–298',booths:3,voters:2231,lead:-20.7,tier:'Opposition',tvk:28.4,aiadmk:49.1,dmk:19.1,trend:'+78%',rank:28}
+];
+
+/* --- AC 29 SRIPERUMBUDUR (SC) --- */
+const RAW_AC29=[
+ {name:'Kundrathur',range:'#212–263',booths:51,voters:37735,lead:21.2,tier:'Lean',tvk:47.8,inc:26.6,aiadmk:19.8,trend:'+22%',rank:1},
+ {name:'Mangadu',range:'#155–196',booths:38,voters:28532,lead:14.9,tier:'Lean',tvk:45.5,inc:30.6,aiadmk:18.7,trend:'+22%',rank:2},
+ {name:'Sriperumbudur',range:'#63–87',booths:24,voters:15270,lead:17.5,tier:'Lean',tvk:45.2,inc:27.7,aiadmk:22.4,trend:'+19%',rank:3},
+ {name:'Nandambakkam',range:'#114–131',booths:18,voters:12782,lead:21.0,tier:'Fortress',tvk:49.1,inc:28.1,aiadmk:17.3,trend:'+15%',rank:4},
+ {name:'Madambakkam',range:'#422–435',booths:14,voters:9904,lead:18.4,tier:'Fortress',tvk:49.8,inc:31.4,aiadmk:13.4,trend:'+7%',rank:5},
+ {name:'Sikkarayapuram',range:'#201–211',booths:11,voters:9157,lead:30.1,tier:'Fortress',tvk:51.8,inc:20.8,aiadmk:21.7,trend:'+24%',rank:6},
+ {name:'Malayambakkam',range:'#137–146',booths:10,voters:8598,lead:22.6,tier:'Lean',tvk:47.0,inc:24.4,aiadmk:23.7,trend:'+27%',rank:7},
+ {name:'Varadharajapuram',range:'#297–309',booths:12,voters:7708,lead:12.4,tier:'Lean',tvk:42.6,inc:30.2,aiadmk:20.8,trend:'+14%',rank:8},
+ {name:'Manimangalam',range:'#315–322',booths:8,voters:7021,lead:14.9,tier:'Lean',tvk:46.4,inc:31.5,aiadmk:16.5,trend:'+68%',rank:9},
+ {name:'Adanoor',range:'#401–410',booths:10,voters:6790,lead:18.1,tier:'Lean',tvk:45.5,inc:27.4,aiadmk:20.1,trend:'+37%',rank:10},
+ {name:'Naduveerapattu',range:'#288–296',booths:9,voters:6768,lead:3.6,tier:'Thin ice',tvk:41.1,inc:37.5,aiadmk:17.3,trend:'+19%',rank:11},
+ {name:'Pattur Mangadu',range:'#192–200',booths:8,voters:6389,lead:-25.7,tier:'Opposition',tvk:29.6,inc:55.3,aiadmk:11.4,trend:'+46%',rank:12},
+ {name:'Melpadappai',range:'#392–400',booths:9,voters:6086,lead:12.8,tier:'Lean',tvk:43.9,inc:31.1,aiadmk:20.0,trend:'+34%',rank:13},
+ {name:'Molachur',range:'#32–39',booths:8,voters:4953,lead:14.7,tier:'Lean',tvk:45.3,inc:30.6,aiadmk:18.2,trend:'+16%',rank:14},
+ {name:'Salamangalam',range:'#384–388',booths:5,voters:4875,lead:27.0,tier:'Fortress',tvk:49.7,inc:22.7,aiadmk:22.3,trend:'+75%',rank:15},
+ {name:'Nallur',range:'#274–278',booths:5,voters:4254,lead:29.8,tier:'Fortress',tvk:52.9,inc:23.1,aiadmk:19.8,trend:'+28%',rank:16},
+ {name:'Adhanancheri',range:'#379–383',booths:5,voters:4210,lead:21.7,tier:'Fortress',tvk:48.6,inc:26.9,aiadmk:17.9,trend:'+30%',rank:17},
+ {name:'Orathur',range:'#411–415',booths:5,voters:3980,lead:5.7,tier:'Thin ice',tvk:38.7,inc:23.8,aiadmk:33.0,trend:'+26%',rank:18},
+ {name:'Somangalam',range:'#283–287',booths:5,voters:3796,lead:18.8,tier:'Lean',tvk:46.1,inc:22.3,aiadmk:27.3,trend:'+14%',rank:19},
+ {name:'Karasangal',range:'#310–314',booths:5,voters:3772,lead:24.1,tier:'Fortress',tvk:50.1,inc:26.0,aiadmk:18.3,trend:'+23%',rank:20},
+ {name:'Sirukalathur',range:'#132–136',booths:4,voters:3547,lead:16.7,tier:'Lean',tvk:44.3,inc:23.1,aiadmk:27.6,trend:'+65%',rank:21},
+ {name:'Santhavellore',range:'#42–46',booths:5,voters:3533,lead:1.5,tier:'Thin ice',tvk:36.7,inc:23.9,aiadmk:35.2,trend:'+37%',rank:22},
+ {name:'Pazanthandalam',range:'#268–271',booths:4,voters:3411,lead:17.4,tier:'Lean',tvk:43.8,inc:26.4,aiadmk:24.2,trend:'+50%',rank:23},
+ {name:'Kollacheri',range:'#147–151',booths:5,voters:3366,lead:17.7,tier:'Lean',tvk:43.6,inc:25.9,aiadmk:25.4,trend:'+28%',rank:24},
+ {name:'Thirumudivakkam',range:'#264–267',booths:4,voters:3326,lead:9.2,tier:'Lean',tvk:42.5,inc:33.3,aiadmk:18.6,trend:'+22%',rank:25},
+ {name:'Poonthandalam',range:'#279–282',booths:4,voters:3217,lead:18.7,tier:'Fortress',tvk:48.3,inc:29.6,aiadmk:17.1,trend:'+40%',rank:26},
+ {name:'Edaiyarpakkam',range:'#10–13',booths:4,voters:3176,lead:9.5,tier:'Lean',tvk:42.2,inc:20.8,aiadmk:32.7,trend:'+48%',rank:27},
+ {name:'Kozhumanivakkam',range:'#152–154',booths:3,voters:3176,lead:18.4,tier:'Lean',tvk:45.4,inc:27.0,aiadmk:21.7,trend:'+191%',rank:28}
+];
+
+/* --- AC 29 REAL BOOTH-WISE DATA (436 polling stations) — aggregated per village --- */
+function buildBoothVillages(){
+  const map={};
+  AC29_BOOTHS.forEach(b=>{
+    let v=map[b[1]];
+    if(!v){v=map[b[1]]={name:b[1],ps:[],tvk:0,inc:0,aiadmk:0,polled:0,boothList:[]};}
+    v.ps.push(b[0]);v.tvk+=b[2];v.inc+=b[3];v.aiadmk+=b[4];v.polled+=b[5];v.boothList.push(b);
+  });
+  return Object.values(map).map(v=>{
+    const tot=v.tvk+v.inc+v.aiadmk;
+    const us=Math.round(v.inc/tot*1000)/10,p2=Math.round(v.tvk/tot*1000)/10,p3=Math.round(v.aiadmk/tot*1000)/10;
+    const lead=Math.round((us-Math.max(p2,p3))*10)/10;
+    const psMin=Math.min(...v.ps),psMax=Math.max(...v.ps);
+    return {name:v.name,range:'PS '+psMin+'–'+psMax,booths:v.count=v.ps.length,parts:['PS '+psMin+'–'+psMax],voters:v.polled,p2,p3,lead,tier:dmkTier(lead),support:us,trend:'',assembly:'Sriperumbudur Region',tvk:v.tvk,inc:v.inc,aiadmk:v.aiadmk,polled:v.polled,boothList:v.boothList};
+  }).sort((a,b)=>b.lead-a.lead).map((v,i)=>({...v,rank:i+1}));
+}
+const BOOTH_VILLAGES=buildBoothVillages();
+
+const constituencies={
+  'AC 37 Kanchipuram':{
+    label:'AC 37 Kanchipuram',year:2026,booths:358,electors:278841,units:66,usBooths:0,usUnits:0,
+    party:partyMeta('DMK'),p2:partyMeta('TVK'),p3:partyMeta('AIADMK'),
+    assembly:'AC 37 · Kancheepuram Assembly Constituency',district:'Kanchipuram',
+    assemblies:[
+      {name:'Kanchipuram Town',villageCount:18,contribution:41,voters:203505,events:90},
+      {name:'Kanchipuram Rural',villageCount:10,contribution:34,voters:23441,events:45},
+      {name:'AC 37 · Kancheepuram (All)',villageCount:66,contribution:52,voters:278841,events:132}
+    ],
+    villages:normaliseDMK(RAW_AC37,'Kanchipuram Town')
+  },
+  'AC 29 Sriperumbudur (SC)':{
+    label:'AC 29 Sriperumbudur (SC)',year:2026,booths:AC29_BOOTHS.length,electors:381807,units:BOOTH_VILLAGES.length,usBooths:0,usUnits:0,
+    party:partyMeta('INC'),p2:partyMeta('TVK'),p3:partyMeta('AIADMK'),
+    assembly:'AC 29 · Sriperumbudur (SC) Assembly Constituency',district:'Sriperumbudur',
+    assemblies:[
+      {name:'Sriperumbudur Region',villageCount:BOOTH_VILLAGES.length,contribution:49,voters:381807,events:140},
+      {name:'AC 29 · Sriperumbudur (All)',villageCount:BOOTH_VILLAGES.length,contribution:49,voters:381807,events:140}
+    ],
+    villages:BOOTH_VILLAGES
+  }
+};
+
+let PARTY=constituencies['AC 37 Kanchipuram'].party;
+let district=constituencies['AC 37 Kanchipuram'].district;
+let constituency=constituencies['AC 37 Kanchipuram'].assembly;
+let villages=constituencies['AC 37 Kanchipuram'].villages;
+let assemblies=constituencies['AC 37 Kanchipuram'].assemblies;
+let currentConstituency='AC 37 Kanchipuram';
+const AIRK={0:{c:'var(--c-green)',l:'Strong'},1:{c:'var(--c-golden)',l:'Lean'},2:{c:'var(--c-brown-mid)',l:'Watch'},3:{c:'#C62828',l:'Risk'}};
+function tierOf(v){return v.tier==='Fortress'?0:v.tier==='Lean'?1:v.tier==='Thin ice'?2:3;}
+function activeCtx(){return constituencies[currentConstituency];}
+function switchConstituency(key){
+  currentConstituency=key;const c=constituencies[key];
+  PARTY=c.party;district=c.district;constituency=c.assembly;villages=c.villages;assemblies=c.assemblies;
+  buildVoterData();rebuildDropdowns();applyScope();
+}
+function rebuildDropdowns(){
+  const svS=document.getElementById('scope-village');
+  svS.innerHTML='<option value="">Select your village</option>';
+  const pvS=document.getElementById('voter-village-filter');
+  pvS.innerHTML='<option value="all">All Villages</option>';
+  villages.forEach(v=>{const a=document.createElement('option');a.value=v.name;a.textContent=v.name;svS.appendChild(a);const b=document.createElement('option');b.value=v.name;b.textContent=v.name;pvS.appendChild(b);});
+  const aS=document.getElementById('assembly-filter');
+  aS.innerHTML='<option value="all">All Constituencies</option>';
+  assemblies.forEach(a=>{const o=document.createElement('option');o.value=a.name;o.textContent=a.name;aS.appendChild(o);});
+}
+
+let voterData=[];
+const firstNames=['Ravi','Suresh','Kumar','Murugan','Selvam','Karthik','Prakash','Rajesh','Anand','Vikram','Ganesh','Mohan','Senthil','Velu','Gopal','Rajan','Saravanan','Bala','Mani','Sakthi','Devi','Lakshmi','Kavitha','Priya','Meena','Geetha','Revathi','Anitha','Kamala','Saroja'];
+const lastNames=['R','S','K','M','P','V','T','G','A','D'];
+const ageGroups=[25,28,32,35,38,42,45,48,52,55,58,62,65,68];
+function buildVoterData(){
+  voterData=[];let id=1;
+  villages.forEach(v=>{const n=Math.min(30,Math.max(8,Math.round(v.voters/400)));for(let i=0;i<n;i++){voterData.push({id:id++,name:firstNames[Math.floor(Math.random()*firstNames.length)]+' '+lastNames[Math.floor(Math.random()*lastNames.length)],mobile:'9'+Math.floor(100000000+Math.random()*900000000),village:v.name,part:v.range,age:ageGroups[Math.floor(Math.random()*ageGroups.length)],contacted:Math.random()>0.35,partySupport:Math.floor(v.support+Math.random()*8-4)});}});
+}
+buildVoterData();
+
+const tasks=[
+  {title:'Morning voter interaction walk',desc:'Booth canvas round 1 — 50 voters',time:'06:00 AM',tag:'ground',tagLabel:'Ground'},
+  {title:'Video shoot — campaign message',desc:'Script ready, 2 min short video',time:'07:30 AM',tag:'video',tagLabel:'Video'},
+  {title:'Village meeting',desc:'Community hall, 200+ expected',time:'09:00 AM',tag:'meeting',tagLabel:'Meeting'},
+  {title:'Social media post scheduling',desc:'FB, Insta, Twitter — 6 posts',time:'11:00 AM',tag:'social',tagLabel:'Social'},
+  {title:'Ground issue follow-up',desc:'Water supply & drainage problems',time:'12:30 PM',tag:'ground',tagLabel:'Ground'},
+  {title:'Youth meeting & campaign rally',desc:'Booth area, youth volunteers',time:'02:00 PM',tag:'meeting',tagLabel:'Meeting'},
+  {title:'WhatsApp broadcast — evening message',desc:'Campaign update to contacts',time:'04:00 PM',tag:'social',tagLabel:'Social'},
+  {title:'Voter database update & review',desc:'Add new contacts, verify data',time:'06:00 PM',tag:'ground',tagLabel:'Office'}
+];
+const groundIssues=[
+  {title:'Road repair - Main St',desc:'Completed, photos uploaded',done:true},
+  {title:'Water supply - Town',desc:'Follow-up with municipal office',done:true},
+  {title:'Street light - Colony',desc:'Pending electrical dept',done:false},
+  {title:'Drainage - Western',desc:'Scheduled for tomorrow',done:false}
+];
+const weekDays=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const weekDates=[5,6,7,8,9,10,11];
+const weekHours=[10,9,11,8,10,9,5];
+const weekTasks=[18,15,22,12,20,16,8];
+
+function milestones(){const c=activeCtx();return [
+  {t:'50,000 voters canvassed',d:'In progress — '+Math.round(c.electors*0.6).toLocaleString()+' reached',done:false},
+  {t:'All '+c.units+' units mapped',d:'Top 28 units tracked live',done:true},
+  {t:c.party.short+' lead summary',d:'Avg '+Math.round(villages.reduce((s,v)=>s+v.lead,0)/villages.length*10)/10+' pp across '+c.units+' units',done:false},
+  {t:'GOTV on polling day',d:'Election day plan ready',done:false},
+  {t:'500K social media reach',d:'In progress — 450K reached',done:false},
+  {t:'200 campaign events',d:'In progress — 156 done',done:false}
+];}
+function weeklySummary(){const c=activeCtx();return [
+  ['Units Covered','28 / '+c.units,'var(--c-text)'],
+  ['Voters Contacted',Math.round(c.electors*0.06).toLocaleString(),'var(--c-green)'],
+  ['Avg Lead over Runner-up',Math.round(villages.reduce((s,v)=>s+v.lead,0)/villages.length*10)/10+' pp','var(--c-golden)'],
+  ['Videos Published','12','var(--c-text)'],
+  ['Ground Issues Resolved','18 / 24','var(--c-green)'],
+  ['Total Hours Worked','63 hrs','var(--c-golden)']
+];}
+
+/* ==================== INIT ==================== */
+document.addEventListener('DOMContentLoaded',()=>{setTimeout(()=>{document.getElementById('loader').classList.add('hidden');document.getElementById('app').classList.add('show');init();},3200);});
+
+function init(){
+  updateConstituencyStats();
+  refreshLocalBodyLine();renderSeatProfile();
+  populateDropdowns();renderDashboard();renderVillages();renderAssembly();renderVoters();renderTasks();renderWeekly();renderHours();renderGoals();renderFeatures();animateCounters();
+  const secIds=['dashboard','candidate','villages','assembly','voters','tasks','weekly','hours','goals','features','cta'];
+  document.querySelectorAll('.nav-link,.footer ul a,[data-sec]').forEach(el=>{
+    const sec=el.getAttribute('data-sec');if(!secIdNav(sec))return;
+    el.addEventListener('click',()=>navigate(sec));
+  });
+  document.getElementById('menuToggle').addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('show'));
+}
+function secIdNav(s){return ['dashboard','candidate','villages','assembly','voters','tasks','weekly','hours','goals','features','cta'].includes(s);}
+function navigate(sec){
+  if(!secIdNav(sec))return;
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('sec-'+sec).classList.add('active');
+  document.querySelectorAll('.nav-link').forEach(n=>{n.classList.toggle('active',n.getAttribute('data-sec')===sec);});
+  document.getElementById('navLinks').classList.remove('show');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* ==================== ROLE & SCOPE ==================== */
+let currentRole='admin';
+let currentVillage='';
+function onConstituencyChange(key){
+  switchConstituency(key);
+  const ctx=activeCtx();
+  document.getElementById('cand-constituency').textContent=ctx.assembly;
+  document.getElementById('cand-party').textContent=ctx.party.symbol+' '+ctx.party.name;
+  document.getElementById('cand-avatar').textContent=ctx.party.short;
+  document.getElementById('party-val').textContent=Math.round(villages.reduce((s,v)=>s+v.support,0)/villages.length)+'%';
+  document.getElementById('constituency-title').textContent=ctx.label+' · '+ctx.year;
+  document.getElementById('party-short').textContent=ctx.party.short;
+  document.getElementById('party-lead-label').textContent=ctx.party.short+' Lead vs Runner-up';
+  document.getElementById('party-units-label').textContent=ctx.party.short;
+  updateConstituencyStats();
+  if(assignedVillage&&!villages.some(v=>v.name===assignedVillage))assignedVillage='';
+  refreshLocalBodyLine();renderSeatProfile();
+}
+function updateConstituencyStats(){
+  const c=activeCtx();
+  c.usUnits=villages.filter(v=>v.lead>=0).length;
+  c.usBooths=villages.filter(v=>v.lead>=0).reduce((s,v)=>s+v.booths,0);
+  const tVillages=document.querySelectorAll('[data-villages]');tVillages.forEach(el=>el.textContent=c.units);
+  const tBooths=document.querySelectorAll('[data-booths]');tBooths.forEach(el=>el.textContent=c.booths.toLocaleString());
+  const tElectors=document.querySelectorAll('[data-electors]');tElectors.forEach(el=>el.textContent=c.electors.toLocaleString());
+  const tVotes=document.querySelectorAll('[data-votes]');tVotes.forEach(el=>el.textContent=villages.reduce((s,v)=>s+v.voters,0).toLocaleString());
+  const gbl=document.getElementById('goal-booths-led');if(gbl)gbl.textContent=c.usBooths.toLocaleString();
+  const gul=document.getElementById('goal-units-led');if(gul)gul.textContent=c.usUnits;
+  const avg=Math.round(villages.reduce((s,v)=>s+v.support,0)/villages.length);
+  const pv=document.getElementById('party-val');if(pv)pv.textContent=avg+'%';
+  const pf=document.getElementById('party-fill');if(pf)pf.style.width=avg+'%';
+  const avgLead=Math.round(villages.reduce((s,v)=>s+v.lead,0)/villages.length*10)/10;
+  const ov=document.getElementById('opp-val');if(ov)ov.textContent=avgLead+' pp';
+  const ob=document.getElementById('party-booths');if(ob)ob.textContent=c.usBooths+'/'+c.booths+' booths led';
+  const ou=document.getElementById('party-units');if(ou)ou.textContent=c.usUnits+' of '+c.units+' units led · avg '+avgLead+' pp';
+  const swb=document.getElementById('stat-winner-booths');if(swb){swb.dataset.count=c.usBooths;swb.textContent=c.usBooths.toLocaleString();}
+  const stb=document.getElementById('stat-total-booths');if(stb)stb.textContent=c.booths.toLocaleString();
+  const tv=document.getElementById('voter-total');if(tv)tv.textContent=scopedVoters().length.toLocaleString();
+}
+function scopedVillages(){return currentRole==='candidate'&&currentVillage?villages.filter(v=>v.name===currentVillage):villages;}
+function scopedVoters(){return currentRole==='candidate'&&currentVillage?voterData.filter(v=>v.village===currentVillage):voterData;}
+function setRoleLabel(){
+  const pill=document.getElementById('role-pill');
+  if(currentRole==='candidate'&&currentVillage){pill.style.display='inline-block';pill.textContent='Logged in as · '+currentVillage+' candidate';}
+  else if(currentRole==='candidate'){pill.style.display='inline-block';pill.textContent='Candidate — choose village';}
+  else{pill.style.display='none';}
+}
+function onRoleChange(){
+  currentRole=document.getElementById('role-select').value;
+  const vw=document.getElementById('scope-village');
+  vw.style.display=currentRole==='candidate'?'inline-block':'none';
+  if(currentRole==='candidate'&&assignedVillage){vw.value=assignedVillage;currentVillage=assignedVillage;}
+  else{currentVillage='';}
+  setRoleLabel();
+  applyScope();
+}
+function onScopeChange(){
+  currentVillage=document.getElementById('scope-village').value;
+  setRoleLabel();
+  applyScope();
+}
+function applyScope(){
+  const vS=document.getElementById('village-select');
+  const base=scopedVillages();
+  vS.innerHTML=(currentRole==='candidate'?'':'<option value="all">All Villages ('+base.length+')</option>');
+  base.forEach(v=>{const o=document.createElement('option');o.value=v.name;o.textContent=v.name+(currentRole==='candidate'?'':' (Rank #'+v.rank+')');vS.appendChild(o);});
+  document.getElementById('showing-count').textContent=base.length;
+  renderDashboard();renderVillages();renderAssembly();renderVoters();renderTasks();renderWeekly();renderHours();renderGoals();renderFeatures();animateCounters();
+  updateConstituencyStats();
+}
+
+function populateDropdowns(){
+  const vS=document.getElementById('village-select');
+  const pvS=document.getElementById('voter-village-filter');
+  const pS=document.getElementById('part-select');
+  const aS=document.getElementById('assembly-filter');
+  const svS=document.getElementById('scope-village');
+  villages.forEach(v=>{vS.innerHTML+=`<option value="${v.name}">${v.name} (Rank #${v.rank})</option>`;pvS.innerHTML+=`<option value="${v.name}">${v.name}</option>`;const so=document.createElement('option');so.value=v.name;so.textContent=v.name;svS.appendChild(so);});
+  const cS=document.getElementById('f-constituency');
+  pS.innerHTML='<option value="all">All Tiers</option><option value="Fortress">Fortress</option><option value="Lean">Lean</option><option value="Thin ice">Thin ice</option><option value="Opposition">Opposition</option>';
+  assemblies.forEach(a=>aS.innerHTML+=`<option value="${a.name}">${a.name}</option>`);
+}
+
+function renderDashboard(){
+  renderBarChart('trend-chart',[{label:'24 Q1',val:45,color:'var(--c-brown-light)'},{label:'24 Q2',val:52,color:'var(--c-brown-light)'},{label:'24 Q3',val:58,color:'var(--c-brown-mid)'},{label:'24 Q4',val:63,color:'var(--c-brown-mid)'},{label:'25 Q1',val:68,color:'var(--c-golden)'},{label:'25 Q2',val:71,color:'var(--c-golden)'},{label:'25 Q3',val:75,color:'var(--c-golden-light)'},{label:'25 Q4',val:82,color:'var(--c-green)'}]);
+  const tv=scopedVillages().slice(0,5).sort((a,b)=>b.support-a.support);
+  document.getElementById('top-villages').innerHTML=tv.map(v=>`<tr><td><span class="rank-badge ${v.rank<=3?'rank-'+v.rank:'rank-default'}">${v.rank}</span></td><td><strong>${v.name}</strong></td><td><div style="display:flex;align-items:center;gap:8px;"><div class="progress-bar" style="width:60px;"><div class="progress-fill golden" style="width:${v.support}%"></div></div><span style="font-size:13px;font-weight:600;color:var(--c-green);">${v.support}%</span></div></td><td>${v.booths}</td></tr>`).join('');
+  document.getElementById('dash-tasks').innerHTML=tasks.slice(0,4).map(t=>taskHTML(t)).join('');
+  ring('dash-hours-ring',75,7.5,'Hours');
+}
+
+function renderBattleMap(data){
+  const c=activeCtx();
+  const cells=data.map(v=>{
+    const rUp=v.p2>=v.p3?{p:v.p2,name:c.p2.short}:{p:v.p3,name:c.p3.short};
+    const combined=v.p2+v.p3;
+    const vsComb=v.support-combined;
+    const cls=(v.lead<0)?'trail':(vsComb<0?'split':'strong');
+    return `<div class="btile ${cls}" onclick="selectVillage('${v.name}')" title="${v.name} — ${c.party.short} ${v.support}% · runner-up ${rUp.name} ${rUp.p}% · lead ${v.lead>=0?'+':''}${v.lead} pp · combined ${v.p2+v.p3}% (${c.party.short} ${vsComb>=0?'+':''}${vsComb} pp)">
+      <span class="btile-top" style="background:${v.p2>=v.p3?'var(--c-green)':'var(--c-brown-mid)'};">${rUp.name} runner-up</span>
+      <div class="btile-name">${v.name}</div>
+      <div class="btile-nums"><b>${c.party.short} ${v.support}%</b><br>vs ${rUp.name} ${rUp.p}%</div>
+      <div class="btile-lead ${v.lead>=0?'pos':'neg'}">${v.lead>=0?'+':''}${v.lead} pp</div>
+    </div>`;
+  }).join('');
+  const el=document.getElementById('battle-map');if(el)el.innerHTML=cells;
+  const n=data.length,strong=data.filter(v=>v.lead>=0&&v.support-(v.p2+v.p3)>=0).length;
+  const split=data.filter(v=>v.lead>=0&&v.support-(v.p2+v.p3)<0).length;
+  const trail=data.filter(v=>v.lead<0).length;
+  const bar=document.getElementById('bmap-bar');
+  const legend=document.getElementById('bmap-legend');
+  if(bar)bar.innerHTML=(n?`<i style="width:${strong/n*100}%;background:var(--c-green);"></i><i style="width:${split/n*100}%;background:var(--c-amber);"></i><i style="width:${trail/n*100}%;background:var(--c-orange);"></i>`:'');
+  if(legend)legend.innerHTML=`<span><i style="background:var(--c-green);"></i>Beats combined ${strong}</span><span><i style="background:var(--c-amber);"></i>Only split ${split}</span><span><i style="background:var(--c-orange);"></i>Trails ${trail}</span>`;
+}
+function renderAlignment(data){
+  renderBattleMap(data);
+  const c=activeCtx();
+  const n=data.length;
+  const rows=data.map(v=>{
+    const rUp=v.p2>=v.p3?{p:v.p2,name:c.p2.short,col:'var(--c-green)'}:{p:v.p3,name:c.p3.short,col:'var(--c-brown-mid)'};
+    const combined=v.p2+v.p3;
+    const vsComb=v.support-combined;
+    let chip,chipCol;
+    if(v.lead<0){chip='Trails runner-up';chipCol='var(--c-orange)';}
+    else if(vsComb<0){chip='Only split opposition';chipCol='var(--c-amber)';}
+    else{chip='Beats combined';chipCol='var(--c-green)';}
+    return {v,rUp,combined,vsComb,chip,chipCol};
+  }).sort((a,b)=>b.v.lead-a.v.lead);
+  const lead=rows.filter(r=>r.v.lead>=0);
+  const ru2=rows.filter(r=>r.rUp.name===c.p2.short);
+  const ru3=rows.filter(r=>r.rUp.name===c.p3.short);
+  const split=lead.filter(r=>r.vsComb<0);
+  const avg=s=>s.length?(s.reduce((a,r)=>a+r.v.lead,0)/s.length):0;
+  document.getElementById('align-ctx').textContent=c.party.short+' vs '+c.p2.short+' · '+c.p3.short+' — '+n+' units';
+  document.getElementById('align-tiles').innerHTML=[
+    ['Strongholds',lead.length,(lead.length?'avg lead +'+avg(lead).toFixed(1)+' pp':'—'),'var(--c-green)'],
+    ['Runner-up '+c.p2.short,ru2.length,(ru2.length?'avg gap '+Math.abs(avg(ru2)).toFixed(1)+' pp':'—'),'var(--c-green)'],
+    ['Runner-up '+c.p3.short,ru3.length,(ru3.length?'avg gap '+Math.abs(avg(ru3)).toFixed(1)+' pp':'—'),'var(--c-brown-mid)'],
+    ['Win needs split',split.length,(lead.length?Math.round(split.length/lead.length*100)+'% of strongholds':'—'),'var(--c-amber)']
+  ].map(t=>`<div class="stat-card"><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--c-text-muted);">${t[0]}</div><div style="font-size:26px;font-weight:800;color:var(--c-navy);margin:4px 0;">${t[1]}</div><div style="font-size:11px;color:${t[3]};font-weight:600;">${t[2]}</div></div>`).join('');
+  let ins='<strong>⚖️ Alignment verdict:</strong> '+c.party.short+' leads <strong>'+lead.length+' of '+n+'</strong> units against the runner-up (avg +'+avg(lead).toFixed(1)+' pp). The runner-up is '+c.p2.short+' in <strong>'+ru2.length+'</strong> and '+c.p3.short+' in <strong>'+ru3.length+'</strong> units.';
+  ins+=(split.length?(' In <strong>'+split.length+'</strong> winning units even the <strong>combined '+c.p2.short+'+'+c.p3.short+'</strong> vote crosses '+c.party.short+' — the win there depends on the opposition <strong>staying split</strong>. Focus canvass + base deepen in '+(ru2.length>ru3.length?c.p2.short:c.p3.short)+' pockets and defend the '+split.length+' split-dependent wards.'):(' No winning unit relies on the opposition split — '+c.party.short+' beats the combined opposition everywhere.'));
+  document.getElementById('align-insight').innerHTML=ins;
+  document.getElementById('align-table').innerHTML='<thead><tr><th>Village / Unit</th><th>'+c.party.short+' %</th><th>Runner-up</th><th>Runner-up %</th><th>Lead pp</th><th>'+c.p2.short+' %</th><th>'+c.p3.short+' %</th><th>Combined %</th><th>'+c.party.short+' vs Combined</th><th>Alignment</th></tr></thead><tbody>'
+    +rows.map(r=>`<tr style="cursor:pointer;" onclick="selectVillage('${r.v.name}')"><td><strong>${r.v.name}</strong><div style="font-size:11px;color:var(--c-text-muted);">${r.v.tier}</div></td><td><strong style="color:var(--c-green);">${r.v.support}%</strong></td><td style="color:${r.rUp.col};font-weight:700;">${r.rUp.name}</td><td>${r.rUp.p}%</td><td style="${r.v.lead>=0?'color:var(--c-green)':'color:var(--c-orange)'};font-weight:700;">${r.v.lead>=0?'+':''}${r.v.lead} pp</td><td>${r.v.p2}%</td><td>${r.v.p3}%</td><td>${r.combined}%</td><td style="${r.vsComb>=0?'color:var(--c-green)':'color:var(--c-orange)'};font-weight:700;">${r.vsComb>=0?'+':''}${r.vsComb} pp</td><td><span style="font-size:11px;font-weight:700;padding:3px 8px;border-radius:50px;background:${r.chipCol}1a;color:${r.chipCol};">${r.chip}</span></td></tr>`).join('')+'</tbody>';
+}
+function renderVillages(){const base=scopedVillages();renderVillageTable(base);renderPollingChart(base.length===1?base[0].name:'all');renderComparisonChart();renderAlignment(base);}
+function selectVillage(name){document.getElementById('selected-village-label').textContent=name==='all'?'All Villages':name;const f=name==='all'?scopedVillages():scopedVillages().filter(v=>v.name===name);document.getElementById('showing-count').textContent=f.length;renderVillageTable(f);renderPollingChart(name);renderBoothDetail(name);renderVillageData(name);renderAlignment(f);}
+function turnoutFactor(){const c=activeCtx(),v=scopedVillages();const polled=v.reduce((s,x)=>s+(x.polled||0),0);if(!polled)return 1.2;return Math.max(1,c.electors/polled);}
+function renderVillageData(name){
+  const box=document.getElementById('village-data');
+  if(!box)return;
+  const v=scopedVillages().find(x=>x.name===name);
+  if(!v){box.style.display='none';box.innerHTML='';return;}
+  const c=activeCtx();
+  const tf=turnoutFactor();
+  const totalVoters=v.polled?Math.round(v.polled*tf):v.voters;
+  const polledVotes=v.polled||Math.round(v.voters/tf);
+  const curPos=document.getElementById('cand-position').dataset.position||'CO';
+  const rows=Object.entries(STANDING_POSITIONS).map(([k,m],i)=>{
+    const active=k===curPos?' active':'';
+    const chip=active?'<div class="pos-chip">✓ You stand here</div>':'';
+    const share=[[c.party.short,v.support,'var(--c-golden)'],[c.p2.short,v.p2,'var(--c-green)'],[c.p3.short,v.p3,'var(--c-brown-light)']];
+    const bars=share.map(s=>`<i style="width:${s[1]}%;background:${s[2]};"></i>`).join('');
+    const txt=share.map(s=>`<span style="color:${s[2]};">${s[0]} ${s[1]}%</span>`).join('');
+    return `<div class="pos-card${active}">${chip}<div class="pos-head">${m.icon} ${i+1}. ${m.label}</div><div class="pos-seat">${m.seat}</div><div class="pos-stats"><div class="pos-stat"><span>Total Voters (Ward)</span><b>${totalVoters.toLocaleString('en-IN')}</b></div><div class="pos-stat"><span>Votes Polled ’26</span><b>${polledVotes.toLocaleString('en-IN')}</b></div></div><div class="pos-share">${txt}</div><div class="pos-bar">${bars}</div><div class="pos-tier">${v.tier} · ${c.party.short} lead ${v.lead>=0?'+':''}${v.lead} pp · ${v.booths} booths = ward size</div></div>`;
+  }).join('');
+  box.style.display='block';
+  box.innerHTML=`<div class="card-title"><span class="icon" aria-hidden="true">📍</span> Actual Village / Ward Data — ${v.name}<span style="font-size:12px;color:var(--c-text-muted);font-weight:500;"> Total voters + 2026 real analysis</span></div>${rows}<div class="pos-note">Same ward data applies to all 3 seats — Ward Member · Panchayat President · Councillor. Registered voters derived from real 2026 polled totals (${c.electors.toLocaleString('en-IN')} electors ÷ ${tf.toFixed(3)} = polled).</div>`;
+}
+function renderBoothDetail(name){
+  const box=document.getElementById('booth-detail');
+  if(!box)return;
+  const v=scopedVillages().find(x=>x.name===name);
+  if(!v||!v.boothList||v.boothList.length===0){box.style.display='none';box.innerHTML='';return;}
+  const rows=v.boothList.map(b=>{const net=b[2]-b[3];return `<tr><td>${b[0]}</td><td><strong>${b[1]}</strong></td><td>${b[2].toLocaleString()}</td><td>${b[3].toLocaleString()}</td><td>${b[4].toLocaleString()}</td><td style="${net>=0?'color:var(--c-green)':'#C62828'};font-weight:600;">${net>=0?'+':''}${net.toLocaleString()}</td><td>${b[5].toLocaleString()}</td></tr>`;}).join('');
+  box.style.display='block';
+  box.innerHTML=`<div class="card-title"><span class="icon" aria-hidden="true">🗳️</span> ${v.name} — Ward Size ${v.booths} Booths · ${v.polled.toLocaleString()} votes polled · Booth-wise Detail</div><div class="table-wrap"><table><thead><tr><th>PS No</th><th>Village / Locality</th><th>TVK</th><th>INC</th><th>AIADMK</th><th>Net TVK−INC</th><th>Polled</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+}
+function selectPart(part){if(part==='all'){renderBoothDetail('all');renderVillageData('all');renderAlignment(scopedVillages());return renderVillageTable(scopedVillages());}const f=scopedVillages().filter(v=>v.tier===part);document.getElementById('showing-count').textContent=f.length;renderBoothDetail('all');renderVillageData('all');renderVillageTable(f);renderAlignment(f);}
+function filterByRank(f){let d;if(f==='all')d=scopedVillages();else if(f==='low')d=scopedVillages().filter(v=>v.rank>10);else d=scopedVillages().filter(v=>v.rank===parseInt(f));document.getElementById('showing-count').textContent=d.length;renderBoothDetail('all');renderVillageData('all');renderVillageTable(d);renderAlignment(d);}
+function renderVillageTable(data){const c2=activeCtx().p2.short,c3=activeCtx().p3.short;document.getElementById('village-rank-table').innerHTML=data.map(v=>`<tr style="cursor:pointer;" onclick="selectVillage('${v.name}')"><td><span class="rank-badge ${v.rank<=3?'rank-'+v.rank:'rank-default'}">${v.rank}</span></td><td><strong>${v.name}</strong><div style="font-size:11px;color:var(--c-text-muted);">${v.range} · ${v.booths} booths · ${v.tier}</div></td><td>${v.booths}</td><td><div style="display:flex;flex-direction:column;gap:4px;min-width:120px;"><div style="display:flex;justify-content:space-between;font-size:11px;"><span style="color:var(--c-text-muted);">${PARTY.short}</span><strong style="color:var(--c-green);">${v.support}%</strong></div><div class="progress-bar" style="width:100%;"><div class="progress-fill golden" style="width:${v.support}%"></div></div><div style="font-size:10px;color:var(--c-text-muted);">${c2} ${v.p2}% · ${c3} ${v.p3}% · lead ${v.lead} pp</div></div></td><td>${v.voters.toLocaleString()}</td><td>${trendCell(v.trend)}</td></tr>`).join('');}
+function renderPollingChart(vn){const d=[];const c=activeCtx();const base=scopedVillages();if(vn==='all')base.slice(0,10).forEach(v=>d.push({label:v.name.substring(0,9),val:v.support,color:'var(--c-golden)'}));else{const v=base.find(v=>v.name===vn);if(v){d.push({label:c.party.short,val:v.support,color:'var(--c-golden)'});d.push({label:c.p2.short,val:v.p2,color:'var(--c-green)'});d.push({label:c.p3.short,val:v.p3,color:'var(--c-brown-mid)'});}}if(d.length===0)d.push({label:'No data',val:0,color:'var(--c-brown-light)'});renderBarChart('polling-chart',d);}
+function renderComparisonChart(){renderBarChart('comparison-chart',[{label:'2024',val:52,color:'var(--c-brown-light)'},{label:'2025',val:68,color:'var(--c-brown-mid)'},{label:'2026',val:82,color:'var(--c-green)'}]);}
+
+function renderAssembly(){
+  let list=assemblies;
+  if(currentRole==='candidate'&&currentVillage){const v=villages.find(v=>v.name===currentVillage);if(v)list=assemblies.filter(a=>a.name===v.assembly);}
+  document.getElementById('assembly-grid').innerHTML=list.map(a=>`<div class="assembly-item" tabindex="0"><h4>${a.name}</h4><p style="font-size:12px;color:var(--c-text-muted);margin-top:4px;">${a.villageCount} villages</p><div class="a-meta"><span>Voters: <strong>${a.voters}</strong></span><span>Events: <strong>${a.events}</strong></span></div><div class="progress-bar" style="margin-top:10px;"><div class="progress-fill golden" style="width:${a.contribution}%"></div></div><div style="display:flex;justify-content:space-between;margin-top:6px;font-size:11px;color:var(--c-text-muted);"><span>${a.contribution}% contribution</span></div></div>`).join('');
+  renderBarChart('assembly-chart',list.map(a=>({label:a.name.substring(0,10),val:a.contribution,color:'var(--c-golden)'})));
+  renderBarChart('assembly-voter-chart',list.map(a=>({label:a.name.substring(0,10),val:Math.round(a.voters/105),color:'var(--c-green)'})));
+}
+
+function renderVoters(){filterVoters();}
+function filterVoters(){const v=document.getElementById('voter-village-filter').value||'all';const s=(document.getElementById('voter-search').value||'').toLowerCase();let f=scopedVoters();if(v!=='all')f=f.filter(x=>x.village===v);if(s)f=f.filter(x=>x.name.toLowerCase().includes(s)||x.mobile.includes(s));document.getElementById('voter-total').textContent=f.length.toLocaleString();document.getElementById('voter-table-body').innerHTML=f.slice(0,50).map(x=>`<tr><td>${x.id}</td><td><strong>${x.name}</strong></td><td>${x.mobile}</td><td>${x.village}</td><td>${x.part}</td><td>${x.age}</td><td><span style="color:${x.contacted?'var(--c-green)':'var(--c-text-muted)'};font-weight:500;">${x.contacted?'✓ Contacted':'Pending'}</span></td></tr>`).join('');}
+
+function renderTasks(){
+  document.getElementById('today-tasks').innerHTML=tasks.map(t=>taskHTML(t)).join('');
+  document.getElementById('ground-issues').innerHTML=groundIssues.map(g=>`<div class="task-item ${g.done?'completed':''}"><div class="task-check ${g.done?'done':''}" onclick="toggleTask(this)" role="checkbox" aria-checked="${g.done}" tabindex="0">${g.done?'✓':''}</div><div class="task-content"><h4>${g.title}</h4><p>${g.desc}</p></div><span class="task-tag tag-ground">Ground</span></div>`).join('');
+}
+function taskHTML(t){return `<div class="task-item"><div class="task-check" onclick="toggleTask(this)" role="checkbox" aria-checked="false" tabindex="0"></div><div class="task-content"><h4>${t.title}</h4><p>${t.desc}</p></div><span class="task-time">${t.time}</span><span class="task-tag tag-${t.tag}">${t.tagLabel}</span></div>`;}
+function toggleTask(el){el.classList.toggle('done');el.textContent=el.classList.contains('done')?'✓':'';if(el.hasAttribute('role'))el.setAttribute('aria-checked',el.classList.contains('done'));}
+
+function renderWeekly(){
+  const today=new Date().getDay();
+  document.getElementById('week-grid').innerHTML=weekDays.map((d,i)=>`<div class="day-card ${i===today?'today':''}" tabindex="0"><div class="dn">${d}</div><div class="dd">${weekDates[i]}</div><div class="dt">${weekTasks[i]} tasks</div><div class="dh">${weekHours[i]} hrs</div></div>`).join('');
+  renderBarChart('weekly-chart',weekDays.map((d,i)=>({label:d,val:weekHours[i],color:i===today?'var(--c-golden)':'var(--c-brown-light)'})));
+  document.getElementById('weekly-summary').innerHTML=weeklySummary().map(r=>`<div style="display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--c-light);font-size:14px;${r[0]==='Total Hours Worked'?'border-bottom:none;':''}"><span style="color:var(--c-text-muted);">${r[0]}</span><strong style="color:${r[2]};">${r[1]}</strong></div>`).join('');
+}
+
+function renderHours(){ring('main-hours-ring',75,7.5,'Hours Done');renderBarChart('hours-week-chart',weekDays.map((d,i)=>({label:d,val:weekHours[i],color:'var(--c-golden)'})));}
+function ring(id,pct,val,lbl){const r=65,c=2*Math.PI*r;document.getElementById(id).innerHTML=`<svg viewBox="0 0 150 150"><circle class="bg" cx="75" cy="75" r="${r}"/><circle class="fg" cx="75" cy="75" r="${r}" stroke-dasharray="${c}" stroke-dashoffset="${c*(1-pct/100)}"/></svg><div class="hours-center"><div class="val">${val}</div><div class="lbl">${lbl}</div></div>`;}
+
+function renderGoals(){
+  document.getElementById('milestones').innerHTML=milestones().map(m=>`<div class="task-item ${m.done?'completed':''}"><div class="task-check ${m.done?'done':''}" onclick="toggleTask(this)" role="checkbox" aria-checked="${m.done}" tabindex="0">${m.done?'✓':''}</div><div class="task-content"><h4>${m.t}</h4><p>${m.d}</p></div></div>`).join('');
+  renderBarChart('goals-chart',[{label:'Voters',val:62,color:'var(--c-golden)'},{label:'Mobile',val:72,color:'var(--c-green)'},{label:'Villages',val:100,color:'var(--c-green)'},{label:'Videos',val:38,color:'var(--c-brown-mid)'},{label:'Events',val:78,color:'var(--c-golden)'},{label:'Reach',val:85,color:'var(--c-green)'}]);
+}
+
+function renderFeatures(){
+  setTimeout(()=>{renderBarChart('contribution-chart',[{label:'Edu',val:85,color:'var(--c-golden)'},{label:'Health',val:72,color:'var(--c-green)'},{label:'Roads',val:90,color:'var(--c-brown-mid)'},{label:'Water',val:68,color:'var(--c-golden-light)'},{label:'Electric',val:95,color:'var(--c-green)'},{label:'Agri',val:78,color:'var(--c-golden)'},{label:'Women',val:82,color:'var(--c-brown-light)'},{label:'Senior',val:60,color:'var(--c-golden-light)'}]);},200);
+  setTimeout(()=>{renderBarChart('portfolio-chart',[{label:'Schools',val:12,color:'var(--c-golden)'},{label:'Camps',val:8,color:'var(--c-green)'},{label:'Roads',val:24,color:'var(--c-brown-mid)'},{label:'Ponds',val:16,color:'var(--c-golden-light)'},{label:'Areas',val:48,color:'var(--c-green)'},{label:'Farms',val:32,color:'var(--c-golden)'},{label:'Groups',val:20,color:'var(--c-brown-light)'},{label:'Pensions',val:9,color:'var(--c-golden-light)'}]);},200);
+}
+
+function renderBarChart(id,data){const c=document.getElementById(id);if(!c)return;const max=Math.max(...data.map(d=>d.val));c.innerHTML=data.map(d=>`<div class="bar-group"><div class="bar" style="height:0;background:${d.color};" data-h="${d.val/max*100}"><div class="bar-value">${d.val}</div></div><div class="bar-label">${d.label}</div></div>`).join('');setTimeout(()=>{c.querySelectorAll('.bar').forEach(b=>b.style.height=b.dataset.h+'%');},200);}
+
+function animateCounters(){document.querySelectorAll('.stat-value[data-count]').forEach(el=>{const t=parseInt(el.dataset.count);let cur=0;const step=t/60;const tm=setInterval(()=>{cur+=step;if(cur>=t){cur=t;clearInterval(tm);}el.textContent=Math.floor(cur).toLocaleString();},25);});}
+
+/* ==================== CANDIDATE MODAL ==================== */
+const partyList=['Tamilaga Vettri Kazhagam','Indian National Congress','All India Anna Dravida Munnetra Kazhagam','Dravida Munnetra Kazhagam','Bharatiya Janata Party','Aam Aadmi Party','Bharatiya Janata Kisan Party','Independent Candidate'];
+const constituencyList=['AC 37 · Kancheepuram Assembly Constituency','AC 29 · Sriperumbudur (SC) Assembly Constituency','AC 33 · Chengalpattu Assembly Constituency','AC 34 · Tambaram Assembly Constituency'];
+const STANDING_POSITIONS={WM:{icon:'🗳️',label:'Ward Member',seat:'Village Panchayat Ward Member'},PP:{icon:'🏘️',label:'Panchayat President',seat:'Village Panchayat President'},CO:{icon:'🏛️',label:'Councillor',seat:'Town Panchayat / Corporation Ward Councillor'}};
+let assignedVillage='';
+function bodyNameOf(v){
+  const d=activeCtx().district;
+  if(d==='Sriperumbudur')return v.name==='Sriperumbudur'?'Sriperumbudur Town Panchayat':('Sriperumbudur Panchayat Union · '+v.name+' Village Panchayat');
+  if(v.name.indexOf('town')>=0||v.name.indexOf('blk')>=0||v.name.indexOf('corphn')>=0)return 'Kanchipuram City Municipal Corporation';
+  return 'Kanchipuram Panchayat Union · '+v.name+' Village Panchayat';
+}
+function bodyKeyOf(v){
+  const d=activeCtx().district;
+  if(d==='Sriperumbudur')return v.name==='Sriperumbudur'?'Sriperumbudur Town Panchayat':'Sriperumbudur Panchayat Union';
+  if(v.name.indexOf('town')>=0||v.name.indexOf('blk')>=0||v.name.indexOf('corphn')>=0)return 'Kanchipuram City Municipal Corporation';
+  return 'Kanchipuram Panchayat Union';
+}
+function candVillage(){return assignedVillage?villages.find(x=>x.name===assignedVillage):null;}
+function candPosCode(){return document.getElementById('cand-position').dataset.position||'CO';}
+function refreshLocalBodyLine(){
+  const el=document.getElementById('cand-localbody');if(!el)return;
+  const v=candVillage(),pos=candPosCode();
+  if(!v){el.textContent='🗺️ Assign your village in registration';return;}
+  const m=STANDING_POSITIONS[pos];
+  el.textContent = pos==='WM' ? ('🗳️ Ward: '+v.name+' · '+v.booths+' booths')
+    : pos==='PP' ? ('🏘️ Panchayat: '+v.name+' · Total Wards: '+v.booths+' · Status: '+v.tier)
+    : ('🏛️ Ward: '+v.name+' · '+bodyNameOf(v));
+}
+function vf(n){return n?n.toLocaleString('en-IN'):'—';}
+function seatPct(num,den){return (!num&&num!==0)||!den?'—':(Math.round(num/den*1000)/10)+'%';}
+function seatLead(inc,tv,ai){if(inc===undefined)return '—';const mx=Math.max(tv||0,ai||0);const l=Math.round((inc-mx)*10)/10;return (l>=0?'+':'')+l+' pp';}
+function seatPartyRow(label,col,abs,pct){
+  return `<div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--c-light);font-size:13px;"><span style="color:${col};font-weight:700;">${label}</span><span><strong style="color:var(--c-navy);">${abs}</strong> <span style="color:var(--c-text-muted);font-size:11px;">${pct}</span></span></div>`;
+}
+function wardTotalCard(v,c){
+  const t=(v.inc||0)+(v.tvk||0)+(v.aiadmk||0);
+  const rows=(v.inc!==undefined
+    ? seatPartyRow(c.party.short,'var(--c-golden)',vf(v.inc),seatPct(v.inc,t))
+      +seatPartyRow(c.p2.short,'var(--c-green)',vf(v.tvk),seatPct(v.tvk,t))
+      +seatPartyRow(c.p3.short,'var(--c-brown-light)',vf(v.aiadmk),seatPct(v.aiadmk,t))
+    : seatPartyRow(c.party.short,'var(--c-golden)','—',v.support+'%')
+      +seatPartyRow(c.p2.short,'var(--c-green)','—',v.p2+'%')
+      +seatPartyRow(c.p3.short,'var(--c-brown-light)','—',v.p3+'%'));
+  return `<div class="pos-card active"><div class="pos-head">${v.name}</div><div class="pos-seat">Your ward totals · 2026 recorded votes</div><div class="pos-stats"><div class="pos-stat"><span>Voters</span><b>${vf(v.voters)}</b></div><div class="pos-stat"><span>Polled 2026</span><b>${vf(v.polled)}</b></div><div class="pos-stat"><span>Ward size</span><b>${v.booths} booths</b></div><div class="pos-stat"><span>Lead</span><b style="color:${v.lead>=0?'var(--c-green)':'var(--c-orange)'};">${v.lead>=0?'+':''}${v.lead} pp</b></div></div>${rows}<div class="pos-tier" style="margin-top:10px;">2026 status · ${v.tier}</div></div>`;
+}
+function seatWardsTable(rows,totalLabel){
+  return `<div class="table-wrap"><table><thead><tr><th>Ward</th><th>INC</th><th>TVK</th><th>AIADMK</th><th>Lead</th><th>Polled</th></tr></thead><tbody>`
+    +rows.map(r=>`<tr><td><strong>${r.w}</strong></td><td>${vf(r.inc)} <span style="color:var(--c-text-muted);font-size:11px;">${seatPct(r.inc,r.inc+r.tvk+r.aiadmk)}</span></td><td>${vf(r.tvk)} <span style="color:var(--c-text-muted);font-size:11px;">${seatPct(r.tvk,r.inc+r.tvk+r.aiadmk)}</span></td><td>${vf(r.aiadmk)} <span style="color:var(--c-text-muted);font-size:11px;">${seatPct(r.aiadmk,r.inc+r.tvk+r.aiadmk)}</span></td><td style="color:${seatLead(r.inc,r.tvk,r.aiadmk).charAt(0)==='+'?'var(--c-green)':'var(--c-orange)'};font-weight:700;">${seatLead(r.inc,r.tvk,r.aiadmk)}</td><td>${vf(r.polled)}</td></tr>`).join('')
+    +(totalLabel?`<tr style="background:var(--c-warm);font-weight:800;"><td>${totalLabel}</td><td>${vf(rows.reduce((s,r)=>s+r.inc,0))}</td><td>${vf(rows.reduce((s,r)=>s+r.tvk,0))}</td><td>${vf(rows.reduce((s,r)=>s+r.aiadmk,0))}</td><td>${veLead(rows)}</td><td>${vf(rows.reduce((s,r)=>s+r.polled,0))}</td></tr>`:'')+'</tbody></table></div>';
+}
+function veLead(rows){if(!rows.length)return '—';const ti=rows.reduce((s,r)=>s+r.inc,0),tt=rows.reduce((s,r)=>s+r.tvk,0),ta=rows.reduce((s,r)=>s+r.aiadmk,0);return seatLead(ti,tt,ta);}
+function renderSeatProfile(){
+  const box=document.getElementById('seat-profile');if(!box)return;
+  const pos=candPosCode(),m=STANDING_POSITIONS[pos]||STANDING_POSITIONS.CO,v=candVillage(),c=activeCtx();
+  let body,html='';
+  if(!v){
+    body='<div style="color:var(--c-text-muted);font-size:14px;">Select a village in <strong>✏️ Edit Candidate</strong> to see your ward and 2026 recorded votes.</div>';
+  }else if(pos==='WM'){
+    body='Your <strong>ward total</strong> — only the 2026 recorded votes of your ward.';
+    html='<div class="pos-grid">'+wardTotalCard(v,c)+'</div>';
+  }else if(pos==='PP'){
+    body='Your village <strong>individual wards</strong> with 2026 recorded votes.';
+    const rows=(v.boothList||[]).map(b=>({w:'Ward '+b[0],inc:b[3],tvk:b[2],aiadmk:b[4],polled:b[5]}));
+    html='<div class="pos-grid">'+wardTotalCard(v,c)+'</div>'+(rows.length?seatWardsTable(rows,v.name+' · Total'):'<div style="color:var(--c-text-muted);font-size:12px;margin-top:14px;">Ward-wise booth data not available for this unit.</div>');
+  }else{
+    body='Your <strong>ward</strong> and the <strong>ward-wise 2026 recorded votes</strong> of all villages under your Councillor location ('+bodyNameOf(v)+').';
+    let rows;
+    if(bodyKeyOf(v)==='Sriperumbudur Town Panchayat'){rows=(v.boothList||[]).map(b=>({w:'Ward PS '+b[0],inc:b[3],tvk:b[2],aiadmk:b[4],polled:b[5]}));}
+    else{rows=villages.filter(x=>bodyKeyOf(x)===bodyKeyOf(v)).map(x=>({w:x.name,inc:x.inc||0,tvk:x.tvk||0,aiadmk:x.aiadmk||0,polled:x.polled||0})).sort((a,b)=>(b.inc-Math.max(b.tvk,b.aiadmk))-(a.inc-Math.max(a.tvk,a.aiadmk)));}
+    const bv=rows.length?villages.filter(x=>bodyKeyOf(x)===bodyKeyOf(v)):[];
+    const heads=(bv.length&&v.boothList&&bodyKeyOf(v)!=='Sriperumbudur Town Panchayat')?`<div class="pos-stats"><div class="pos-stat"><span>Villages</span><b>${bv.length}</b></div><div class="pos-stat"><span>Total booths</span><b>${bv.reduce((s,x)=>s+x.booths,0)}</b></div></div>`:'';
+    html='<div class="pos-grid"><div class="pos-card active"><div class="pos-head">'+m.icon+' '+v.name+'</div><div class="pos-seat">Your ward · '+bodyNameOf(v)+'</div><div class="pos-stats"><div class="pos-stat"><span>Voters</span><b>'+vf(v.voters)+'</b></div><div class="pos-stat"><span>Polled 2026</span><b>'+vf(v.polled)+'</b></div></div><div class="pos-tier" style="margin-top:6px;">Ward lead '+(v.lead>=0?'+':'')+v.lead+' pp</div></div></div>'+heads+(rows.length?seatWardsTable(rows,'Location · Total'):'<div style="color:var(--c-text-muted);font-size:12px;margin-top:14px;">Ward-wise data not available.</div>');
+  }
+  box.innerHTML='<div class="card-title"><span class="icon" aria-hidden="true">🗺️</span> Seat Profile — '+m.icon+' '+m.label+' <span style="font-size:12px;color:var(--c-text-muted);font-weight:500;">· '+m.seat+'</span></div>'
+    +'<div style="font-size:13px;color:var(--c-text-muted);margin-bottom:14px;">'+body+'</div>'+html;
+}
+
+function initCandidateModal(){
+  const pSel=document.getElementById('f-party');
+  if(!pSel.dataset.init){partyList.forEach(x=>{const o=document.createElement('option');o.value=x;o.textContent=x;pSel.appendChild(o);});pSel.dataset.init='1';}
+  const cSel=document.getElementById('f-constituency');
+  if(!cSel.dataset.init){const def=document.createElement('option');def.value='';def.textContent='Select constituency...';cSel.appendChild(def);const uniq=[...new Set(constituencyList.concat(villages.map(v=>v.assembly)))];uniq.forEach(x=>{const o=document.createElement('option');o.value=x;o.textContent=x;cSel.appendChild(o);});cSel.dataset.init='1';}
+  const vSel=document.getElementById('f-village');
+  vSel.innerHTML='<option value="">Select village...</option>';
+  villages.forEach(v=>{const o=document.createElement('option');o.value=v.name;o.textContent=v.name;vSel.appendChild(o);});
+}
+
+function openCandidateModal(){
+  initCandidateModal();
+  document.getElementById('f-name').value=document.getElementById('cand-name').textContent;
+  document.getElementById('f-party').value=document.getElementById('cand-party').textContent;
+  document.getElementById('f-constituency').value=document.getElementById('cand-constituency').textContent;
+  document.getElementById('f-village').value=assignedVillage;
+  document.getElementById('f-position').value=document.getElementById('cand-position').dataset.position||'CO';
+  document.getElementById('f-mobile1').value=document.getElementById('cand-mobile1').value;
+  document.getElementById('f-mobile2').value=document.getElementById('cand-mobile2').value;
+  document.getElementById('f-email').value=document.getElementById('cand-email').value;
+  document.getElementById('cand-modal').classList.add('open');
+  document.getElementById('f-name').focus();
+}
+function closeCandidateModal(){document.getElementById('cand-modal').classList.remove('open');}
+function saveCandidate(){
+  const name=document.getElementById('f-name').value.trim();
+  if(!name||!document.getElementById('f-mobile1').value.trim()){alert('Please enter candidate name and primary mobile number.');return;}
+  const initials=name.split(/\s+/).map(w=>w[0]).join('').slice(0,2).toUpperCase();
+  document.getElementById('cand-name').textContent=name;
+  document.getElementById('cand-avatar').textContent=initials||'CC';
+  const selParty=document.getElementById('f-party').value||'';
+  const party=selParty||(PARTY.symbol+' '+PARTY.name);
+  var constituency=document.getElementById('f-constituency').value||activeCtx().assembly;
+  assignedVillage=document.getElementById('f-village').value;
+  const pos=document.getElementById('f-position').value||'CO';
+  const posMeta=STANDING_POSITIONS[pos]||STANDING_POSITIONS.CO;
+  document.getElementById('cand-party').textContent=party;
+  document.getElementById('cand-position').dataset.position=pos;
+  document.getElementById('cand-position').textContent=posMeta.icon+' Standing for · '+posMeta.label+' ('+posMeta.seat+')';
+  document.getElementById('cand-constituency').textContent=constituency;
+  refreshLocalBodyLine();renderSeatProfile();
+  document.getElementById('cand-mobile1').value=document.getElementById('f-mobile1').value.trim();
+  document.getElementById('cand-mobile2').value=document.getElementById('f-mobile2').value.trim();
+  document.getElementById('cand-email').value=document.getElementById('f-email').value.trim();
+  if(assignedVillage&&document.getElementById('role-select').value==='candidate'){document.getElementById('scope-village').value=assignedVillage;onScopeChange();}
+  closeCandidateModal();
+  alert('Candidate saved successfully'+(assignedVillage?` for ${assignedVillage}.`:'')+'.');
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeCandidateModal();});
+document.getElementById('cand-modal').addEventListener('click',closeCandidateModal);
+</script>
+</body>
+</html>
