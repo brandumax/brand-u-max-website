@@ -1169,6 +1169,12 @@ function onConstituencyChange(key){
   document.getElementById('party-units-label').textContent=ctx.party.short;
   updateConstituencyStats();
   if(assignedVillage&&!villages.some(v=>v.name===assignedVillage))assignedVillage='';
+  if(currentRole==='candidate'){
+    const svS=document.getElementById('scope-village');
+    if(assignedVillage&&villages.some(v=>v.name===assignedVillage)){svS.value=assignedVillage;currentVillage=assignedVillage;}
+    else{svS.value='';currentVillage='';}
+    applyScope();
+  }
   refreshLocalBodyLine();renderSeatProfile();
 }
 function updateConstituencyStats(){
@@ -1192,7 +1198,29 @@ function updateConstituencyStats(){
   const stb=document.getElementById('stat-total-booths');if(stb)stb.textContent=c.booths.toLocaleString();
   const tv=document.getElementById('voter-total');if(tv)tv.textContent=scopedVoters().length.toLocaleString();
 }
-function scopedVillages(){return currentRole==='candidate'&&currentVillage?villages.filter(v=>v.name===currentVillage):villages;}
+function boothUnits(v){
+  if(!v.boothList||!v.boothList.length)return [v];
+  return v.boothList.map(b=>{
+    const tvk=b[2],inc=b[3],aiadmk=b[4],polled=b[5];
+    const tot=tvk+inc+aiadmk;
+    const support=Math.round(inc/tot*1000)/10,p2=Math.round(tvk/tot*1000)/10,p3=Math.round(aiadmk/tot*1000)/10;
+    const lead=Math.round((support-Math.max(p2,p3))*10)/10;
+    return {name:v.name+' · Ward '+b[0],wardBase:v.name,ps:b[0],range:'Ward '+b[0]+' · PS '+b[0],booths:1,voters:polled,polled,tvk,inc,aiadmk,p2,p3,lead,tier:dmkTier(lead),support,trend:'',boothList:[]};
+  }).sort((a,b)=>b.lead-a.lead).map((r,i)=>({...r,rank:i+1}));
+}
+function scopedVillages(){
+  if(currentRole!=='candidate'||!currentVillage)return villages;
+  const v=villages.find(x=>x.name===currentVillage);
+  if(!v)return villages;
+  const pos=candPosCode();
+  if(pos==='PP')return boothUnits(v);
+  if(pos==='CO'){
+    const key=bodyKeyOf(v);
+    if(key==='Sriperumbudur Town Panchayat')return boothUnits(v);
+    return villages.filter(x=>bodyKeyOf(x)===key);
+  }
+  return [v];
+}
 function scopedVoters(){return currentRole==='candidate'&&currentVillage?voterData.filter(v=>v.village===currentVillage):voterData;}
 function setRoleLabel(){
   const pill=document.getElementById('role-pill');
@@ -1334,7 +1362,7 @@ function renderBoothDetail(name){
 }
 function selectPart(part){if(part==='all'){renderBoothDetail('all');renderVillageData('all');renderAlignment(scopedVillages());return renderVillageTable(scopedVillages());}const f=scopedVillages().filter(v=>v.tier===part);document.getElementById('showing-count').textContent=f.length;renderBoothDetail('all');renderVillageData('all');renderVillageTable(f);renderAlignment(f);}
 function filterByRank(f){let d;if(f==='all')d=scopedVillages();else if(f==='low')d=scopedVillages().filter(v=>v.rank>10);else d=scopedVillages().filter(v=>v.rank===parseInt(f));document.getElementById('showing-count').textContent=d.length;renderBoothDetail('all');renderVillageData('all');renderVillageTable(d);renderAlignment(d);}
-function renderVillageTable(data){const c2=activeCtx().p2.short,c3=activeCtx().p3.short;document.getElementById('village-rank-table').innerHTML=data.map(v=>`<tr style="cursor:pointer;" onclick="selectVillage('${v.name}')"><td><span class="rank-badge ${v.rank<=3?'rank-'+v.rank:'rank-default'}">${v.rank}</span></td><td><strong>${v.name}</strong><div style="font-size:11px;color:var(--c-text-muted);">${v.range} · ${v.booths} booths · ${v.tier}</div></td><td>${v.booths}</td><td><div style="display:flex;flex-direction:column;gap:4px;min-width:120px;"><div style="display:flex;justify-content:space-between;font-size:11px;"><span style="color:var(--c-text-muted);">${PARTY.short}</span><strong style="color:var(--c-green);">${v.support}%</strong></div><div class="progress-bar" style="width:100%;"><div class="progress-fill golden" style="width:${v.support}%"></div></div><div style="font-size:10px;color:var(--c-text-muted);">${c2} ${v.p2}% · ${c3} ${v.p3}% · lead ${v.lead} pp</div></div></td><td>${v.voters.toLocaleString()}</td><td>${trendCell(v.trend)}</td></tr>`).join('');}
+function renderVillageTable(data){const c=activeCtx(),c2=c.p2.short,c3=c.p3.short;document.getElementById('village-rank-table').innerHTML=data.map(v=>`<tr style="cursor:pointer;" onclick="selectVillage('${v.name}')"><td><span class="rank-badge ${v.rank<=3?'rank-'+v.rank:'rank-default'}">${v.rank}</span></td><td><strong>${v.name}</strong><div style="font-size:11px;color:var(--c-text-muted);">${v.range} · ${v.booths} booths · ${v.tier}</div></td><td>${v.booths}</td><td><div style="display:flex;flex-direction:column;gap:4px;min-width:120px;"><div style="display:flex;justify-content:space-between;font-size:11px;"><span style="color:var(--c-text-muted);">${c.party.short}</span><strong style="color:var(--c-green);">${v.support}%</strong></div><div class="progress-bar" style="width:100%;"><div class="progress-fill golden" style="width:${v.support}%"></div></div><div style="font-size:10px;color:var(--c-text-muted);">${c2} ${v.p2}% · ${c3} ${v.p3}% · lead ${v.lead} pp</div></div></td><td>${v.voters.toLocaleString()}</td><td>${trendCell(v.trend)}</td></tr>`).join('');}
 function renderPollingChart(vn){const d=[];const c=activeCtx();const base=scopedVillages();if(vn==='all')base.slice(0,10).forEach(v=>d.push({label:v.name.substring(0,9),val:v.support,color:'var(--c-golden)'}));else{const v=base.find(v=>v.name===vn);if(v){d.push({label:c.party.short,val:v.support,color:'var(--c-golden)'});d.push({label:c.p2.short,val:v.p2,color:'var(--c-green)'});d.push({label:c.p3.short,val:v.p3,color:'var(--c-brown-mid)'});}}if(d.length===0)d.push({label:'No data',val:0,color:'var(--c-brown-light)'});renderBarChart('polling-chart',d);}
 function renderComparisonChart(){renderBarChart('comparison-chart',[{label:'2024',val:52,color:'var(--c-brown-light)'},{label:'2025',val:68,color:'var(--c-brown-mid)'},{label:'2026',val:82,color:'var(--c-green)'}]);}
 
