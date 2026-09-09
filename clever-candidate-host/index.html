@@ -613,6 +613,17 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
       <div class="stat-card"><div class="stat-icon sb" aria-hidden="true">🏆</div><div class="stat-value" data-count="234" id="stat-winner-booths">0</div><div class="stat-label">Booths Led by Our Party</div><div class="stat-change up">↑ of <span id="stat-total-booths">358</span> total</div></div>
     </div>
 
+    <div class="grid-2" id="cand-dash-row" style="display:none;">
+      <div class="card">
+        <div class="card-title"><span class="icon" aria-hidden="true">🧑‍🤝‍🧑</span> Your Candidate Area <span id="dash-cand-pos" style="font-size:11px;color:var(--c-text-muted);font-weight:500;"></span></div>
+        <div id="dash-cand-body"></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span class="icon" aria-hidden="true">🎯</span> Area Coverage Tracking <span id="dash-track-village" style="font-size:11px;color:var(--c-text-muted);font-weight:500;"></span></div>
+        <div id="dash-track-body"></div>
+      </div>
+    </div>
+
     <div class="grid-2">
       <div class="card">
         <div class="card-title"><span class="icon" aria-hidden="true">📈</span> Polling Trend (Last 2 Years)</div>
@@ -1176,7 +1187,7 @@ function applyScope(){
   vS.innerHTML=(currentRole==='candidate'?'':'<option value="all">All Villages ('+base.length+')</option>');
   base.forEach(v=>{const o=document.createElement('option');o.value=v.name;o.textContent=v.name+(currentRole==='candidate'?'':' (Rank #'+v.rank+')');vS.appendChild(o);});
   document.getElementById('showing-count').textContent=base.length;
-  renderDashboard();renderVillages();renderAssembly();renderVoters();renderTasks();renderWeekly();renderHours();renderGoals();renderFeatures();animateCounters();
+  renderDashboard();renderCandidateDashboard();renderVillages();renderAssembly();renderVoters();renderTasks();renderWeekly();renderHours();renderGoals();renderFeatures();animateCounters();
   updateConstituencyStats();
 }
 
@@ -1198,6 +1209,67 @@ function renderDashboard(){
   document.getElementById('top-villages').innerHTML=tv.map(v=>`<tr><td><span class="rank-badge ${v.rank<=3?'rank-'+v.rank:'rank-default'}">${v.rank}</span></td><td><strong>${v.name}</strong></td><td><div style="display:flex;align-items:center;gap:8px;"><div class="progress-bar" style="width:60px;"><div class="progress-fill golden" style="width:${v.support}%"></div></div><span style="font-size:13px;font-weight:600;color:var(--c-green);">${v.support}%</span></div></td><td>${v.booths}</td></tr>`).join('');
   document.getElementById('dash-tasks').innerHTML=tasks.slice(0,4).map(t=>taskHTML(t)).join('');
   ring('dash-hours-ring',75,7.5,'Hours');
+}
+
+function trackStoreKey(){return 'cc_track_'+(currentConstituency||'AC37').replace(/\W/g,'')+'_'+(assignedVillage||'').replace(/\W/g,'');}
+function readTrack(){try{return JSON.parse(localStorage.getItem(trackStoreKey()))||{};}catch(e){return {};}}
+function writeTrack(o){try{localStorage.setItem(trackStoreKey(),JSON.stringify(o));}catch(e){}}
+function bumpTrack(prop,max,delta){
+  if(currentRole!=='candidate'||!assignedVillage)return;
+  const o=readTrack();const cur=(typeof o[prop]==='number'?o[prop]:0);
+  o[prop]=Math.max(0,Math.min(cur+delta,max));
+  writeTrack(o);renderCandidateDashboard();
+}
+function scopedSummary(){
+  const v=candVillage(),pos=candPosCode();
+  if(!v)return null;
+  const wards=pos==='WM'?1:((v.boothList||[]).length||v.booths);
+  const booths=v.booths;
+  const votes=Number(v.polled)||Number(v.voters)||0;
+  const electors=Number(v.electors)||0;
+  const turnout=electors?Math.round(votes/electors*1000)/10:0;
+  return {v,pos,wards,booths,votes,electors,turnout,support:v.support||0,lead:v.lead||0,tier:v.tier||'—',body:bodyNameOf(v),seat:activeCtx().assembly};
+}
+function trackRow(label,prop,max,icon){
+  const t=readTrack();const done=Math.min(typeof t[prop]==='number'?t[prop]:0,max);
+  const pct=max?Math.round(done/max*100):0;
+  return `<div style="margin-bottom:14px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+      <span style="font-size:13px;font-weight:700;color:var(--c-navy);">${icon} ${label}</span>
+      <span style="font-size:13px;font-weight:700;">${done} <span style="color:var(--c-text-muted);font-weight:500;">of ${max}</span></span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill ${pct>=80?'green':pct>=40?'golden':'orange'}" style="width:${pct}%"></div></div>
+    <div style="display:flex;gap:8px;margin-top:8px;">
+      <button class="btn btn-outline" type="button" style="flex:1;font-size:12px;padding:6px;color:var(--c-brown-mid);border-color:var(--c-brown-light);" onclick="bumpTrack('${prop}',${max},-1)">− 1</button>
+      <button class="btn btn-gold" type="button" style="flex:1;font-size:12px;padding:6px;" onclick="bumpTrack('${prop}',${max},1)">+ 1 Covered</button>
+    </div>
+  </div>`;
+}
+function renderCandidateDashboard(){
+  const row=document.getElementById('cand-dash-row');
+  if(!row)return;
+  const s=scopedSummary();
+  if(!s||currentRole!=='candidate'||!currentVillage){row.style.display='none';return;}
+  row.style.display='grid';
+  const posName=(STANDING_POSITIONS[s.pos]||STANDING_POSITIONS.CO).label;
+  document.getElementById('dash-cand-pos').textContent='· '+posName;
+  document.getElementById('dash-track-village').textContent='· '+s.v.name;
+  const pv=activeCtx().party;
+  document.getElementById('dash-cand-body').innerHTML=`
+    <div style="font-size:14px;font-weight:800;color:var(--c-navy);margin-bottom:2px;">${s.v.name}</div>
+    <div style="font-size:12px;color:var(--c-text-muted);margin-bottom:12px;">${s.body} · ${s.seat}</div>
+    <div class="pos-stats">
+      <div class="pos-stat"><span>Wards under you</span><b>${s.wards}</b></div>
+      <div class="pos-stat"><span>Booths</span><b>${s.booths}</b></div>
+      <div class="pos-stat"><span>Votes Polled 2026</span><b>${vf(s.votes)}</b></div>
+      <div class="pos-stat"><span>Turnout</span><b>${s.turnout?s.turnout+'%':'—'}</b></div>
+    </div>
+    <div style="font-size:12px;color:var(--c-text-muted);margin-bottom:8px;">${pv.short} support · ${s.support}% · Lead ${s.lead>=0?'+':''}${s.lead} pp · ${s.tier}</div>
+    <div class="progress-bar"><div class="progress-fill golden" style="width:${Math.min(100,s.support)}%"></div></div>`;
+  const t=readTrack();
+  document.getElementById('dash-track-body').innerHTML=trackRow('Booths Covered','booths',s.booths,'🗳️')
+    +trackRow('Villages Covered','villages',1,'🏘️')
+    +(t.booths||t.villages?`<button class="btn btn-outline" type="button" style="font-size:12px;padding:6px 14px;color:var(--c-brown-mid);border-color:var(--c-brown-light);" onclick="bumpTrack('booths',${s.booths},-99);bumpTrack('villages',1,-99)">Reset</button>`:'');
 }
 
 function partyPos(v,c){
@@ -1497,7 +1569,7 @@ function saveCandidate(){
   document.getElementById('cand-position').dataset.position=pos;
   document.getElementById('cand-position').textContent=posMeta.icon+' Standing for · '+posMeta.label+' ('+posMeta.seat+')';
   document.getElementById('cand-constituency').textContent=constituency;
-  refreshLocalBodyLine();renderSeatProfile();
+  refreshLocalBodyLine();renderSeatProfile();renderCandidateDashboard();
   document.getElementById('cand-mobile1').value=document.getElementById('f-mobile1').value.trim();
   document.getElementById('cand-mobile2').value=document.getElementById('f-mobile2').value.trim();
   document.getElementById('cand-email').value=document.getElementById('f-email').value.trim();
