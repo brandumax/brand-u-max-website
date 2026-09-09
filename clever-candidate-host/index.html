@@ -1368,7 +1368,6 @@ function animateCounters(){document.querySelectorAll('.stat-value[data-count]').
 
 /* ==================== CANDIDATE MODAL ==================== */
 const partyList=['Tamilaga Vettri Kazhagam','Indian National Congress','All India Anna Dravida Munnetra Kazhagam','Dravida Munnetra Kazhagam','Bharatiya Janata Party','Aam Aadmi Party','Bharatiya Janata Kisan Party','Independent Candidate'];
-const constituencyList=['AC 37 · Kancheepuram Assembly Constituency','AC 29 · Sriperumbudur (SC) Assembly Constituency','AC 33 · Chengalpattu Assembly Constituency','AC 34 · Tambaram Assembly Constituency'];
 const STANDING_POSITIONS={WM:{icon:'🗳️',label:'Ward Member',seat:'Village Panchayat Ward Member'},PP:{icon:'🏘️',label:'Panchayat President',seat:'Village Panchayat President'},CO:{icon:'🏛️',label:'Councillor',seat:'Town Panchayat / Corporation Ward Councillor'}};
 let assignedVillage='';
 function isTownUnit(v){return v.key==='__town__'||/town|blk|corphn/i.test(v.name||'');}
@@ -1445,14 +1444,18 @@ function renderSeatProfile(){
     +'<div style="font-size:13px;color:var(--c-text-muted);margin-bottom:14px;">'+body+'</div>'+html;
 }
 
+function seatVillagesFor(asm){
+  const c=Object.values(constituencies).find(x=>x.assembly===asm);
+  return c?c.villages:constituencies['AC 37 Kanchipuram'].villages;
+}
 function initCandidateModal(){
   const pSel=document.getElementById('f-party');
   if(!pSel.dataset.init){partyList.forEach(x=>{const o=document.createElement('option');o.value=x;o.textContent=x;pSel.appendChild(o);});pSel.dataset.init='1';}
   const cSel=document.getElementById('f-constituency');
-  if(!cSel.dataset.init){const def=document.createElement('option');def.value='';def.textContent='Select constituency...';cSel.appendChild(def);const uniq=[...new Set(constituencyList.concat(villages.map(v=>v.assembly)))];uniq.forEach(x=>{const o=document.createElement('option');o.value=x;o.textContent=x;cSel.appendChild(o);});cSel.dataset.init='1';}
+  if(!cSel.dataset.init){const def=document.createElement('option');def.value='';def.textContent='Select constituency...';cSel.appendChild(def);const uniq=[...new Set(Object.values(constituencies).map(c=>c.assembly))];uniq.forEach(x=>{const o=document.createElement('option');o.value=x;o.textContent=x;cSel.appendChild(o);});cSel.dataset.init='1';cSel.addEventListener('change',()=>{const vSel=document.getElementById('f-village');vSel.innerHTML='<option value="">Select village...</option>';seatVillagesFor(cSel.value).forEach(v=>{const o=document.createElement('option');o.value=v.name;o.textContent=v.name;vSel.appendChild(o);});const av=assignedVillage&&seatVillagesFor(cSel.value).some(v=>v.name===assignedVillage)?assignedVillage:'';vSel.value=av;});}
   const vSel=document.getElementById('f-village');
   vSel.innerHTML='<option value="">Select village...</option>';
-  villages.forEach(v=>{const o=document.createElement('option');o.value=v.name;o.textContent=v.name;vSel.appendChild(o);});
+  seatVillagesFor(cSel.value||(document.getElementById('cand-constituency').textContent||Object.values(constituencies)[0].assembly)).forEach(v=>{const o=document.createElement('option');o.value=v.name;o.textContent=v.name;vSel.appendChild(o);});
 }
 
 function openCandidateModal(){
@@ -1478,6 +1481,8 @@ function saveCandidate(){
   const selParty=document.getElementById('f-party').value||'';
   const party=selParty||(PARTY.symbol+' '+PARTY.name);
   var constituency=document.getElementById('f-constituency').value||activeCtx().assembly;
+  const targetKey=Object.keys(constituencies).find(k=>constituencies[k].assembly===constituency);
+  if(targetKey&&targetKey!==currentConstituency)switchConstituency(targetKey);
   assignedVillage=document.getElementById('f-village').value;
   const pos=document.getElementById('f-position').value||'CO';
   const posMeta=STANDING_POSITIONS[pos]||STANDING_POSITIONS.CO;
