@@ -712,8 +712,8 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
     </div>
 
     <div class="card">
-      <div class="card-title"><span class="icon" aria-hidden="true">🏆</span> Unit Rankings — 2026 Vote Share</div>
-      <div class="table-wrap"><table><thead><tr><th>Rank</th><th>Village / Unit</th><th>Booths</th><th>Vote Share %</th><th>Votes Polled</th><th>Turnout Δ</th></tr></thead><tbody id="village-rank-table"></tbody></table></div>
+      <div class="card-title"><span class="icon" aria-hidden="true">🏆</span> Unit Rankings — 2026 Vote Share vs 2021</div>
+      <div class="table-wrap"><table><thead><tr><th>Rank</th><th>Village / Unit</th><th>Booths</th><th>2026 Share %</th><th>2021 vs Opp %</th><th>Votes Polled</th><th>Δ 21→26</th></tr></thead><tbody id="village-rank-table"></tbody></table></div>
     </div>
 
     <div class="card">
@@ -930,91 +930,41 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
 </div>
 
 <script src="ac29-booths.js"></script>
+<script src="seat-data.js"></script>
 <script>
 /* ==================== DATA — 2026, REAL AC DATA ==================== */
 const PARTY_TOKENS=[['Tamilaga Vettri Kazhagam','TVK','🔑'],['Indian National Congress','INC','🖐️'],['All India Anna Dravida Munnetra Kazhagam','AIADMK','🪶'],['Dravida Munnetra Kazhagam','DMK','🌅'],['Bharatiya Janata Party','BJP','🌷'],['Aam Aadmi Party','AAP','🧹']];
 const partyMeta=t=>{const m=PARTY_TOKENS.find(x=>x[1]===t);return m?{name:m[0],short:m[1],symbol:m[2]}:{name:t,short:t,symbol:'🗳️'};};
 
-function normaliseVillages(raw,p1,p2,p3,asm){return raw.map((r)=>{
-  const support=r.tvk;
-  return {name:r.name,range:r.range,booths:r.booths,parts:[r.range],voters:r.voters,tvk:support,p2:r[p2],p3:r[p3],lead:r.lead,tier:r.tier,support:Math.round(support),trend:r.trend,assembly:asm,rank:r.rank};
-}).sort((a,b)=>a.rank-b.rank);}
-
 function dmkTier(lead){if(lead>=10)return 'Fortress';if(lead>=2)return 'Lean';if(lead>=0)return 'Thin ice';return 'Opposition';}
 function trendCell(t){return t?'<span style="color:'+(t.startsWith('+')?'var(--c-green)':'#C62828')+';font-weight:600;">'+t+'</span>':'<span style="color:var(--c-text-muted);">—</span>';}
-function normaliseHome(raw,home,p2k,p3k,asm){return raw.map((r)=>{
-  const us=Math.round(r[home]*10)/10,p2=r[p2k],p3=r[p3k];
-  const lead=Math.round((us-Math.max(p2,p3))*10)/10;
-  return {name:r.name,range:r.range,booths:r.booths,parts:[r.range],voters:r.voters,p2,p3,lead,tier:dmkTier(lead),support:us,trend:r.trend,assembly:asm};
-}).sort((a,b)=>b.lead-a.lead).map((v,i)=>({...v,rank:i+1}));}
-function normaliseDMK(raw,asm){return normaliseHome(raw,'dmk','tvk','aiadmk',asm);}
-function normaliseINC(raw,asm){return normaliseHome(raw,'inc','tvk','aiadmk',asm);}
 
-/* --- AC 37 KANCHIPURAM --- */
-const RAW_AC37=[
- {name:'Kanchipuram town · blk 327–346',range:'#327–346',booths:20,voters:15005,lead:21.4,tier:'Lean',tvk:46.9,aiadmk:23.5,dmk:25.5,trend:'+26%',rank:1},
- {name:'Kanchipuram town · blk 347–351',range:'#347–351',booths:5,voters:3354,lead:24.9,tier:'Fortress',tvk:49.3,aiadmk:24.4,dmk:22.9,trend:'+2%',rank:2},
- {name:'Kanchipuram town · blk 214–233',range:'#214–233',booths:20,voters:12611,lead:14.7,tier:'Lean',tvk:42.6,aiadmk:27.9,dmk:25.2,trend:'-7%',rank:3},
- {name:'Kanchipuram town · blk 174–193',range:'#174–193',booths:20,voters:11219,lead:14.1,tier:'Lean',tvk:43.2,aiadmk:24.1,dmk:29.1,trend:'-1%',rank:4},
- {name:'Kanchipuram town · blk 194–213',range:'#194–213',booths:20,voters:12191,lead:13.8,tier:'Lean',tvk:41.5,aiadmk:26.2,dmk:27.7,trend:'+7%',rank:5},
- {name:'Kanchipuram town · blk 154–173',range:'#154–173',booths:20,voters:12313,lead:11.1,tier:'Lean',tvk:40.4,aiadmk:29.3,dmk:26.0,trend:'+9%',rank:6},
- {name:'Kanchipuram town · blk 94–113',range:'#94–113',booths:20,voters:12253,lead:11.3,tier:'Lean',tvk:40.9,aiadmk:25.5,dmk:29.6,trend:'+6%',rank:7},
- {name:'Vaiyavoor',range:'#307–316',booths:5,voters:4074,lead:10.4,tier:'Lean',tvk:39.4,aiadmk:29.0,dmk:28.6,trend:'+23%',rank:8},
- {name:'Kanchipuram town · blk 234–245',range:'#234–245',booths:12,voters:7298,lead:7.7,tier:'Lean',tvk:39.0,aiadmk:31.3,dmk:24.9,trend:'+5%',rank:9},
- {name:'Unmapped cluster · booths 261–266',range:'#261–266',booths:6,voters:4617,lead:7.8,tier:'Lean',tvk:38.7,aiadmk:30.9,dmk:26.8,trend:'+5%',rank:10},
- {name:'Unmapped cluster · booths 318–322',range:'#318–322',booths:5,voters:3293,lead:16.8,tier:'Lean',tvk:43.5,aiadmk:24.5,dmk:26.7,trend:'+10%',rank:11},
- {name:'Unmapped cluster · booths 250–257',range:'#250–257',booths:8,voters:6357,lead:17.2,tier:'Lean',tvk:45.3,aiadmk:23.1,dmk:28.1,trend:'+11%',rank:12},
- {name:'Enathur',range:'#299–312',booths:5,voters:3492,lead:7.2,tier:'Lean',tvk:36.5,aiadmk:29.0,dmk:29.3,trend:'-17%',rank:13},
- {name:'Kanchipuram town · blk 54–73',range:'#54–73',booths:20,voters:12520,lead:7.3,tier:'Lean',tvk:37.3,aiadmk:30.0,dmk:28.0,trend:'+1%',rank:14},
- {name:'Kanchipuram town · blk 114–133',range:'#114–133',booths:20,voters:12108,lead:6.4,tier:'Lean',tvk:37.7,aiadmk:31.3,dmk:26.6,trend:'-8%',rank:15},
- {name:'Kanchipuram town · blk 134–153',range:'#134–153',booths:20,voters:13923,lead:2.0,tier:'Thin ice',tvk:36.2,aiadmk:34.2,dmk:25.6,trend:'+10%',rank:16},
- {name:'Iruppukuppam',range:'#21–26',booths:6,voters:4873,lead:3.7,tier:'Thin ice',tvk:35.1,aiadmk:30.0,dmk:31.4,trend:'+39%',rank:17},
- {name:'Kanchipuram town · blk 74–93',range:'#74–93',booths:20,voters:14010,lead:0.9,tier:'Thin ice',tvk:35.1,aiadmk:26.7,dmk:34.2,trend:'+15%',rank:18},
- {name:'Unmapped cluster · booths 43–51',range:'#43–51',booths:9,voters:7365,lead:2.1,tier:'Thin ice',tvk:34.2,aiadmk:32.1,dmk:30.3,trend:'+1%',rank:19},
- {name:'Musaravakkam',range:'#10–16',booths:6,voters:4879,lead:0.0,tier:'Thin ice',tvk:34.3,aiadmk:34.3,dmk:28.6,trend:'+25%',rank:20},
- {name:'Damal',range:'#1–29',booths:9,voters:6080,lead:-15.9,tier:'Opposition',tvk:24.8,aiadmk:40.7,dmk:31.1,trend:'+2%',rank:21},
- {name:'Kanchipuram town · blk 272–277',range:'#272–277',booths:6,voters:4276,lead:-9.5,tier:'Opposition',tvk:29.1,aiadmk:38.6,dmk:29.1,trend:'-9%',rank:22},
- {name:'Pullalur',range:'#280–282',booths:3,voters:2143,lead:-12.5,tier:'Opposition',tvk:31.1,aiadmk:43.6,dmk:19.8,trend:'-1%',rank:23},
- {name:'Parandur',range:'#287–324',booths:4,voters:2849,lead:-3.5,tier:'Opposition',tvk:31.3,aiadmk:34.8,dmk:30.7,trend:'+11%',rank:24},
- {name:'Putheri',range:'#246–271',booths:5,voters:3605,lead:-1.8,tier:'Opposition',tvk:35.2,aiadmk:24.6,dmk:37.0,trend:'+24%',rank:25},
- {name:'Kavanthandalam',range:'#35–291',booths:4,voters:2331,lead:-0.3,tier:'Opposition',tvk:33.8,aiadmk:28.3,dmk:34.1,trend:'-18%',rank:26},
- {name:'Keelambi',range:'#38–40',booths:3,voters:2235,lead:-8.5,tier:'Opposition',tvk:27.2,aiadmk:35.7,dmk:33.6,trend:'+9%',rank:27},
- {name:'Karai',range:'#296–298',booths:3,voters:2231,lead:-20.7,tier:'Opposition',tvk:28.4,aiadmk:49.1,dmk:19.1,trend:'+78%',rank:28}
-];
+/* --- REAL SEAT VILLAGE DATA from seat-data.js (2021 Form20 + 2026 EVM) --- */
+function seatVillages(key,cfg){
+  const sd=SEAT_DATA[key];
+  const asm=cfg.assembly;
+  return sd.units.map((u)=>{
+    const y26=u.y26,tot26=y26.ally+y26.tvk+y26.aia;
+    const y21=u.y21;
+    const support=Math.round(y26.ally/tot26*1000)/10;
+    const p2=Math.round(y26.tvk/tot26*1000)/10;
+    const p3=Math.round(y26.aia/tot26*1000)/10;
+    const lead=Math.round((support-Math.max(p2,p3))*10)/10;
+    let trend='';
+    if(y21){const t21=y21.ally+y21.opp;const s21=Math.round(y21.ally/t21*1000)/10;const l21=s21-Math.round(y21.opp/t21*1000)/10;const swing=Math.round((lead-l21)*10)/10;trend=(swing>0?'+':'')+swing.toFixed(1);}
+    return {name:u.name,key:u.key,range:'Village',booths:u.booths,parts:['Village'],voters:y26.polled,polled:y26.polled,assembly:asm,
+      p2,p3,lead,tier:dmkTier(lead),support,trend,rank:0,y21,
+      inc:y26.ally,tvk:y26.tvk,aiadmk:y26.aia,boothList:[]};
+  }).sort((a,b)=>b.lead-a.lead).map((v,i)=>({...v,rank:i+1}));
+}
+function seatAssemblies(villages,district,electors){
+  const town=villages.filter(v=>v.key==='__town__');
+  const rural=villages.filter(v=>v.key!=='__town__');
+  const mk=(name,list)=>{const polled=list.reduce((s,v)=>s+(v.polled||0),0);return {name,villageCount:list.length,contribution:Math.round(polled/electors*100),voters:polled,events:Math.max(8,Math.round(list.length*3.2))};};
+  return [mk(district+' Town',town),mk(district+' Rural',rural),mk(district+' (All)',villages)].filter(a=>a.villageCount>0);
+}
 
 /* --- AC 29 SRIPERUMBUDUR (SC) --- */
-const RAW_AC29=[
- {name:'Kundrathur',range:'#212–263',booths:51,voters:37735,lead:21.2,tier:'Lean',tvk:47.8,inc:26.6,aiadmk:19.8,trend:'+22%',rank:1},
- {name:'Mangadu',range:'#155–196',booths:38,voters:28532,lead:14.9,tier:'Lean',tvk:45.5,inc:30.6,aiadmk:18.7,trend:'+22%',rank:2},
- {name:'Sriperumbudur',range:'#63–87',booths:24,voters:15270,lead:17.5,tier:'Lean',tvk:45.2,inc:27.7,aiadmk:22.4,trend:'+19%',rank:3},
- {name:'Nandambakkam',range:'#114–131',booths:18,voters:12782,lead:21.0,tier:'Fortress',tvk:49.1,inc:28.1,aiadmk:17.3,trend:'+15%',rank:4},
- {name:'Madambakkam',range:'#422–435',booths:14,voters:9904,lead:18.4,tier:'Fortress',tvk:49.8,inc:31.4,aiadmk:13.4,trend:'+7%',rank:5},
- {name:'Sikkarayapuram',range:'#201–211',booths:11,voters:9157,lead:30.1,tier:'Fortress',tvk:51.8,inc:20.8,aiadmk:21.7,trend:'+24%',rank:6},
- {name:'Malayambakkam',range:'#137–146',booths:10,voters:8598,lead:22.6,tier:'Lean',tvk:47.0,inc:24.4,aiadmk:23.7,trend:'+27%',rank:7},
- {name:'Varadharajapuram',range:'#297–309',booths:12,voters:7708,lead:12.4,tier:'Lean',tvk:42.6,inc:30.2,aiadmk:20.8,trend:'+14%',rank:8},
- {name:'Manimangalam',range:'#315–322',booths:8,voters:7021,lead:14.9,tier:'Lean',tvk:46.4,inc:31.5,aiadmk:16.5,trend:'+68%',rank:9},
- {name:'Adanoor',range:'#401–410',booths:10,voters:6790,lead:18.1,tier:'Lean',tvk:45.5,inc:27.4,aiadmk:20.1,trend:'+37%',rank:10},
- {name:'Naduveerapattu',range:'#288–296',booths:9,voters:6768,lead:3.6,tier:'Thin ice',tvk:41.1,inc:37.5,aiadmk:17.3,trend:'+19%',rank:11},
- {name:'Pattur Mangadu',range:'#192–200',booths:8,voters:6389,lead:-25.7,tier:'Opposition',tvk:29.6,inc:55.3,aiadmk:11.4,trend:'+46%',rank:12},
- {name:'Melpadappai',range:'#392–400',booths:9,voters:6086,lead:12.8,tier:'Lean',tvk:43.9,inc:31.1,aiadmk:20.0,trend:'+34%',rank:13},
- {name:'Molachur',range:'#32–39',booths:8,voters:4953,lead:14.7,tier:'Lean',tvk:45.3,inc:30.6,aiadmk:18.2,trend:'+16%',rank:14},
- {name:'Salamangalam',range:'#384–388',booths:5,voters:4875,lead:27.0,tier:'Fortress',tvk:49.7,inc:22.7,aiadmk:22.3,trend:'+75%',rank:15},
- {name:'Nallur',range:'#274–278',booths:5,voters:4254,lead:29.8,tier:'Fortress',tvk:52.9,inc:23.1,aiadmk:19.8,trend:'+28%',rank:16},
- {name:'Adhanancheri',range:'#379–383',booths:5,voters:4210,lead:21.7,tier:'Fortress',tvk:48.6,inc:26.9,aiadmk:17.9,trend:'+30%',rank:17},
- {name:'Orathur',range:'#411–415',booths:5,voters:3980,lead:5.7,tier:'Thin ice',tvk:38.7,inc:23.8,aiadmk:33.0,trend:'+26%',rank:18},
- {name:'Somangalam',range:'#283–287',booths:5,voters:3796,lead:18.8,tier:'Lean',tvk:46.1,inc:22.3,aiadmk:27.3,trend:'+14%',rank:19},
- {name:'Karasangal',range:'#310–314',booths:5,voters:3772,lead:24.1,tier:'Fortress',tvk:50.1,inc:26.0,aiadmk:18.3,trend:'+23%',rank:20},
- {name:'Sirukalathur',range:'#132–136',booths:4,voters:3547,lead:16.7,tier:'Lean',tvk:44.3,inc:23.1,aiadmk:27.6,trend:'+65%',rank:21},
- {name:'Santhavellore',range:'#42–46',booths:5,voters:3533,lead:1.5,tier:'Thin ice',tvk:36.7,inc:23.9,aiadmk:35.2,trend:'+37%',rank:22},
- {name:'Pazanthandalam',range:'#268–271',booths:4,voters:3411,lead:17.4,tier:'Lean',tvk:43.8,inc:26.4,aiadmk:24.2,trend:'+50%',rank:23},
- {name:'Kollacheri',range:'#147–151',booths:5,voters:3366,lead:17.7,tier:'Lean',tvk:43.6,inc:25.9,aiadmk:25.4,trend:'+28%',rank:24},
- {name:'Thirumudivakkam',range:'#264–267',booths:4,voters:3326,lead:9.2,tier:'Lean',tvk:42.5,inc:33.3,aiadmk:18.6,trend:'+22%',rank:25},
- {name:'Poonthandalam',range:'#279–282',booths:4,voters:3217,lead:18.7,tier:'Fortress',tvk:48.3,inc:29.6,aiadmk:17.1,trend:'+40%',rank:26},
- {name:'Edaiyarpakkam',range:'#10–13',booths:4,voters:3176,lead:9.5,tier:'Lean',tvk:42.2,inc:20.8,aiadmk:32.7,trend:'+48%',rank:27},
- {name:'Kozhumanivakkam',range:'#152–154',booths:3,voters:3176,lead:18.4,tier:'Lean',tvk:45.4,inc:27.0,aiadmk:21.7,trend:'+191%',rank:28}
-];
-
-/* --- AC 29 REAL BOOTH-WISE DATA (436 polling stations) — aggregated per village --- */
 function buildBoothVillages(){
   const map={};
   AC29_BOOTHS.forEach(b=>{
@@ -1032,29 +982,31 @@ function buildBoothVillages(){
 }
 const BOOTH_VILLAGES=buildBoothVillages();
 
-const constituencies={
-  'AC 37 Kanchipuram':{
-    label:'AC 37 Kanchipuram',year:2026,booths:358,electors:278841,units:66,usBooths:0,usUnits:0,
-    party:partyMeta('DMK'),p2:partyMeta('TVK'),p3:partyMeta('AIADMK'),
-    assembly:'AC 37 · Kancheepuram Assembly Constituency',district:'Kanchipuram',
-    assemblies:[
-      {name:'Kanchipuram Town',villageCount:18,contribution:41,voters:203505,events:90},
-      {name:'Kanchipuram Rural',villageCount:10,contribution:34,voters:23441,events:45},
-      {name:'AC 37 · Kancheepuram (All)',villageCount:66,contribution:52,voters:278841,events:132}
-    ],
-    villages:normaliseDMK(RAW_AC37,'Kanchipuram Town')
-  },
-  'AC 29 Sriperumbudur (SC)':{
-    label:'AC 29 Sriperumbudur (SC)',year:2026,booths:AC29_BOOTHS.length,electors:381807,units:BOOTH_VILLAGES.length,usBooths:0,usUnits:0,
-    party:partyMeta('INC'),p2:partyMeta('TVK'),p3:partyMeta('AIADMK'),
-    assembly:'AC 29 · Sriperumbudur (SC) Assembly Constituency',district:'Sriperumbudur',
-    assemblies:[
-      {name:'Sriperumbudur Region',villageCount:BOOTH_VILLAGES.length,contribution:49,voters:381807,events:140},
-      {name:'AC 29 · Sriperumbudur (All)',villageCount:BOOTH_VILLAGES.length,contribution:49,voters:381807,events:140}
-    ],
-    villages:BOOTH_VILLAGES
-  }
+function enrichAC29Villages(){
+  const ymap={};SEAT_DATA.AC29.units.forEach(u=>ymap[u.name]=u);
+  return BOOTH_VILLAGES.map(v=>{const u=ymap[v.name];return {...v,y21:u?u.y21:null,key:u?u.key:''};});
+}
+const AC29_VILLAGES=enrichAC29Villages();
+const SEAT_ELECTORS={AC29:381807,AC37:278775};
+const SEAT_CFG={
+ 'AC 37 Kanchipuram':{key:'AC37',ally:'DMK',tvk:'TVK',aia:'AIADMK',opp21:'PMK',assembly:'AC 37 · Kancheepuram Assembly Constituency',district:'Kanchipuram'},
+ 'AC 29 Sriperumbudur (SC)':{key:'AC29',ally:'INC',tvk:'TVK',aia:'AIADMK',opp21:'AIADMK',assembly:'AC 29 · Sriperumbudur (SC) Assembly Constituency',district:'Sriperumbudur'}
 };
+function buildSeatCtx(label,cfg){
+  const sd=SEAT_DATA[cfg.key];
+  const isAC29=cfg.key==='AC29';
+  const vills=isAC29?AC29_VILLAGES:seatVillages(cfg.key,cfg);
+  const electors=SEAT_ELECTORS[cfg.key];
+  const booths=isAC29?AC29_BOOTHS.length:sd.total26.booths;
+  const assemblies=isAC29
+    ?[{name:'Sriperumbudur Region',villageCount:vills.length,contribution:Math.round(vills.reduce((s,v)=>s+v.polled,0)/electors*100),voters:electors,events:140},{name:'AC 29 · Sriperumbudur (All)',villageCount:vills.length,contribution:100,voters:electors,events:140}]
+    :seatAssemblies(vills,cfg.district,electors);
+  return {label,year:2026,booths,electors,units:vills.length,usBooths:0,usUnits:0,
+    party:partyMeta(cfg.ally),p2:partyMeta(cfg.tvk),p3:partyMeta(cfg.aia),
+    assembly:cfg.assembly,district:cfg.district,assemblies,villages:vills,
+    t21:sd.total21,t26:sd.total26,opp21:cfg.opp21};
+}
+const constituencies=Object.fromEntries(Object.keys(SEAT_CFG).map(k=>[k,buildSeatCtx(k,SEAT_CFG[k])]));
 
 let PARTY=constituencies['AC 37 Kanchipuram'].party;
 let district=constituencies['AC 37 Kanchipuram'].district;
@@ -1356,15 +1308,21 @@ function renderBoothDetail(name){
   if(!box)return;
   const v=scopedVillages().find(x=>x.name===name);
   if(!v||!v.boothList||v.boothList.length===0){box.style.display='none';box.innerHTML='';return;}
-  const rows=v.boothList.map(b=>{const net=b[2]-b[3];return `<tr><td>${b[0]}</td><td><strong>${b[1]}</strong></td><td>${b[2].toLocaleString()}</td><td>${b[3].toLocaleString()}</td><td>${b[4].toLocaleString()}</td><td style="${net>=0?'color:var(--c-green)':'#C62828'};font-weight:600;">${net>=0?'+':''}${net.toLocaleString()}</td><td>${b[5].toLocaleString()}</td></tr>`;}).join('');
+  const c=activeCtx();
+  const rows=v.boothList.map(b=>{const net=b[3]-b[2];return `<tr><td>${b[0]}</td><td><strong>${b[1]}</strong></td><td>${b[3].toLocaleString()}</td><td>${b[2].toLocaleString()}</td><td>${b[4].toLocaleString()}</td><td style="${net>=0?'color:var(--c-green)':'#C62828'};font-weight:600;">${net>=0?'+':''}${net.toLocaleString()}</td><td>${b[5].toLocaleString()}</td></tr>`;}).join('');
   box.style.display='block';
-  box.innerHTML=`<div class="card-title"><span class="icon" aria-hidden="true">🗳️</span> ${v.name} — Ward Size ${v.booths} Booths · ${v.polled.toLocaleString()} votes polled · Booth-wise Detail</div><div class="table-wrap"><table><thead><tr><th>PS No</th><th>Village / Locality</th><th>TVK</th><th>INC</th><th>AIADMK</th><th>Net TVK−INC</th><th>Polled</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+  box.innerHTML=`<div class="card-title"><span class="icon" aria-hidden="true">🗳️</span> ${v.name} — Ward Size ${v.booths} Booths · ${v.polled.toLocaleString()} votes polled · Booth-wise Detail</div><div class="table-wrap"><table><thead><tr><th>PS No</th><th>Village / Locality</th><th>${c.party.short}</th><th>${c.p2.short}</th><th>${c.p3.short}</th><th>Net ${c.party.short}−${c.p2.short}</th><th>Polled</th></tr></thead><tbody>${rows}</tbody></table></div>`;
 }
 function selectPart(part){if(part==='all'){renderBoothDetail('all');renderVillageData('all');renderAlignment(scopedVillages());return renderVillageTable(scopedVillages());}const f=scopedVillages().filter(v=>v.tier===part);document.getElementById('showing-count').textContent=f.length;renderBoothDetail('all');renderVillageData('all');renderVillageTable(f);renderAlignment(f);}
 function filterByRank(f){let d;if(f==='all')d=scopedVillages();else if(f==='low')d=scopedVillages().filter(v=>v.rank>10);else d=scopedVillages().filter(v=>v.rank===parseInt(f));document.getElementById('showing-count').textContent=d.length;renderBoothDetail('all');renderVillageData('all');renderVillageTable(d);renderAlignment(d);}
-function renderVillageTable(data){const c=activeCtx(),c2=c.p2.short,c3=c.p3.short;document.getElementById('village-rank-table').innerHTML=data.map(v=>`<tr style="cursor:pointer;" onclick="selectVillage('${v.name}')"><td><span class="rank-badge ${v.rank<=3?'rank-'+v.rank:'rank-default'}">${v.rank}</span></td><td><strong>${v.name}</strong><div style="font-size:11px;color:var(--c-text-muted);">${v.range} · ${v.booths} booths · ${v.tier}</div></td><td>${v.booths}</td><td><div style="display:flex;flex-direction:column;gap:4px;min-width:120px;"><div style="display:flex;justify-content:space-between;font-size:11px;"><span style="color:var(--c-text-muted);">${c.party.short}</span><strong style="color:var(--c-green);">${v.support}%</strong></div><div class="progress-bar" style="width:100%;"><div class="progress-fill golden" style="width:${v.support}%"></div></div><div style="font-size:10px;color:var(--c-text-muted);">${c2} ${v.p2}% · ${c3} ${v.p3}% · lead ${v.lead} pp</div></div></td><td>${v.voters.toLocaleString()}</td><td>${trendCell(v.trend)}</td></tr>`).join('');}
+function y21Cell(v,c){const y=v.y21;if(!y)return '<span style="color:var(--c-text-muted);font-size:11px;">new 2026</span>';const tot=y.ally+y.opp;const a=Math.round(y.ally/tot*1000)/10,o=Math.round(y.opp/tot*1000)/10;const lead=Math.round((a-o)*10)/10;return `<div style="font-size:11px;"><span style="color:var(--c-golden);font-weight:700;">${c.party.short} ${a}%</span> · <span style="color:var(--c-brown-mid);font-weight:700;">${c.opp21||'Opp'} ${o}%</span><div style="color:${lead>=0?'var(--c-green)':'var(--c-orange)'};font-weight:600;">${lead>=0?'+':''}${lead} pp</div></div>`;}
+function swingCell(v){if(!v.y21)return '<span style="color:var(--c-text-muted);">—</span>';const tot=v.y21.ally+v.y21.opp;if(!tot)return '<span style="color:var(--c-text-muted);">—</span>';const l21=Math.round((v.y21.ally/tot-v.y21.opp/tot)*1000)/10;const s=Math.round((v.lead-l21)*10)/10;return `<span style="color:${s>=0?'var(--c-green)':'#C62828'};font-weight:700;">${s>=0?'+':''}${s} pp</span>`;}
+function renderVillageTable(data){const c=activeCtx(),c2=c.p2.short,c3=c.p3.short;document.getElementById('village-rank-table').innerHTML=data.map(v=>`<tr style="cursor:pointer;" onclick="selectVillage('${v.name}')"><td><span class="rank-badge ${v.rank<=3?'rank-'+v.rank:'rank-default'}">${v.rank}</span></td><td><strong>${v.name}</strong><div style="font-size:11px;color:var(--c-text-muted);">${v.range||'Village'} · ${v.booths} booths · ${v.tier}</div></td><td>${v.booths}</td><td><div style="display:flex;flex-direction:column;gap:4px;min-width:120px;"><div style="display:flex;justify-content:space-between;font-size:11px;"><span style="color:var(--c-text-muted);">${c.party.short}</span><strong style="color:var(--c-green);">${v.support}%</strong></div><div class="progress-bar" style="width:100%;"><div class="progress-fill golden" style="width:${v.support}%"></div></div><div style="font-size:10px;color:var(--c-text-muted);">${c2} ${v.p2}% · ${c3} ${v.p3}% · lead ${v.lead} pp</div></div></td><td>${y21Cell(v,c)}</td><td>${v.polled?`<strong>${v.polled.toLocaleString()}</strong>${v.y21?`<div style="font-size:10px;color:var(--c-text-muted);">’21 ${v.y21.polled.toLocaleString()}</div>`:''}`:v.voters.toLocaleString()}</td><td>${swingCell(v)}</td></tr>`).join('');}
 function renderPollingChart(vn){const d=[];const c=activeCtx();const base=scopedVillages();if(vn==='all')base.slice(0,10).forEach(v=>d.push({label:v.name.substring(0,9),val:v.support,color:'var(--c-golden)'}));else{const v=base.find(v=>v.name===vn);if(v){d.push({label:c.party.short,val:v.support,color:'var(--c-golden)'});d.push({label:c.p2.short,val:v.p2,color:'var(--c-green)'});d.push({label:c.p3.short,val:v.p3,color:'var(--c-brown-mid)'});}}if(d.length===0)d.push({label:'No data',val:0,color:'var(--c-brown-light)'});renderBarChart('polling-chart',d);}
-function renderComparisonChart(){renderBarChart('comparison-chart',[{label:'2024',val:52,color:'var(--c-brown-light)'},{label:'2025',val:68,color:'var(--c-brown-mid)'},{label:'2026',val:82,color:'var(--c-green)'}]);}
+function renderComparisonChart(){const c=activeCtx();const t21=c.t21,t26=c.t26;if(!t26){return renderBarChart('comparison-chart',[{label:'No 2026 data',val:0,color:'var(--c-brown-light)'}]);}
+  const d26=t26.ally+t26.tvk+t26.aia;
+  const shares=[...(!t21?[]:[{label:"'21 "+c.party.short,val:Math.round(t21.ally/(t21.ally+t21.opp)*1000)/10,color:'var(--c-golden)'},{label:"'21 "+c.opp21,val:Math.round(t21.opp/(t21.ally+t21.opp)*1000)/10,color:'var(--c-brown-light)'}]),{label:"'26 "+c.party.short,val:Math.round(t26.ally/d26*1000)/10,color:'var(--c-golden)'},{label:"'26 "+c.p2.short,val:Math.round(t26.tvk/d26*1000)/10,color:'var(--c-green)'},{label:"'26 "+c.p3.short,val:Math.round(t26.aia/d26*1000)/10,color:'var(--c-brown-mid)'}];
+  renderBarChart('comparison-chart',shares);}
 
 function renderAssembly(){
   let list=assemblies;
@@ -1413,16 +1371,17 @@ const partyList=['Tamilaga Vettri Kazhagam','Indian National Congress','All Indi
 const constituencyList=['AC 37 · Kancheepuram Assembly Constituency','AC 29 · Sriperumbudur (SC) Assembly Constituency','AC 33 · Chengalpattu Assembly Constituency','AC 34 · Tambaram Assembly Constituency'];
 const STANDING_POSITIONS={WM:{icon:'🗳️',label:'Ward Member',seat:'Village Panchayat Ward Member'},PP:{icon:'🏘️',label:'Panchayat President',seat:'Village Panchayat President'},CO:{icon:'🏛️',label:'Councillor',seat:'Town Panchayat / Corporation Ward Councillor'}};
 let assignedVillage='';
+function isTownUnit(v){return v.key==='__town__'||/town|blk|corphn/i.test(v.name||'');}
 function bodyNameOf(v){
   const d=activeCtx().district;
   if(d==='Sriperumbudur')return v.name==='Sriperumbudur'?'Sriperumbudur Town Panchayat':('Sriperumbudur Panchayat Union · '+v.name+' Village Panchayat');
-  if(v.name.indexOf('town')>=0||v.name.indexOf('blk')>=0||v.name.indexOf('corphn')>=0)return 'Kanchipuram City Municipal Corporation';
+  if(isTownUnit(v))return 'Kanchipuram City Municipal Corporation';
   return 'Kanchipuram Panchayat Union · '+v.name+' Village Panchayat';
 }
 function bodyKeyOf(v){
   const d=activeCtx().district;
   if(d==='Sriperumbudur')return v.name==='Sriperumbudur'?'Sriperumbudur Town Panchayat':'Sriperumbudur Panchayat Union';
-  if(v.name.indexOf('town')>=0||v.name.indexOf('blk')>=0||v.name.indexOf('corphn')>=0)return 'Kanchipuram City Municipal Corporation';
+  if(isTownUnit(v))return 'Kanchipuram City Municipal Corporation';
   return 'Kanchipuram Panchayat Union';
 }
 function candVillage(){return assignedVillage?villages.find(x=>x.name===assignedVillage):null;}
@@ -1454,7 +1413,8 @@ function wardTotalCard(v,c){
   return `<div class="pos-card active"><div class="pos-head">${v.name}</div><div class="pos-seat">Your ward totals · 2026 recorded votes</div><div class="pos-stats"><div class="pos-stat"><span>Voters</span><b>${vf(v.voters)}</b></div><div class="pos-stat"><span>Polled 2026</span><b>${vf(v.polled)}</b></div><div class="pos-stat"><span>Ward size</span><b>${v.booths} booths</b></div><div class="pos-stat"><span>Lead</span><b style="color:${v.lead>=0?'var(--c-green)':'var(--c-orange)'};">${v.lead>=0?'+':''}${v.lead} pp</b></div></div>${rows}<div class="pos-tier" style="margin-top:10px;">2026 status · ${v.tier}</div></div>`;
 }
 function seatWardsTable(rows,totalLabel){
-  return `<div class="table-wrap"><table><thead><tr><th>Ward</th><th>INC</th><th>TVK</th><th>AIADMK</th><th>Lead</th><th>Polled</th></tr></thead><tbody>`
+  const c=activeCtx();
+  return `<div class="table-wrap"><table><thead><tr><th>Ward</th><th>${c.party.short}</th><th>${c.p2.short}</th><th>${c.p3.short}</th><th>Lead</th><th>Polled</th></tr></thead><tbody>`
     +rows.map(r=>`<tr><td><strong>${r.w}</strong></td><td>${vf(r.inc)} <span style="color:var(--c-text-muted);font-size:11px;">${seatPct(r.inc,r.inc+r.tvk+r.aiadmk)}</span></td><td>${vf(r.tvk)} <span style="color:var(--c-text-muted);font-size:11px;">${seatPct(r.tvk,r.inc+r.tvk+r.aiadmk)}</span></td><td>${vf(r.aiadmk)} <span style="color:var(--c-text-muted);font-size:11px;">${seatPct(r.aiadmk,r.inc+r.tvk+r.aiadmk)}</span></td><td style="color:${seatLead(r.inc,r.tvk,r.aiadmk).charAt(0)==='+'?'var(--c-green)':'var(--c-orange)'};font-weight:700;">${seatLead(r.inc,r.tvk,r.aiadmk)}</td><td>${vf(r.polled)}</td></tr>`).join('')
     +(totalLabel?`<tr style="background:var(--c-warm);font-weight:800;"><td>${totalLabel}</td><td>${vf(rows.reduce((s,r)=>s+r.inc,0))}</td><td>${vf(rows.reduce((s,r)=>s+r.tvk,0))}</td><td>${vf(rows.reduce((s,r)=>s+r.aiadmk,0))}</td><td>${veLead(rows)}</td><td>${vf(rows.reduce((s,r)=>s+r.polled,0))}</td></tr>`:'')+'</tbody></table></div>';
 }
