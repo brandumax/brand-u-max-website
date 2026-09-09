@@ -292,6 +292,8 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
 .btile.strong{border-color:var(--c-green);}
 .btile.split{border-color:var(--c-amber);}
 .btile.trail{border-color:var(--c-orange);}
+.btile.ru2{border-color:var(--c-sky);}
+.btile.third{border-color:#C62828;}
 .btile-top{display:inline-block;font-size:9px;font-weight:800;letter-spacing:.5px;color:#fff;padding:2px 7px;border-radius:50px;margin-bottom:6px;}
 .btile-name{font-size:12px;font-weight:800;color:var(--c-brown-dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .btile-nums{font-size:11px;color:var(--c-text-muted);margin:2px 0 4px;line-height:1.45;}
@@ -1198,60 +1200,95 @@ function renderDashboard(){
   ring('dash-hours-ring',75,7.5,'Hours');
 }
 
+function partyPos(v,c){
+  const shares=[{name:c.party.short,p:v.support},{name:c.p2.short,p:v.p2},{name:c.p3.short,p:v.p3}];
+  const sorted=[...shares].sort((a,b)=>b.p-a.p);
+  return sorted.findIndex(s=>s.name===c.party.short)+1;
+}
+function f1(x){return (Math.round(x*10)/10).toFixed(1);}
 function renderBattleMap(data){
   const c=activeCtx();
   const cells=data.map(v=>{
-    const rUp=v.p2>=v.p3?{p:v.p2,name:c.p2.short}:{p:v.p3,name:c.p3.short};
+    const shares=[{name:c.party.short,p:v.support},{name:c.p2.short,p:v.p2},{name:c.p3.short,p:v.p3}];
+    const sorted=[...shares].sort((a,b)=>b.p-a.p);
+    const pos=partyPos(v,c);
+    const leader=sorted[0];
+    const rUp=sorted[1];
     const combined=v.p2+v.p3;
     const vsComb=v.support-combined;
-    const cls=(v.lead<0)?'trail':(vsComb<0?'split':'strong');
-    return `<div class="btile ${cls}" onclick="selectVillage('${v.name}')" title="${v.name} — ${c.party.short} ${v.support}% · runner-up ${rUp.name} ${rUp.p}% · lead ${v.lead>=0?'+':''}${v.lead} pp · combined ${v.p2+v.p3}% (${c.party.short} ${vsComb>=0?'+':''}${vsComb} pp)">
-      <span class="btile-top" style="background:${v.p2>=v.p3?'var(--c-green)':'var(--c-brown-mid)'};">${rUp.name} runner-up</span>
+    let cls;
+    if(pos===1)cls=(vsComb<0?'split':'strong');
+    else if(pos===2)cls='ru2';
+    else cls='third';
+    const gap=Math.round((leader.p-v.support)*10)/10;
+    const topLabel=pos===1?(rUp.name+' runner-up'):(c.party.short+' #'+pos+' — '+leader.name+' leads '+leader.p+'%');
+    const topBg=pos===1?(v.p2>=v.p3?'var(--c-green)':'var(--c-brown-mid)'):(pos===2?'var(--c-sky)':'#C62828');
+    const nums=pos===1?('<b>'+c.party.short+' '+f1(v.support)+'%</b><br>vs '+rUp.name+' '+f1(rUp.p)+'%'):('<b>'+c.party.short+' '+f1(v.support)+'%</b><br>behind '+leader.name+' '+f1(leader.p)+'%');
+    const leadHtml=pos===1
+      ?'<div class="btile-lead pos">'+(v.lead>=0?'+':'')+v.lead+' pp</div>'
+      :'<div class="btile-lead neg">−'+gap+' pp</div>';
+    return `<div class="btile ${cls}" onclick="selectVillage('${v.name}')" title="${v.name} — ${c.party.short} #${pos} · ${c.party.short} ${v.support}% | ${c.p2.short} ${v.p2}% | ${c.p3.short} ${v.p3}% · behind ${leader.name} ${gap} pp">
+      <span class="btile-top" style="background:${topBg};">${topLabel}</span>
       <div class="btile-name">${v.name}</div>
-      <div class="btile-nums"><b>${c.party.short} ${v.support}%</b><br>vs ${rUp.name} ${rUp.p}%</div>
-      <div class="btile-lead ${v.lead>=0?'pos':'neg'}">${v.lead>=0?'+':''}${v.lead} pp</div>
+      <div class="btile-nums">${nums}</div>
+      ${leadHtml}
     </div>`;
   }).join('');
   const el=document.getElementById('battle-map');if(el)el.innerHTML=cells;
-  const n=data.length,strong=data.filter(v=>v.lead>=0&&v.support-(v.p2+v.p3)>=0).length;
-  const split=data.filter(v=>v.lead>=0&&v.support-(v.p2+v.p3)<0).length;
-  const trail=data.filter(v=>v.lead<0).length;
+  const n=data.length||1;
+  const firstStrong=data.filter(v=>partyPos(v,c)===1&&v.support-(v.p2+v.p3)>=0).length;
+  const firstSplit=data.filter(v=>partyPos(v,c)===1&&v.support-(v.p2+v.p3)<0).length;
+  const second=data.filter(v=>partyPos(v,c)===2).length;
+  const third=data.filter(v=>partyPos(v,c)>2).length;
   const bar=document.getElementById('bmap-bar');
   const legend=document.getElementById('bmap-legend');
-  if(bar)bar.innerHTML=(n?`<i style="width:${strong/n*100}%;background:var(--c-green);"></i><i style="width:${split/n*100}%;background:var(--c-amber);"></i><i style="width:${trail/n*100}%;background:var(--c-orange);"></i>`:'');
-  if(legend)legend.innerHTML=`<span><i style="background:var(--c-green);"></i>Beats combined ${strong}</span><span><i style="background:var(--c-amber);"></i>Only split ${split}</span><span><i style="background:var(--c-orange);"></i>Trails ${trail}</span>`;
+  if(bar)bar.innerHTML=(data.length?`<i style="width:${firstStrong/n*100}%;background:var(--c-green);"></i><i style="width:${firstSplit/n*100}%;background:var(--c-amber);"></i><i style="width:${second/n*100}%;background:var(--c-sky);"></i><i style="width:${third/n*100}%;background:#C62828;"></i>`:'');
+  if(legend)legend.innerHTML=`<span><i style="background:var(--c-green);"></i>${c.party.short} #1 beats combined ${firstStrong}</span><span><i style="background:var(--c-amber);"></i>${c.party.short} #1 split-dependent ${firstSplit}</span><span><i style="background:var(--c-sky);"></i>${c.party.short} #2 runner-up ${second}</span><span><i style="background:#C62828;"></i>${c.party.short} #3 ${third}</span>`;
 }
 function renderAlignment(data){
   renderBattleMap(data);
   const c=activeCtx();
   const n=data.length;
   const rows=data.map(v=>{
+    const pos=partyPos(v,c);
+    const shares=[{name:c.party.short,p:v.support},{name:c.p2.short,p:v.p2},{name:c.p3.short,p:v.p3}];
+    const sorted=[...shares].sort((a,b)=>b.p-a.p);
+    const leader=sorted[0];
+    const comp=pos===1?sorted[1]:leader;
     const rUp=v.p2>=v.p3?{p:v.p2,name:c.p2.short,col:'var(--c-green)'}:{p:v.p3,name:c.p3.short,col:'var(--c-brown-mid)'};
     const combined=v.p2+v.p3;
     const vsComb=v.support-combined;
     let chip,chipCol;
-    if(v.lead<0){chip='Trails runner-up';chipCol='var(--c-orange)';}
-    else if(vsComb<0){chip='Only split opposition';chipCol='var(--c-amber)';}
-    else{chip='Beats combined';chipCol='var(--c-green)';}
-    return {v,rUp,combined,vsComb,chip,chipCol};
+    if(pos===1&&vsComb>=0){chip='#1 beats combined';chipCol='var(--c-green)';}
+    else if(pos===1){chip='#1 split-dependent';chipCol='var(--c-amber)';}
+    else if(pos===2){chip='#2 runner-up';chipCol='var(--c-sky)';}
+    else{chip='#3 or lower';chipCol='#C62828';}
+    return {v,rUp,combined,vsComb,chip,chipCol,pos,leader,comp};
   }).sort((a,b)=>b.v.lead-a.v.lead);
   const lead=rows.filter(r=>r.v.lead>=0);
   const ru2=rows.filter(r=>r.rUp.name===c.p2.short);
   const ru3=rows.filter(r=>r.rUp.name===c.p3.short);
   const split=lead.filter(r=>r.vsComb<0);
+  const pos2=rows.filter(r=>r.pos===2);
+  const pos3=rows.filter(r=>r.pos===3);
   const avg=s=>s.length?(s.reduce((a,r)=>a+r.v.lead,0)/s.length):0;
+  const avgGap=s=>s.length?(s.reduce((a,r)=>a+(r.leader.p-r.v.support),0)/s.length):0;
   document.getElementById('align-ctx').textContent=c.party.short+' vs '+c.p2.short+' · '+c.p3.short+' — '+n+' units';
   document.getElementById('align-tiles').innerHTML=[
-    ['Strongholds',lead.length,(lead.length?'avg lead +'+avg(lead).toFixed(1)+' pp':'—'),'var(--c-green)'],
+    ['#1 Strongholds',lead.length,(lead.length?'avg lead +'+avg(lead).toFixed(1)+' pp':'—'),'var(--c-green)'],
+    ['#1 split-dependent',split.length,(lead.length?Math.round(split.length/lead.length*100)+'% of leads':'—'),'var(--c-amber)'],
+    ['#2 runner-up '+c.party.short,pos2.length,(pos2.length?'avg gap '+avgGap(pos2).toFixed(1)+' pp':'—'),'var(--c-sky)'],
+    ['#3 '+c.party.short,pos3.length,(pos3.length?'avg gap '+avgGap(pos3).toFixed(1)+' pp':'—'),'#C62828'],
     ['Runner-up '+c.p2.short,ru2.length,(ru2.length?'avg gap '+Math.abs(avg(ru2)).toFixed(1)+' pp':'—'),'var(--c-green)'],
-    ['Runner-up '+c.p3.short,ru3.length,(ru3.length?'avg gap '+Math.abs(avg(ru3)).toFixed(1)+' pp':'—'),'var(--c-brown-mid)'],
-    ['Win needs split',split.length,(lead.length?Math.round(split.length/lead.length*100)+'% of strongholds':'—'),'var(--c-amber)']
+    ['Runner-up '+c.p3.short,ru3.length,(ru3.length?'avg gap '+Math.abs(avg(ru3)).toFixed(1)+' pp':'—'),'var(--c-brown-mid)']
   ].map(t=>`<div class="stat-card"><div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--c-text-muted);">${t[0]}</div><div style="font-size:26px;font-weight:800;color:var(--c-navy);margin:4px 0;">${t[1]}</div><div style="font-size:11px;color:${t[3]};font-weight:600;">${t[2]}</div></div>`).join('');
-  let ins='<strong>⚖️ Alignment verdict:</strong> '+c.party.short+' leads <strong>'+lead.length+' of '+n+'</strong> units against the runner-up (avg +'+avg(lead).toFixed(1)+' pp). The runner-up is '+c.p2.short+' in <strong>'+ru2.length+'</strong> and '+c.p3.short+' in <strong>'+ru3.length+'</strong> units.';
+  let ins='<strong>⚖️ Alignment verdict:</strong> '+c.party.short+' leads <strong>'+lead.length+' of '+n+'</strong> units, is runner-up in <strong>'+pos2.length+'</strong> and third (+ below) in <strong>'+pos3.length+'</strong>.';
+  ins+=' Where '+c.party.short+' leads, the runner-up is '+c.p2.short+' in <strong>'+ru2.length+'</strong> and '+c.p3.short+' in <strong>'+ru3.length+'</strong> units.';
   ins+=(split.length?(' In <strong>'+split.length+'</strong> winning units even the <strong>combined '+c.p2.short+'+'+c.p3.short+'</strong> vote crosses '+c.party.short+' — the win there depends on the opposition <strong>staying split</strong>. Focus canvass + base deepen in '+(ru2.length>ru3.length?c.p2.short:c.p3.short)+' pockets and defend the '+split.length+' split-dependent wards.'):(' No winning unit relies on the opposition split — '+c.party.short+' beats the combined opposition everywhere.'));
+  if(pos2.length+pos3.length)ins+=' In <strong>'+(pos2.length+pos3.length)+'</strong> trailing units, close the gap to the leader by '+avgGap(rows.filter(r=>r.pos>1)).toFixed(1)+' pp on average.';
   document.getElementById('align-insight').innerHTML=ins;
-  document.getElementById('align-table').innerHTML='<thead><tr><th>Village / Unit</th><th>'+c.party.short+' %</th><th>Runner-up</th><th>Runner-up %</th><th>Lead pp</th><th>'+c.p2.short+' %</th><th>'+c.p3.short+' %</th><th>Combined %</th><th>'+c.party.short+' vs Combined</th><th>Alignment</th></tr></thead><tbody>'
-    +rows.map(r=>`<tr style="cursor:pointer;" onclick="selectVillage('${r.v.name}')"><td><strong>${r.v.name}</strong><div style="font-size:11px;color:var(--c-text-muted);">${r.v.tier}</div></td><td><strong style="color:var(--c-green);">${r.v.support}%</strong></td><td style="color:${r.rUp.col};font-weight:700;">${r.rUp.name}</td><td>${r.rUp.p}%</td><td style="${r.v.lead>=0?'color:var(--c-green)':'color:var(--c-orange)'};font-weight:700;">${r.v.lead>=0?'+':''}${r.v.lead} pp</td><td>${r.v.p2}%</td><td>${r.v.p3}%</td><td>${r.combined}%</td><td style="${r.vsComb>=0?'color:var(--c-green)':'color:var(--c-orange)'};font-weight:700;">${r.vsComb>=0?'+':''}${r.vsComb} pp</td><td><span style="font-size:11px;font-weight:700;padding:3px 8px;border-radius:50px;background:${r.chipCol}1a;color:${r.chipCol};">${r.chip}</span></td></tr>`).join('')+'</tbody>';
+  document.getElementById('align-table').innerHTML='<thead><tr><th>Village / Unit</th><th>'+c.party.short+' Pos</th><th>'+c.party.short+' %</th><th>'+c.party.short+' vs</th><th>vs %</th><th>Gap pp</th><th>'+c.p2.short+' %</th><th>'+c.p3.short+' %</th><th>Combined %</th><th>'+c.party.short+' vs Combined</th><th>Alignment</th></tr></thead><tbody>'
+    +rows.map(r=>`<tr style="cursor:pointer;" onclick="selectVillage('${r.v.name}')"><td><strong>${r.v.name}</strong><div style="font-size:11px;color:var(--c-text-muted);">${r.v.tier}</div></td><td><span style="font-size:11px;font-weight:800;padding:3px 8px;border-radius:50px;background:${r.chipCol}1a;color:${r.chipCol};">#${r.pos}</span></td><td><strong style="color:var(--c-green);">${f1(r.v.support)}%</strong></td><td style="color:${r.comp.name===c.p2.short?'var(--c-green)':'var(--c-brown-mid)'};font-weight:700;">${r.comp.name}</td><td>${f1(r.comp.p)}%</td><td style="${r.v.lead>=0?'color:var(--c-green)':'color:var(--c-orange)'};font-weight:700;">${r.pos===1?(r.v.lead>=0?'+'+r.v.lead:'–'+Math.abs(r.v.lead))+' pp':''}${r.pos>1?'−'+Math.round((r.leader.p-r.v.support)*10)/10+' pp':''}</td><td>${f1(r.v.p2)}%</td><td>${f1(r.v.p3)}%</td><td>${f1(r.combined)}%</td><td style="${r.vsComb>=0?'color:var(--c-green)':'color:var(--c-orange)'};font-weight:700;">${r.vsComb>=0?'+':''}${f1(r.vsComb)} pp</td><td><span style="font-size:11px;font-weight:700;padding:3px 8px;border-radius:50px;background:${r.chipCol}1a;color:${r.chipCol};">${r.chip}</span></td></tr>`).join('')+'</tbody>';
 }
 function renderVillages(){const base=scopedVillages();renderVillageTable(base);renderPollingChart(base.length===1?base[0].name:'all');renderComparisonChart();renderAlignment(base);}
 function selectVillage(name){document.getElementById('selected-village-label').textContent=name==='all'?'All Villages':name;const f=name==='all'?scopedVillages():scopedVillages().filter(v=>v.name===name);document.getElementById('showing-count').textContent=f.length;renderVillageTable(f);renderPollingChart(name);renderBoothDetail(name);renderVillageData(name);renderAlignment(f);}
