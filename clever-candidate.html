@@ -1442,13 +1442,10 @@ function renderSeatProfile(){
     const rows=(v.boothList||[]).map(b=>({w:'Ward '+b[0],inc:b[3],tvk:b[2],aiadmk:b[4],polled:b[5]}));
     html='<div class="pos-grid">'+wardTotalCard(v,c)+'</div>'+(rows.length?seatWardsTable(rows,v.name+' · Total'):'<div style="color:var(--c-text-muted);font-size:12px;margin-top:14px;">Ward-wise booth data not available for this unit.</div>');
   }else{
-    body='Your <strong>ward</strong> and the <strong>ward-wise 2026 recorded votes</strong> of all villages under your Councillor location ('+bodyNameOf(v)+').';
-    let rows;
-    if(bodyKeyOf(v)==='Sriperumbudur Town Panchayat'){rows=(v.boothList||[]).map(b=>({w:'Ward PS '+b[0],inc:b[3],tvk:b[2],aiadmk:b[4],polled:b[5]}));}
-    else{rows=villages.filter(x=>bodyKeyOf(x)===bodyKeyOf(v)).map(x=>({w:x.name,inc:x.inc||0,tvk:x.tvk||0,aiadmk:x.aiadmk||0,polled:x.polled||0})).sort((a,b)=>(b.inc-Math.max(b.tvk,b.aiadmk))-(a.inc-Math.max(a.tvk,a.aiadmk)));}
-    const bv=rows.length?villages.filter(x=>bodyKeyOf(x)===bodyKeyOf(v)):[];
-    const heads=(bv.length&&v.boothList&&bodyKeyOf(v)!=='Sriperumbudur Town Panchayat')?`<div class="pos-stats"><div class="pos-stat"><span>Villages</span><b>${bv.length}</b></div><div class="pos-stat"><span>Total booths</span><b>${bv.reduce((s,x)=>s+x.booths,0)}</b></div></div>`:'';
-    html='<div class="pos-grid"><div class="pos-card active"><div class="pos-head">'+m.icon+' '+v.name+'</div><div class="pos-seat">Your ward · '+bodyNameOf(v)+'</div><div class="pos-stats"><div class="pos-stat"><span>Voters</span><b>'+vf(v.voters)+'</b></div><div class="pos-stat"><span>Polled 2026</span><b>'+vf(v.polled)+'</b></div></div><div class="pos-tier" style="margin-top:6px;">Ward lead '+(v.lead>=0?'+':'')+v.lead+' pp</div></div></div>'+heads+(rows.length?seatWardsTable(rows,'Location · Total'):'<div style="color:var(--c-text-muted);font-size:12px;margin-top:14px;">Ward-wise data not available.</div>');
+    body='Your <strong>ward</strong> and the <strong>ward-wise 2026 recorded votes</strong> of '+v.name+' only ('+bodyNameOf(v)+').';
+    const rows=(v.boothList||[]).map(b=>({w:'Ward '+b[0],inc:b[3],tvk:b[2],aiadmk:b[4],polled:b[5]}));
+    const heads=`<div class="pos-stats"><div class="pos-stat"><span>Booths / wards</span><b>${(v.boothList||[]).length}</b></div><div class="pos-stat"><span>Ward size</span><b>${v.booths} booths</b></div></div>`;
+    html='<div class="pos-grid">'+wardTotalCard(v,c)+'</div>'+heads+(rows.length?seatWardsTable(rows,v.name+' · Total'):'<div style="color:var(--c-text-muted);font-size:12px;margin-top:14px;">Ward-wise data not available.</div>');
   }
   box.innerHTML='<div class="card-title"><span class="icon" aria-hidden="true">🗺️</span> Seat Profile — '+m.icon+' '+m.label+' <span style="font-size:12px;color:var(--c-text-muted);font-weight:500;">· '+m.seat+'</span></div>'
     +'<div style="font-size:13px;color:var(--c-text-muted);margin-bottom:14px;">'+body+'</div>'+html;
