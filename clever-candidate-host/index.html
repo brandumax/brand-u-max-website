@@ -370,14 +370,6 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
 .search-box input:focus{outline:none;border-color:var(--c-golden);}
 .search-box::before{content:'🔍';position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:14px;}
 
-/* ==================== PORTFOLIO ==================== */
-.portfolio-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
-.portfolio-item{background:var(--c-warm);border-radius:12px;padding:18px;text-align:center;border:1px solid rgba(198,160,75,.1);transition:var(--transition);cursor:pointer;}
-.portfolio-item:hover{background:#fff;border-color:var(--c-golden);box-shadow:var(--shadow);transform:translateY(-2px);}
-.portfolio-item .p-icon{font-size:26px;margin-bottom:8px;}
-.portfolio-item h4{font-size:14px;color:var(--c-text);font-weight:600;}
-.portfolio-item p{font-size:12px;color:var(--c-text-muted);margin-top:3px;}
-
 /* ==================== ASSEMBLY ==================== */
 .assembly-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;}
 .assembly-item{background:var(--c-warm);border-radius:12px;padding:18px;border:1px solid transparent;transition:var(--transition);cursor:pointer;}
@@ -432,7 +424,6 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
   .stat-grid{grid-template-columns:repeat(2,1fr);}
   .grid-2,.grid-3{grid-template-columns:1fr;}
   .week-grid{grid-template-columns:repeat(4,1fr);}
-  .portfolio-grid{grid-template-columns:repeat(2,1fr);}
   .footer .main{grid-template-columns:1fr 1fr;}
 }
 @media(max-width:640px){
@@ -443,7 +434,6 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
   .hero-text h1{font-size:32px;}
   .stat-grid{grid-template-columns:1fr;}
   .week-grid{grid-template-columns:repeat(3,1fr);}
-  .portfolio-grid{grid-template-columns:1fr;}
   .candidate-card{flex-direction:column;text-align:center;}
   .candidate-stats{justify-content:center;}
   .feature-highlights{grid-template-columns:1fr;}
@@ -507,7 +497,6 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
   .week-grid{grid-template-columns:repeat(3,1fr);gap:8px;}
   .task-item{padding:12px 14px;}
   .product-card{padding:22px;}
-  .portfolio-grid{grid-template-columns:repeat(2,1fr);gap:10px;}
   .btn{padding:12px 20px;font-size:14px;}
   .cta-btn{padding:12px 22px;font-size:14px;}
   .bar-chart{height:180px;overflow-x:auto;}
@@ -671,25 +660,10 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
         <div class="form-group"><label>Secondary Mobile</label><input type="tel" id="cand-mobile2" value="+91 98765 12345" readonly aria-readonly="true"></div>
         <div class="form-group"><label>Email</label><input type="email" id="cand-email" value="candidate@clever.in" readonly aria-readonly="true"></div>
       </div>
-      <div class="card">
-        <div class="card-title"><span class="icon" aria-hidden="true">📁</span> Portfolio & Responsibilities</div>
-        <div class="portfolio-grid">
-          <div class="portfolio-item" tabindex="0"><div class="p-icon" aria-hidden="true">🏫</div><h4>Education</h4><p>12 Schools</p></div>
-          <div class="portfolio-item" tabindex="0"><div class="p-icon" aria-hidden="true">🏥</div><h4>Healthcare</h4><p>8 Camps</p></div>
-          <div class="portfolio-item" tabindex="0"><div class="p-icon" aria-hidden="true">🛣️</div><h4>Infrastructure</h4><p>24 Roads</p></div>
-          <div class="portfolio-item" tabindex="0"><div class="p-icon" aria-hidden="true">💧</div><h4>Water Supply</h4><p>16 Ponds</p></div>
-          <div class="portfolio-item" tabindex="0"><div class="p-icon" aria-hidden="true">⚡</div><h4>Electricity</h4><p>48 Areas</p></div>
-          <div class="portfolio-item" tabindex="0"><div class="p-icon" aria-hidden="true">🌾</div><h4>Agriculture</h4><p>32 Farms</p></div>
-          <div class="portfolio-item" tabindex="0"><div class="p-icon" aria-hidden="true">👩</div><h4>Women Welfare</h4><p>20 Groups</p></div>
-          <div class="portfolio-item" tabindex="0"><div class="p-icon" aria-hidden="true">👴</div><h4>Senior Citizens</h4><p>9 Pensions</p></div>
-          <div class="portfolio-item" tabindex="0"><div class="p-icon" aria-hidden="true">🤲</div><h4>Social Welfare</h4><p>14 Schemes</p></div>
-        </div>
-      </div>
     </div>
 
     <div class="grid-2">
       <div class="card"><div class="card-title"><span class="icon" aria-hidden="true">📊</span> Past 2 Year Contributions</div><div class="bar-chart" id="contribution-chart" style="height:220px;"></div></div>
-      <div class="card"><div class="card-title"><span class="icon" aria-hidden="true">🗳️</span> Portfolio Contribution Analysis</div><div class="bar-chart" id="portfolio-chart" style="height:220px;"></div></div>
     </div>
   </div>
 </section>
@@ -1359,7 +1333,6 @@ function renderGoals(){
 
 function renderFeatures(){
   setTimeout(()=>{renderBarChart('contribution-chart',[{label:'Edu',val:85,color:'var(--c-golden)'},{label:'Health',val:72,color:'var(--c-green)'},{label:'Roads',val:90,color:'var(--c-brown-mid)'},{label:'Water',val:68,color:'var(--c-golden-light)'},{label:'Electric',val:95,color:'var(--c-green)'},{label:'Agri',val:78,color:'var(--c-golden)'},{label:'Women',val:82,color:'var(--c-brown-light)'},{label:'Senior',val:60,color:'var(--c-golden-light)'}]);},200);
-  setTimeout(()=>{renderBarChart('portfolio-chart',[{label:'Schools',val:12,color:'var(--c-golden)'},{label:'Camps',val:8,color:'var(--c-green)'},{label:'Roads',val:24,color:'var(--c-brown-mid)'},{label:'Ponds',val:16,color:'var(--c-golden-light)'},{label:'Areas',val:48,color:'var(--c-green)'},{label:'Farms',val:32,color:'var(--c-golden)'},{label:'Groups',val:20,color:'var(--c-brown-light)'},{label:'Pensions',val:9,color:'var(--c-golden-light)'}]);},200);
 }
 
 function renderBarChart(id,data){const c=document.getElementById(id);if(!c)return;const max=Math.max(...data.map(d=>d.val));c.innerHTML=data.map(d=>`<div class="bar-group"><div class="bar" style="height:0;background:${d.color};" data-h="${d.val/max*100}"><div class="bar-value">${d.val}</div></div><div class="bar-label">${d.label}</div></div>`).join('');setTimeout(()=>{c.querySelectorAll('.bar').forEach(b=>b.style.height=b.dataset.h+'%');},200);}
