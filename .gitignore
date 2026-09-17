@@ -1,0 +1,20 @@
+# Unrelated local projects tracked in this working folder — not part of brandumax.com site
+clever-candidate/
+clever-candidate-host/
+clever-candidate.html
+clever-mobile.html
+calver-candidate.html
+ac37-booths.js
+local-bodies.js
+localbody-2011.js
+localbody-link.js
+tp-delim-2020.js
+urban-ward-streets.js
+ward-streets-ac37.json
+ward-streets.js
+ward-units.js
+kanchipuram-localbody/
+__pycache__/
+*.pyc
+.firebase/
+"*.firebase"*
