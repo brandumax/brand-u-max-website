@@ -317,6 +317,77 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
 @media(max-width:1024px){.pos-grid{grid-template-columns:1fr;}}
 @media(max-width:640px){.pos-grid{grid-template-columns:1fr;}.pos-stat b{font-size:18px;}}
 
+/* local body toggle */
+.lb-toggle-wrap{display:flex;align-items:center;gap:12px;padding:12px 14px;margin-bottom:14px;
+  border:1.5px solid var(--c-light);border-radius:12px;background:var(--c-white);transition:.18s;}
+.lb-toggle-wrap.lb-compact{padding:9px 12px;}
+.lb-toggle-wrap.on{border-color:var(--c-golden);background:var(--c-warm);}
+.lb-tg-txt{flex:1;}
+.lb-tg-txt b{display:block;font-size:13.5px;color:var(--c-navy);}
+.lb-tg-txt span{font-size:11px;color:var(--c-text-muted);}
+.lb-switch{width:50px;height:28px;border-radius:16px;border:none;background:var(--c-brown-light);
+  position:relative;cursor:pointer;flex:none;transition:.2s;padding:0;}
+.lb-switch i{position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;
+  background:#fff;transition:.2s;display:block;box-shadow:0 1px 3px rgba(0,0,0,.3);}
+.lb-toggle-wrap.on .lb-switch{background:var(--c-green);}
+.lb-toggle-wrap.on .lb-switch i{left:25px;}
+.lb-switch:focus-visible{outline:2px solid var(--c-golden);outline-offset:2px;}
+/* local body card */
+.lb-pick{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.lb-pick label{font-size:11px;text-transform:uppercase;letter-spacing:.4px;
+  color:var(--c-brown-mid);font-weight:700;}
+.lb-pick select{flex:1;}
+.lb-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--c-light);
+  border:1px solid var(--c-light);border-radius:10px;overflow:hidden;margin-bottom:14px;}
+.lb-stats>div{background:var(--c-white);padding:10px 12px;}
+.lb-stats span{display:block;font-size:10.5px;color:var(--c-text-muted);}
+.lb-stats b{font-family:var(--font-display);font-size:17px;color:var(--c-navy);}
+.lb-seats{margin-bottom:14px;}
+.lb-seats>b{font-size:12px;color:var(--c-navy);display:block;margin-bottom:8px;}
+.lb-row{display:flex;align-items:center;gap:10px;margin-bottom:6px;font-size:12.5px;}
+.lb-p{width:78px;display:flex;align-items:center;gap:6px;font-weight:700;color:var(--c-navy);}
+.lb-p i{width:9px;height:9px;border-radius:50%;flex:none;display:inline-block;}
+.lb-bar{flex:1;height:9px;border-radius:5px;background:var(--c-light);overflow:hidden;}
+.lb-bar b{display:block;height:100%;border-radius:5px;}
+.lb-n{min-width:80px;text-align:right;font-weight:700;color:var(--c-navy);white-space:nowrap;}
+.lb-n small{font-weight:400;color:var(--c-text-muted);font-size:10px;}
+.lb-tbl{width:100%;border-collapse:collapse;font-size:12.5px;}
+.lb-tbl th{text-align:left;font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;white-space:nowrap;
+  color:var(--c-golden);background:var(--c-navy);padding:8px 10px;border-bottom:1px solid var(--c-navy);}
+.lb-tbl td{padding:8px 10px;border-bottom:1px solid var(--c-light);vertical-align:top;white-space:nowrap;}
+.lb-tbl td.lb-wrap{white-space:normal;word-break:break-word;}
+.lb-w{font-weight:700;color:var(--c-brown-mid);white-space:nowrap;}
+.lb-num{text-align:right;font-weight:700;color:var(--c-navy);white-space:nowrap;}
+.lb-sub{font-size:9.5px;color:var(--c-text-muted);font-weight:400;margin-top:1px;}
+.lb-note{font-size:11px;color:var(--c-text-muted);line-height:1.55;margin-top:12px;
+  border-top:1px dashed var(--c-light);padding-top:9px;}
+.lb-note b{color:var(--c-navy);}
+@media(max-width:640px){ .lb-stats{grid-template-columns:1fr 1fr;} }
+
+.lb-role{font-size:12px;font-weight:700;color:var(--c-brown-mid);margin-bottom:10px;
+  padding:6px 10px;background:var(--c-warm);border-radius:7px;display:inline-block;}
+
+.lb-divider{display:flex;align-items:center;gap:14px;margin:26px 0 18px;}
+.lb-divider span{flex:1;height:1px;background:var(--c-light);}
+.lb-divider div{text-align:center;}
+.lb-divider b{display:block;font-size:12.5px;color:var(--c-brown-mid);}
+.lb-divider em{font-style:normal;font-size:10.5px;color:var(--c-text-muted);}
+.lb-goal{border:1.5px solid var(--c-orange);border-radius:11px;padding:13px 14px;margin-bottom:14px;
+  background:var(--c-warm);}
+.lb-goal.won{border-color:var(--c-green);}
+.lb-goal-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:10px;}
+.lb-goal-h b{font-size:13.5px;color:var(--c-navy);}
+.lb-goal-h span{font-size:10.5px;color:var(--c-text-muted);}
+.lb-goal-g{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--c-light);
+  border:1px solid var(--c-light);border-radius:9px;overflow:hidden;}
+.lb-goal-g>div{background:var(--c-white);padding:9px 10px;}
+.lb-goal-g span{display:block;font-size:10px;color:var(--c-text-muted);}
+.lb-goal-g b{font-family:var(--font-display);font-size:15px;color:var(--c-navy);}
+.lb-warn{margin-top:10px;font-size:11px;line-height:1.55;color:var(--c-brown-dark);
+  background:#FFF7E6;border:1px solid var(--c-golden);border-radius:8px;padding:8px 10px;}
+.lb-warn b{color:#C62828;}
+@media(max-width:640px){ .lb-goal-g{grid-template-columns:1fr 1fr;} }
+
 /* ==================== TASKS ==================== */
 .task-list{display:flex;flex-direction:column;gap:12px;}
 .task-item{display:flex;align-items:center;gap:14px;padding:14px 18px;background:var(--c-warm);border-radius:12px;border-left:4px solid var(--c-golden);transition:var(--transition);cursor:pointer;}
@@ -523,11 +594,74 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
 .mc-s{font-size:11px;color:var(--c-text-muted);text-align:center}
 .mon-back{margin-top:18px;margin-right:10px;color:var(--c-brown-mid);
   border-color:var(--c-brown-light);font-size:13px;padding:8px 18px}
+.mon-topnav{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.mon-topback{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;
+  border:1.5px solid var(--c-brown-light);background:var(--c-white);color:var(--c-brown-mid);
+  font-size:19px;line-height:1;cursor:pointer;font-family:inherit;flex:0 0 auto;padding:0}
+.mon-topback:active{transform:scale(.94)}
+/* Home overview tiles (masonry grid) + collapsible sections */
+#mon-overview:empty{display:none;}
+.ov-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.ov-tile{background:var(--c-warm);border:1.5px solid var(--c-light);border-radius:12px;padding:11px 13px;
+  cursor:pointer;text-align:left;font-family:inherit;width:100%;transition:.15s;}
+.ov-tile:active{transform:scale(.97);}
+.ov-tile.hero{grid-column:1/-1;background:linear-gradient(135deg,var(--c-navy-dark),var(--c-brown-dark));border-color:var(--c-golden);}
+.ov-tile span{display:block;font-size:10px;letter-spacing:.5px;text-transform:uppercase;color:var(--c-text-muted);margin-bottom:2px;}
+.ov-tile.hero span{color:rgba(255,255,255,.65);}
+.ov-tile b{font-family:var(--font-display);font-size:21px;font-weight:800;color:var(--c-navy);display:block;line-height:1.2;}
+.ov-tile.hero b{color:#fff;}
+.ov-tile em{display:block;font-style:normal;font-size:10.5px;color:var(--c-text-muted);margin-top:1px;}
+.ov-tile.hero em{color:var(--c-golden);}
+details.mon-sec{border:0;padding:0;margin:0;}
+details.mon-sec>summary{list-style:none;cursor:pointer;display:block;}
+details.mon-sec>summary::-webkit-details-marker{display:none;}
+details.mon-sec>summary .card-title{margin-bottom:0;}
+details.mon-sec>summary .chev{float:right;color:var(--c-golden);font-size:14px;transition:.18s;}
+details.mon-sec[open]>summary .chev{transform:rotate(90deg);}
+details.mon-sec>.mon-sec-body{margin-top:14px;}
 .mon-step[hidden]{display:none!important}
 
 /* ===== Election Monitor Pro — mobile app layout ===== */
 #sec-monitor .mon-step{border-radius:16px;}
+.mon-subtabs{position:sticky;top:0;z-index:60;background:#fff;padding:10px 2px;border-radius:14px;box-shadow:0 2px 10px rgba(28,42,68,.08);}
+.mon-subtab{border:1px solid var(--c-navy-light);background:#fff;color:var(--c-navy);border-radius:999px;padding:7px 13px;
+  font-size:12.5px;font-weight:700;font-family:var(--font-primary);cursor:pointer;transition:var(--transition);}
+.mon-subtab:hover{background:#eef2f9;}
 #sec-monitor .bw-rows{margin-top:4px;}
+#sec-monitor .bw-top{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:stretch;margin-bottom:12px;}
+#sec-monitor .bw-zone{border-radius:12px;padding:12px 14px;color:#fff;display:flex;flex-direction:column;
+  justify-content:center;gap:2px;font-family:var(--font-display);font-size:15px;}
+#sec-monitor .bw-zone span{font-size:10.5px;opacity:.9;font-family:var(--font-primary);}
+#sec-monitor .bw-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+#sec-monitor .bw-stats > div{background:var(--c-warm);border:1px solid var(--c-light);border-radius:10px;
+  padding:10px 12px;}
+#sec-monitor .bw-stats span{display:block;font-size:11px;color:var(--c-text-muted);}
+#sec-monitor .bw-stats b{font-family:var(--font-display);font-size:18px;color:var(--c-navy);}
+#sec-monitor .bw-rows{margin-top:12px;}
+#sec-monitor .bw-row{display:grid;grid-template-columns:74px 1fr 88px;align-items:center;gap:12px;
+  padding:9px 0;border-bottom:1px solid var(--c-light);font-size:13px;}
+#sec-monitor .bw-row:last-child{border-bottom:none;}
+#sec-monitor .bw-row.me{background:var(--c-warm);border-radius:10px;padding:9px 12px;border-bottom:none;}
+#sec-monitor .bw-row .bw-p{font-weight:800;color:var(--c-navy);}
+#sec-monitor .bw-row .bw-p em{display:block;font-style:normal;font-size:9.5px;color:var(--c-green);}
+#sec-monitor .bw-bar{height:8px;border-radius:5px;background:var(--c-light);overflow:hidden;}
+#sec-monitor .bw-bar i{display:block;height:100%;border-radius:5px;background:var(--c-golden);}
+#sec-monitor .bw-row.me .bw-bar i{background:var(--c-green);}
+#sec-monitor .bw-v{text-align:right;font-weight:800;color:var(--c-navy);}
+#sec-monitor .bw-v small{display:block;font-weight:600;font-size:10px;color:var(--c-text-muted);}
+#sec-monitor .bw-other{opacity:.75;}
+#sec-monitor .bw-insight{background:var(--c-warm);border:1px dashed var(--c-golden);border-radius:10px;
+  padding:12px 14px;font-size:12.5px;color:var(--c-brown-dark);line-height:1.6;margin-top:12px;}
+#sec-monitor .bw-insight b{color:var(--c-golden);margin-right:6px;}
+#sec-monitor .bw-booths{font-size:11px;color:var(--c-text-muted);margin-top:10px;}
+#sec-monitor .bw-alias{background:var(--c-warm);border:1px solid var(--c-golden);border-radius:9px;
+  padding:10px 13px;font-size:12.5px;color:var(--c-brown-dark);line-height:1.55;margin:12px 0 0;}
+#sec-monitor .bw-alias b{color:var(--c-navy);}
+.z-strong{background:var(--c-green);}
+.z-lean{background:var(--c-amber);}
+.z-tight{background:var(--c-orange);}
+.z-behind{background:#E85D2A;}
+.z-opp{background:#C62828;}
 @media(max-width:640px){
   #sec-monitor .main{padding-left:0;padding-right:0;}
   #sec-monitor .sec-head{padding:14px 16px 0;}
@@ -538,29 +672,24 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
   #sec-monitor .mon-step{max-width:none!important;margin:0!important;border-radius:0;
     border-left:none;border-right:none;box-shadow:none;padding:18px 16px 22px;}
   #sec-monitor .card{border-radius:0;border-left:none;border-right:none;}
-  /* thumb-friendly controls */
   #sec-monitor input,#sec-monitor select,#sec-monitor .modal-select{
     font-size:16px;padding:13px 14px;border-radius:11px;min-height:48px;}
   #sec-monitor label{font-size:12.5px;margin-bottom:6px;}
   #sec-monitor .btn{min-height:50px;font-size:15px;border-radius:12px;}
-  #sec-monitor .mon-choice,#sec-monitor .ob-choice{min-height:60px;border-radius:12px;}
-  /* primary action pinned to the thumb zone */
+  #sec-monitor .mon-choice{min-height:60px;border-radius:12px;}
   #sec-monitor .mon-step > .btn-gold:last-of-type{position:sticky;bottom:12px;z-index:5;
     box-shadow:0 8px 24px -8px rgba(0,0,0,.45);}
   #sec-monitor .mon-back{width:100%;margin-top:10px!important;}
-  /* battle map stacks */
   #sec-monitor .bw-top{grid-template-columns:1fr!important;gap:12px;}
   #sec-monitor .bw-stats{grid-template-columns:1fr 1fr;}
-  #sec-monitor .table-wrap{margin-left:-16px;margin-right:-16px;}
+  #sec-monitor .table-wrap{margin-left:-16px;margin-right:-16px;-webkit-overflow-scrolling:touch;}
   #sec-monitor table{font-size:12px;}
   #sec-monitor thead th{padding:10px 10px;font-size:10.5px;letter-spacing:.3px;}
   #sec-monitor tbody td{padding:9px 10px;font-size:12px;word-break:break-word;}
+  #sec-monitor .lb-tbl th{white-space:nowrap;}
+  #sec-monitor .lb-tbl td{white-space:nowrap;}
+  #sec-monitor .lb-tbl td.lb-wrap{white-space:normal;}
 }
-/* phone-frame preview on wide screens so it reads as an app */
-@media(min-width:900px){
-  #sec-monitor .main{max-width:460px;margin:0 auto;}
-}
-
 /* victory goal + weekly goals */
 .vg-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--c-light);
   border:1px solid var(--c-light);border-radius:11px;overflow:hidden;margin-bottom:14px;}
@@ -598,139 +727,33 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
 .gl-task i.on{background:var(--c-green);border-color:var(--c-green);}
 .gl-task em{margin-left:auto;font-style:normal;font-size:10.5px;color:var(--c-text-muted);}
 @media(max-width:640px){ .vg-grid{grid-template-columns:1fr 1fr;} }
-
-.tj-head{display:flex;align-items:center;gap:12px;padding:11px 13px;border-radius:11px;margin-bottom:12px;}
-.tj-head b{display:block;font-size:14px;}
-.tj-head span{font-size:11.5px;color:var(--c-text-muted);}
-.tj-icon{font-size:22px;line-height:1;}
-.tj-up{background:#E8F5E9;} .tj-up b{color:#1B5E20;}
-.tj-down{background:#FDECEA;} .tj-down b{color:#C62828;}
-.tj-flat{background:var(--c-light);} .tj-flat b{color:var(--c-navy);}
-.tj-up .tj-icon{animation:tjPulse 2.2s ease-in-out infinite;}
-@keyframes tjPulse{0%,100%{transform:scale(1);}50%{transform:scale(1.18);}}
-.tj-svg{width:100%;height:auto;display:block;margin:4px 0 8px;}
-.tj-zero{stroke:var(--c-brown-light);stroke-width:1;stroke-dasharray:3 3;}
-.tj-line{fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;}
-.tj-line.up{stroke:var(--c-green);} .tj-line.down{stroke:#C62828;}
-.tj-area{opacity:.13;} .tj-area.up{fill:var(--c-green);} .tj-area.down{fill:#C62828;}
-.tj-proj{fill:none;stroke:var(--c-brown-light);stroke-width:2;stroke-dasharray:4 4;}
-.tj-val{font-size:10px;font-weight:700;fill:var(--c-navy);}
-.tj-ax{font-size:9px;fill:var(--c-text-muted);}
-.tj-dot{animation:tjDot 2.2s ease-in-out infinite;}
-@keyframes tjDot{0%,100%{r:4.5;}50%{r:6;}}
-.tj-key{font-size:11.5px;color:var(--c-text-muted);line-height:1.55;
-  border-top:1px solid var(--c-light);padding-top:10px;margin-top:4px;}
-.tj-key b{color:var(--c-navy);}
-.tj-recs{margin-top:12px;} .tj-recs b{font-size:12px;color:var(--c-navy);}
-.tj-recs ul{margin:7px 0 0;padding-left:18px;}
-.tj-recs li{font-size:12.5px;color:var(--c-text);line-height:1.6;margin-bottom:6px;}
-.tj-note{font-size:11px;color:var(--c-text-muted);margin-top:10px;
-  border-top:1px dashed var(--c-light);padding-top:9px;line-height:1.5;}
-.mr-tbl{width:100%;border-collapse:collapse;font-size:12.5px;}
-.mr-tbl th{text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.05em;
-  color:var(--c-text-muted);padding:7px 8px;border-bottom:1px solid var(--c-light);}
-.mr-tbl td{padding:8px;border-bottom:1px solid var(--c-light);vertical-align:top;}
-.mr-rank{color:var(--c-text-muted);font-weight:700;width:26px;}
-.mr-n{text-align:right;font-weight:700;color:var(--c-navy);white-space:nowrap;}
-.mr-sub{font-size:9.5px;color:var(--c-text-muted);font-weight:400;margin-top:1px;}
-.mr-up{color:var(--c-green);} .mr-down{color:#C62828;}
-.mr-me{background:var(--c-warm);}
-.mr-me em{font-style:normal;font-size:10px;color:var(--c-golden);font-weight:700;}
-@media(prefers-reduced-motion:reduce){.tj-icon,.tj-dot{animation:none!important;}}
-
-.est-note{margin-top:10px;background:var(--c-warm);border:1px solid var(--c-golden);
-  border-radius:8px;padding:8px 11px;font-size:11px;color:var(--c-brown-dark);line-height:1.55;}
-.est-note b{color:var(--c-navy);}
-
-/* local body toggle */
-.lb-toggle-wrap{display:flex;align-items:center;gap:12px;padding:12px 14px;margin-bottom:14px;
-  border:1.5px solid var(--c-light);border-radius:12px;background:var(--c-white);transition:.18s;}
-.lb-toggle-wrap.on{border-color:var(--c-golden);background:var(--c-warm);}
-.lb-tg-txt{flex:1;}
-.lb-tg-txt b{display:block;font-size:13.5px;color:var(--c-navy);}
-.lb-tg-txt span{font-size:11px;color:var(--c-text-muted);}
-.lb-switch{width:50px;height:28px;border-radius:16px;border:none;background:var(--c-brown-light);
-  position:relative;cursor:pointer;flex:none;transition:.2s;padding:0;}
-.lb-switch i{position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;
-  background:#fff;transition:.2s;display:block;box-shadow:0 1px 3px rgba(0,0,0,.3);}
-.lb-toggle-wrap.on .lb-switch{background:var(--c-green);}
-.lb-toggle-wrap.on .lb-switch i{left:25px;}
-.lb-switch:focus-visible{outline:2px solid var(--c-golden);outline-offset:2px;}
-/* local body card */
-.lb-pick{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
-.lb-pick label{font-size:11px;text-transform:uppercase;letter-spacing:.4px;
-  color:var(--c-brown-mid);font-weight:700;}
-.lb-pick select{flex:1;}
-.lb-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--c-light);
-  border:1px solid var(--c-light);border-radius:10px;overflow:hidden;margin-bottom:14px;}
-.lb-stats>div{background:var(--c-white);padding:10px 12px;}
-.lb-stats span{display:block;font-size:10.5px;color:var(--c-text-muted);}
-.lb-stats b{font-family:var(--font-display);font-size:17px;color:var(--c-navy);}
-.lb-seats{margin-bottom:14px;}
-.lb-seats>b{font-size:12px;color:var(--c-navy);display:block;margin-bottom:8px;}
-.lb-row{display:flex;align-items:center;gap:10px;margin-bottom:6px;font-size:12.5px;}
-.lb-p{width:78px;display:flex;align-items:center;gap:6px;font-weight:700;color:var(--c-navy);}
-.lb-p i{width:9px;height:9px;border-radius:50%;flex:none;display:inline-block;}
-.lb-bar{flex:1;height:9px;border-radius:5px;background:var(--c-light);overflow:hidden;}
-.lb-bar b{display:block;height:100%;border-radius:5px;}
-.lb-n{width:62px;text-align:right;font-weight:700;color:var(--c-navy);}
-.lb-n small{font-weight:400;color:var(--c-text-muted);font-size:10px;}
-.lb-tbl{width:100%;border-collapse:collapse;font-size:12.5px;}
-.lb-tbl th{text-align:left;font-size:10px;text-transform:uppercase;letter-spacing:.05em;
-  color:var(--c-text-muted);padding:7px 8px;border-bottom:1px solid var(--c-light);}
-.lb-tbl td{padding:8px;border-bottom:1px solid var(--c-light);vertical-align:top;}
-.lb-w{font-weight:700;color:var(--c-brown-mid);white-space:nowrap;}
-.lb-num{text-align:right;font-weight:700;color:var(--c-navy);white-space:nowrap;}
-.lb-sub{font-size:9.5px;color:var(--c-text-muted);font-weight:400;margin-top:1px;}
-.lb-note{font-size:11px;color:var(--c-text-muted);line-height:1.55;margin-top:12px;
-  border-top:1px dashed var(--c-light);padding-top:9px;}
-.lb-note b{color:var(--c-navy);}
-@media(max-width:640px){ .lb-stats{grid-template-columns:1fr 1fr;} }
-
-.lb-role{font-size:12px;font-weight:700;color:var(--c-brown-mid);margin-bottom:10px;
-  padding:6px 10px;background:var(--c-warm);border-radius:7px;display:inline-block;}
-
-.st-box{margin-top:12px;border-top:1px solid var(--c-light);padding-top:10px;}
-.st-box>b{display:block;font-size:11.5px;color:var(--c-navy);margin-bottom:7px;}
-.st-list{display:flex;flex-wrap:wrap;gap:6px;}
-.st-list span{font-size:11.5px;background:var(--c-warm);border:1px solid var(--c-light);
-  border-radius:6px;padding:4px 9px;color:var(--c-brown-dark);line-height:1.4;}
-
-.lb-divider{display:flex;align-items:center;gap:14px;margin:26px 0 18px;}
-.lb-divider span{flex:1;height:1px;background:var(--c-light);}
-.lb-divider div{text-align:center;}
-.lb-divider b{display:block;font-size:12.5px;color:var(--c-brown-mid);}
-.lb-divider em{font-style:normal;font-size:10.5px;color:var(--c-text-muted);}
-.lb-goal{border:1.5px solid var(--c-orange);border-radius:11px;padding:13px 14px;margin-bottom:14px;
-  background:var(--c-warm);}
-.lb-goal.won{border-color:var(--c-green);}
-.lb-goal-h{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:10px;}
-.lb-goal-h b{font-size:13.5px;color:var(--c-navy);}
-.lb-goal-h span{font-size:10.5px;color:var(--c-text-muted);}
-.lb-goal-g{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--c-light);
-  border:1px solid var(--c-light);border-radius:9px;overflow:hidden;}
-.lb-goal-g>div{background:var(--c-white);padding:9px 10px;}
-.lb-goal-g span{display:block;font-size:10px;color:var(--c-text-muted);}
-.lb-goal-g b{font-family:var(--font-display);font-size:15px;color:var(--c-navy);}
-.lb-warn{margin-top:10px;font-size:11px;line-height:1.55;color:var(--c-brown-dark);
-  background:#FFF7E6;border:1px solid var(--c-golden);border-radius:8px;padding:8px 10px;}
-.lb-warn b{color:#C62828;}
-@media(max-width:640px){ .lb-goal-g{grid-template-columns:1fr 1fr;} }
-
-.lb-h{font-size:12px;font-weight:700;color:var(--c-brown-mid);margin:16px 0 8px;}
-.lb-st{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px;}
-.lb-st span{font-size:11px;background:var(--c-warm);border:1px solid var(--c-light);
-  border-radius:6px;padding:3px 8px;color:var(--c-brown-dark);}
-.lb-st span.more{background:var(--c-light);color:var(--c-text-muted);}
-.lb-st em{font-style:normal;font-size:10px;padding:3px 8px;border-radius:6px;}
-.lb-st em.ok{background:#E8F5E9;color:#1B5E20;}
-.lb-st em.chk{background:#FFF7E6;color:#8A6212;}
-.lb-bd{margin-top:6px;display:flex;flex-wrap:wrap;gap:6px;}
-.lb-bd span{font-size:10.5px;color:var(--c-text-muted);background:var(--c-light);
-  border-radius:5px;padding:2px 7px;}
-.lb-empty{font-size:13px;color:var(--c-text-muted);padding:8px 0;}
-.lb-src{margin-top:12px;font-size:11px;color:var(--c-text-muted);line-height:1.55;
-  border-top:1px dashed var(--c-light);padding-top:9px;}
+/* victory trajectory graph (pulse-green momentum) */
+.mt-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px;}
+.mt-status{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:800;
+  padding:5px 12px;border-radius:20px;color:#fff;background:var(--c-green);}
+.mt-status.good{animation:mtPulse 1.5s ease-in-out infinite;}
+.mt-status.warn{background:var(--c-golden);color:var(--c-navy);animation:none;}
+.mt-status.bad{background:var(--c-orange);color:#fff;animation:none;}
+.mt-growth{font-family:var(--font-display);font-size:20px;font-weight:800;color:var(--c-green);}
+.mt-growth small{display:block;font-family:var(--font-body);font-size:10px;color:var(--c-text-muted);font-weight:500;text-align:right;}
+.mt-svg{width:100%;height:auto;display:block;overflow:visible;}
+.mt-line{fill:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:2.6;
+  stroke-dasharray:600;stroke-dashoffset:600;animation:mtDraw 1.8s ease forwards;}
+.mt-area{opacity:0;animation:mtFade 0.9s ease .35s forwards;}
+.mt-rival{fill:none;stroke:var(--c-brown-light);stroke-width:1.6;stroke-dasharray:5 4;}
+.mt-dot{animation:mtPulse 1.3s ease-in-out infinite;}
+.mt-axis{font-size:9px;fill:var(--c-text-muted);}
+.mt-victory{font-size:9.5px;font-weight:700;}
+.mt-legend{display:flex;flex-wrap:wrap;gap:12px;font-size:11px;color:var(--c-text-muted);margin-top:8px;}
+.mt-legend i{display:inline-block;width:14px;height:3.5px;border-radius:2px;margin-right:5px;vertical-align:middle;}
+.mt-legend .sw{width:14px;height:0;border-top:2px dashed var(--c-brown-light);}
+.mt-rec{border-top:1px dashed var(--c-light);margin-top:12px;padding-top:10px;}
+.mt-rec b{font-size:12px;color:var(--c-navy);display:block;margin-bottom:8px;}
+.mt-rec li{font-size:12.5px;line-height:1.6;padding:5px 0 5px 22px;position:relative;color:var(--c-text);}
+.mt-rec li::before{content:'→';position:absolute;left:4px;color:var(--c-golden);font-weight:700;}
+@keyframes mtDraw{to{stroke-dashoffset:0;}}
+@keyframes mtPulse{0%,100%{opacity:1;}50%{opacity:.35;}}
+@keyframes mtFade{to{opacity:.14;}}
 </style>
 </head>
 <body>
@@ -749,7 +772,7 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
 </div>
 
 <!-- APP -->
-<div id="app">
+<div id="app" class="show">
 
 <!-- NAVBAR -->
 <nav class="navbar" role="navigation">
@@ -760,16 +783,9 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
     </a>
     <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu"><span></span><span></span><span></span></button>
     <ul class="nav-links" id="navLinks">
-      <li><a class="nav-link" data-sec="dashboard">Dashboard</a></li>
       <li><a class="nav-link active" data-sec="monitor">📱 Monitor</a></li>
-      <li><a class="nav-link" data-sec="candidate">Candidate</a></li>
-      <li><a class="nav-link" data-sec="villages">Villages</a></li>
-      <li><a class="nav-link" data-sec="assembly">Assembly</a></li>
+      <li><a class="nav-link" data-sec="dashboard">Dashboard</a></li>
       <li><a class="nav-link" data-sec="voters">Voters</a></li>
-      <li><a class="nav-link" data-sec="tasks">Tasks</a></li>
-      <li><a class="nav-link" data-sec="weekly">Weekly</a></li>
-      <li><a class="nav-link" data-sec="hours">Hours</a></li>
-      <li><a class="nav-link" data-sec="goals">Goals</a></li>
       <li>
         <div class="role-controls">
           <select id="constituency-select" class="select-mini" aria-label="Select constituency" onchange="onConstituencyChange(this.value)">
@@ -779,9 +795,6 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
           <select id="role-select" class="select-mini" aria-label="View as role" onchange="onRoleChange()">
             <option value="admin">👑 Admin (All Data)</option>
             <option value="candidate">🗳️ Candidate</option>
-          </select>
-          <select id="scope-councillor" class="select-mini" aria-label="Councillor group" onchange="onScopeCouncillorChange()" style="display:none;">
-            <option value="">All councillor groups</option>
           </select>
           <select id="scope-village" class="select-mini" aria-label="Candidate village" onchange="onScopeChange()" style="display:none;">
             <option value="">Select your village</option>
@@ -876,7 +889,17 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
 <!-- ==================== ELECTION MONITOR PRO ==================== -->
 <section class="section active" id="sec-monitor">
   <div class="main">
-    <div class="sec-head"><span class="sec-label">Election Monitor</span><h2>Election Monitor Pro</h2><p>Login → பங்கு → பதவி → பகுதி → Home. ஒவ்வொரு படியிலும் 2026 Form 20 உண்மையான வாக்குகள்.</p></div>
+    <div class="mon-subtabs" id="mon-subtabs" style="display:none;flex-wrap:wrap;gap:8px;margin:14px 16px 0;">
+      <button class="mon-subtab" style="background:#ffd75e;color:#1c2a44;font-weight:700;" onclick="monSub('monitor')">📱 Monitor</button>
+      <button class="mon-subtab" onclick="monSub('candidate')">Candidate</button>
+      <button class="mon-subtab" onclick="monSub('villages')">Villages</button>
+      <button class="mon-subtab" onclick="monSub('assembly')">Assembly</button>
+      <button class="mon-subtab" onclick="monSub('tasks')">Tasks</button>
+      <button class="mon-subtab" onclick="monSub('weekly')">Weekly</button>
+      <button class="mon-subtab" onclick="monSub('hours')">Hours</button>
+      <button class="mon-subtab" onclick="monSub('goals')">Goals</button>
+    </div>
+    <div class="sec-head"><span class="sec-label">Election Monitor</span><h2>Election Monitor Pro</h2><p>Login → பங்கு → பதவி → பகுதி → Home. ஒவ்வொரு படியிலும் 2026 Form 20 உண்மையான வாக்குகள். <span id="app-ver" style="opacity:.55;">· build 19</span></p></div>
 
     <div id="mon-stepbar" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px;"></div>
 
@@ -884,7 +907,7 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
     <div class="mon-step card" id="mon-step-1" style="max-width:400px;margin:0 auto;">
       <div class="card-title"><span class="icon" aria-hidden="true">🔐</span> Login Page</div>
       <div class="form-group"><label>User Name / பயனர் பெயர்</label><input type="text" id="mon-user" placeholder="பெயர்"></div>
-      <div class="form-group"><label>Ph. No / மொபைல் எண் *</label><input type="text" id="mon-mobile" placeholder="10 இலக்க எண்" inputmode="numeric" maxlength="10"></div>
+      <div class="form-group"><label>Ph. No / மொபைல் எண் *</label><input type="tel" id="mon-mobile" placeholder="10 இலக்க எண்" inputmode="numeric" maxlength="10" pattern="\d{10}" required oninput="var v=this.value.replace(/\D/g,'');this.value=v;if(v.length>0&&v.length!==10){this.style.borderColor='var(--c-red)';document.getElementById('mon-mobile-err').textContent='10 இலக்க எண் தேவை ('+v.length+'/10)';document.getElementById('mon-mobile-err').style.display='block';}else{this.style.borderColor='';document.getElementById('mon-mobile-err').style.display='none';}"><div id="mon-mobile-err" style="font-size:11px;color:var(--c-red);margin-top:4px;display:none;"></div></div>
       <div class="form-group"><label>O.T.P * (Demo: 1234)</label><input type="text" id="mon-otp" placeholder="OTP" inputmode="numeric" maxlength="6"></div>
       <button class="btn btn-gold" type="button" onclick="monEnter()" style="width:100%;">ENTER</button>
       <div id="mon-msg" style="font-size:12px;color:#C62828;margin-top:10px;display:none;"></div>
@@ -893,6 +916,7 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
 
     <!-- STEP 2 — SELECT ROLE -->
     <div class="mon-step card" id="mon-step-2" hidden style="max-width:560px;margin:0 auto;">
+      <div class="mon-topnav"><button class="mon-topback" type="button" onclick="monGo(1)" aria-label="பின் செல்">←</button></div>
       <div class="card-title"><span class="icon" aria-hidden="true">👤</span> Select Role — பங்கைத் தேர்ந்தெடுக்கவும்</div>
       <div class="mon-choice-grid">
         <button class="mon-choice" type="button" onclick="monSetRole('candidate')">
@@ -900,13 +924,23 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
         <button class="mon-choice" type="button" onclick="monSetRole('field')">
           <span class="mc-ic">🚩</span><span class="mc-t">Field Worker</span><span class="mc-s">களப்பணியாளர்</span></button>
       </div>
-      <button class="btn btn-outline mon-back" type="button" onclick="monGo(1)">← பின்</button>
     </div>
 
     <!-- STEP 3 — POSITION -->
     <div class="mon-step card" id="mon-step-3" hidden style="max-width:640px;margin:0 auto;">
+      <div class="mon-topnav"><button class="mon-topback" type="button" onclick="monGo(2)" aria-label="பின் செல்">←</button></div>
       <div class="card-title"><span class="icon" aria-hidden="true">🏛️</span> <span id="mon-pos-title">Position — பதவி</span></div>
-      <div class="mon-choice-grid">
+      <div class="lb-toggle-wrap lb-compact" id="lb-toggle-wrap" style="margin-bottom:14px;">
+        <div class="lb-tg-txt"><b>உள்ளாட்சி தேர்தல் தரவு</b><span>Local Body election data · 2011 அதிகாரப்பூர்வ முடிவுகள்</span></div>
+        <button type="button" id="lb-toggle" class="lb-switch" role="switch" aria-checked="false" onclick="toggleLocalBody()"><i></i></button>
+      </div>
+      <div class="form-group"><label>கட்சி Party</label>
+        <select id="mon-party" class="modal-select" onchange="monSetParty(this.value)" autofocus>
+          <option value="">கட்சியைத் தேர்ந்தெடுக்கவும்</option>
+          <option value="DMK">DMK</option><option value="INC">INC</option>
+          <option value="AIADMK">AIADMK</option><option value="TVK">TVK</option>
+        </select></div>
+      <div class="mon-choice-grid" style="margin-top:18px;">
         <button class="mon-choice" type="button" onclick="monSetPos('PP')">
           <span class="mc-ic">🏘️</span><span class="mc-t">ஊராட்சி மன்ற தலைவர்</span><span class="mc-s">Village Panchayat Thalaivar</span></button>
         <button class="mon-choice" type="button" onclick="monSetPos('CO')">
@@ -914,21 +948,11 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
         <button class="mon-choice" type="button" onclick="monSetPos('WM')">
           <span class="mc-ic">🗳️</span><span class="mc-t">வார்டு மெம்பர்</span><span class="mc-s">Ward Member</span></button>
       </div>
-      <div class="form-group" style="margin-top:18px;"><label>கட்சி Party</label>
-        <div class="lb-toggle-wrap" id="lb-toggle-wrap">
-          <div class="lb-tg-txt"><b>உள்ளாட்சி தேர்தல் தரவு</b><span>Local Body election data · 2011 அதிகாரப்பூர்வ முடிவுகள்</span></div>
-          <button type="button" id="lb-toggle" class="lb-switch" role="switch" aria-checked="false" onclick="toggleLocalBody()"><i></i></button>
-        </div>
-        <select id="mon-party" class="modal-select" onchange="monSetParty(this.value)">
-          <option value="">கட்சியைத் தேர்ந்தெடுக்கவும்</option>
-          <option value="DMK">DMK</option><option value="INC">INC</option>
-          <option value="AIADMK">AIADMK</option><option value="TVK">TVK</option>
-        </select></div>
-      <button class="btn btn-outline mon-back" type="button" onclick="monGo(2)">← பின்</button>
     </div>
 
     <!-- STEP 4 — AREA -->
     <div class="mon-step card" id="mon-step-4" hidden style="max-width:640px;margin:0 auto;">
+      <div class="mon-topnav"><button class="mon-topback" type="button" onclick="monGo(3)" aria-label="பின் செல்">←</button></div>
       <div class="card-title"><span class="icon" aria-hidden="true">📍</span> <span id="mon-area-title">பகுதி</span></div>
       <div class="form-group"><label>தொகுதி Constituency</label>
         <select id="mon-block" class="modal-select" onchange="monBlockChange()"></select></div>
@@ -938,12 +962,16 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
         <select id="mon-ward" class="modal-select" onchange="monWardChange()"></select></div>
       <div id="mon-area-note" style="font-size:12px;color:var(--c-text-muted);margin-bottom:14px;"></div>
       <button class="btn btn-gold" type="button" id="mon-enter-btn" onclick="monHome()" style="width:100%;" disabled>ENTER → Home</button>
-      <button class="btn btn-outline mon-back" type="button" onclick="monGo(3)">← பின்</button>
     </div>
 
     <!-- STEP 5 — HOME -->
     <div class="mon-step" id="mon-step-5" hidden>
+      <div class="mon-topnav" style="margin:0 2px 14px;">
+        <button class="mon-topback" type="button" onclick="monGo(4)" aria-label="பின் செல்">←</button>
+        <button class="btn btn-outline mon-back" type="button" onclick="monReset()" style="margin:0;">↺ Logout</button>
+      </div>
       <div id="mon-home-head" class="card" style="margin-bottom:18px;"></div>
+      <div id="mon-overview" style="margin-bottom:18px;"></div>
       <div class="card" id="mon-localbody" style="margin-bottom:18px;display:none;"></div>
       <div class="lb-divider" id="mon-asm-divider" style="display:none;">
         <span></span>
@@ -951,14 +979,12 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
         <span></span>
       </div>
       <div class="card" id="mon-victory" style="margin-bottom:18px;display:none;"></div>
-      <div class="card" id="mon-battle" style="margin-bottom:18px;display:none;"></div>
       <div class="card" id="mon-trajectory" style="margin-bottom:18px;display:none;"></div>
-      <div class="card" id="mon-compare" style="margin-bottom:18px;display:none;"></div>
-      <div class="card" id="mon-ranks" style="margin-bottom:18px;display:none;"></div>
+      <div class="card" id="mon-battle" style="margin-bottom:18px;display:none;"></div>
       <div class="card" id="mon-goals" style="margin-bottom:18px;display:none;"></div>
+      <div class="card" id="mon-compare" style="margin-bottom:18px;display:none;"></div>
+      <div class="card" id="mon-rank" style="margin-bottom:18px;display:none;"></div>
       <div id="mon-home-body"></div>
-      <button class="btn btn-outline mon-back" type="button" onclick="monGo(4)" style="margin-top:18px;">← பகுதியை மாற்று</button>
-      <button class="btn btn-outline mon-back" type="button" onclick="monReset()" style="margin-top:18px;">↺ Logout</button>
     </div>
   </div>
 </section>
@@ -984,7 +1010,6 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
       </div>
     </div>
 
-    <div class="card" id="battle-ward" style="margin-bottom:28px;display:none;"></div>
     <div class="card" id="seat-profile" style="margin-bottom:28px;"></div>
 
     <div class="grid-2">
@@ -1248,14 +1273,14 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
 </div>
 
 <script src="ac29-booths.js"></script>
-<script src="seat-data.js"></script>
 <script src="ac37-booths.js"></script>
+<script src="seat-data.js"></script>
 <script src="ward-units.js"></script>
 <script src="ward-streets.js"></script>
 <script src="localbody-2011.js"></script>
-<script src="localbody-link.js"></script>
-<script src="urban-ward-streets.js"></script>
 <script src="local-bodies.js"></script>
+  <script src="localbody-link.js"></script>
+  <script src="tp-delim-2020.js"></script>
 <script>
 /* ==================== DATA — 2026, REAL AC DATA ==================== */
 const PARTY_TOKENS=[['Tamilaga Vettri Kazhagam','TVK','🔑'],['Indian National Congress','INC','🖐️'],['All India Anna Dravida Munnetra Kazhagam','AIADMK','🪶'],['Dravida Munnetra Kazhagam','DMK','🌅'],['Bharatiya Janata Party','BJP','🌷'],['Aam Aadmi Party','AAP','🧹']];
@@ -1306,34 +1331,6 @@ function buildBoothVillages(){
   }).sort((a,b)=>b.lead-a.lead).map((v,i)=>({...v,rank:i+1}));
 }
 const BOOTH_VILLAGES=buildBoothVillages();
-/* AC 37 booth rows arrive in the same shape: [PS, Local Body, TVK, DMK, AIADMK, Polled] */
-function buildBoothVillages37(){
-  if(typeof AC37_BOOTHS==='undefined')return [];
-  const map={};
-  AC37_BOOTHS.forEach(function(b){
-    let v=map[b[1]];
-    if(!v){v=map[b[1]]={name:b[1],ps:[],tvk:0,inc:0,aiadmk:0,polled:0,boothList:[]};}
-    v.ps.push(b[0]);v.tvk+=b[2];v.inc+=b[3];v.aiadmk+=b[4];v.polled+=b[5];v.boothList.push(b);
-  });
-  return Object.values(map).map(function(v){
-    const tot=v.tvk+v.inc+v.aiadmk;
-    const us=tot?Math.round(v.inc/tot*1000)/10:0,
-          p2=tot?Math.round(v.tvk/tot*1000)/10:0,
-          p3=tot?Math.round(v.aiadmk/tot*1000)/10:0;
-    const lead=Math.round((us-Math.max(p2,p3))*10)/10;
-    const nums=v.ps.map(function(x){return parseInt(String(x),10)||0;});
-    return {name:v.name,range:'PS '+Math.min.apply(null,nums)+'\u2013'+Math.max.apply(null,nums),
-      booths:v.ps.length,parts:['PS'],voters:v.polled,p2:p2,p3:p3,lead:lead,
-      tier:dmkTier(lead),support:us,trend:'',assembly:'AC 37 \u00b7 Kancheepuram Assembly Constituency',
-      tvk:v.tvk,inc:v.inc,aiadmk:v.aiadmk,polled:v.polled,boothList:v.boothList};
-  }).sort(function(a,b){return b.lead-a.lead;}).map(function(v,i){return Object.assign({},v,{rank:i+1});});
-}
-const AC37_VILLAGES=buildBoothVillages37();
-function enrichAC37Villages(){
-  const ymap={};SEAT_DATA.AC37.units.forEach(function(u){ymap[u.name]=u;});
-  return AC37_VILLAGES.map(function(v){const u=ymap[v.name];
-    return Object.assign({},v,{y21:u?u.y21:null,key:u?u.key:''});});
-}
 
 function enrichAC29Villages(){
   const ymap={};SEAT_DATA.AC29.units.forEach(u=>ymap[u.name]=u);
@@ -1348,9 +1345,9 @@ const SEAT_CFG={
 function buildSeatCtx(label,cfg){
   const sd=SEAT_DATA[cfg.key];
   const isAC29=cfg.key==='AC29';
-  const vills=isAC29?AC29_VILLAGES:(AC37_VILLAGES.length?enrichAC37Villages():seatVillages(cfg.key,cfg));
+  const vills=isAC29?AC29_VILLAGES:seatVillages(cfg.key,cfg);
   const electors=SEAT_ELECTORS[cfg.key];
-  const booths=isAC29?AC29_BOOTHS.length:(AC37_VILLAGES.length?AC37_BOOTHS.length:sd.total26.booths);
+  const booths=isAC29?AC29_BOOTHS.length:sd.total26.booths;
   const assemblies=isAC29
     ?[{name:'Sriperumbudur Region',villageCount:vills.length,contribution:Math.round(vills.reduce((s,v)=>s+v.polled,0)/electors*100),voters:electors,events:140},{name:'AC 29 · Sriperumbudur (All)',villageCount:vills.length,contribution:100,voters:electors,events:140}]
     :seatAssemblies(vills,cfg.district,electors);
@@ -1375,42 +1372,12 @@ function switchConstituency(key){
   PARTY=c.party;district=c.district;constituency=c.assembly;villages=c.villages;assemblies=c.assemblies;
   buildVoterData();rebuildDropdowns();applyScope();
 }
-function populateScopeCouncillors(){
-  const cs=document.getElementById('scope-councillor');
-  if(!cs)return;
-  const cur=cs.value;
-  cs.innerHTML='<option value="">All councillor groups</option>';
-  councillorGroups(currentConstituency).forEach(function(g){
-    const o=document.createElement('option');o.value=g.id;
-    o.textContent=g.name+' ('+g.members.length+')';cs.appendChild(o);
-  });
-  if(cur&&cs.querySelector('option[value="'+cur+'"]'))cs.value=cur;
-}
-function councillorFilteredVillages(){
-  const cs=document.getElementById('scope-councillor');
-  const id=cs?cs.value:'';
-  if(!id)return villages;
-  const g=findGroup(currentConstituency,id);
-  return g?g.members:villages;
-}
-function onScopeCouncillorChange(){
-  const svS=document.getElementById('scope-village');
-  svS.innerHTML='<option value="">Select your village</option>';
-  councillorFilteredVillages().forEach(function(v){
-    const o=document.createElement('option');o.value=v.name;o.textContent=v.name;svS.appendChild(o);
-  });
-  if(currentUserRole==='field_worker')svS.disabled=!document.getElementById('scope-councillor').value;
-  currentVillage='';svS.value='';
-  setRoleLabel();applyScope();
-}
 function rebuildDropdowns(){
   const svS=document.getElementById('scope-village');
   svS.innerHTML='<option value="">Select your village</option>';
   const pvS=document.getElementById('voter-village-filter');
   pvS.innerHTML='<option value="all">All Villages</option>';
-  villages.forEach(v=>{const b=document.createElement('option');b.value=v.name;b.textContent=v.name;pvS.appendChild(b);});
-  populateScopeCouncillors();
-  councillorFilteredVillages().forEach(v=>{const a=document.createElement('option');a.value=v.name;a.textContent=v.name;svS.appendChild(a);});
+  villages.forEach(v=>{const a=document.createElement('option');a.value=v.name;a.textContent=v.name;svS.appendChild(a);const b=document.createElement('option');b.value=v.name;b.textContent=v.name;pvS.appendChild(b);});
   const aS=document.getElementById('assembly-filter');
   aS.innerHTML='<option value="all">All Constituencies</option>';
   assemblies.forEach(a=>{const o=document.createElement('option');o.value=a.name;o.textContent=a.name;aS.appendChild(o);});
@@ -1464,12 +1431,43 @@ function weeklySummary(){const c=activeCtx();return [
   ['Total Hours Worked','63 hrs','var(--c-golden)']
 ];}
 
+/* ==================== MOBILE LOGIN GATE ==================== */
+let currentUserRole='field_worker';
+function setupFieldWorkerLogic(){
+  if(currentUserRole!=='field_worker')return;
+  const con=document.getElementById('f-constituency');
+  const role=document.getElementById('f-position');
+  const village=document.getElementById('f-village');
+  if(!con||!role||!village)return;
+  const lock=function(){role.disabled=!con.value;village.disabled=!(con.value&&role.value);};
+  if(!con.dataset.fw){con.addEventListener('change',lock);con.dataset.fw='1';}
+  if(!role.dataset.fw){role.addEventListener('change',lock);role.dataset.fw='1';}
+  lock();
+  const oldOpen=window.openCandidateModal;
+  window.openCandidateModal=function(){
+    oldOpen();
+    lock();
+  };
+  const oldSave=window.saveCandidate;
+  window.saveCandidate=function(){
+    if(!village.value&&con.value&&role.value){alert('Select your village to continue.');return;}
+    oldSave();
+  };
+}
+
 /* ==================== INIT ==================== */
-document.addEventListener('DOMContentLoaded',()=>{setTimeout(()=>{document.getElementById('loader').classList.add('hidden');document.getElementById('app').classList.add('show');init();},3200);});
+document.addEventListener('DOMContentLoaded',()=>{setTimeout(()=>{
+  document.getElementById('loader').classList.add('hidden');
+  document.getElementById('app').classList.add('show');
+  const rs=document.getElementById('role-select');if(rs&&rs.value==='admin'){rs.value='candidate';onRoleChange();}
+  init();
+  setupFieldWorkerLogic();
+  navigate('monitor');
+  initMonitor();
+},450);});
 
 function init(){
   restoreCandidateProfile();
-  setupFieldWorkerLogic();
   updateConstituencyStats();
   refreshLocalBodyLine();renderSeatProfile();
   populateDropdowns();renderDashboard();renderVillages();renderAssembly();renderVoters();renderTasks();renderWeekly();renderHours();renderGoals();renderFeatures();animateCounters();
@@ -1482,11 +1480,24 @@ function init(){
   if(typeof restoreLocalBodyMode==='function')restoreLocalBodyMode();
 }
 function secIdNav(s){return ['dashboard','monitor','candidate','villages','assembly','voters','tasks','weekly','hours','goals','features','cta'].includes(s);}
+const MON_SUBS=['monitor','candidate','villages','assembly','tasks','weekly','hours','goals'];
+function monSub(sec){
+  const tabs=document.getElementById('mon-subtabs');
+  if(!secIdNav(sec))return;
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('sec-'+sec).classList.add('active');
+  document.querySelectorAll('.nav-link').forEach(n=>{n.classList.toggle('active',n.getAttribute('data-sec')==='monitor');});
+  document.getElementById('navLinks').classList.remove('show');
+  if(tabs)tabs.style.display='flex';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
 function navigate(sec){
   if(!secIdNav(sec))return;
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   document.getElementById('sec-'+sec).classList.add('active');
   document.querySelectorAll('.nav-link').forEach(n=>{n.classList.toggle('active',n.getAttribute('data-sec')===sec);});
+  const tabs=document.getElementById('mon-subtabs');
+  if(tabs)tabs.style.display=(MON_SUBS.includes(sec)?'flex':'none');
   document.getElementById('navLinks').classList.remove('show');
   window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -1566,52 +1577,10 @@ function setRoleLabel(){
   else if(currentRole==='candidate'){pill.style.display='inline-block';pill.textContent='Candidate — choose village';}
   else{pill.style.display='none';}
 }
-/* ---- field worker: progressive unlock (Constituency -> Role -> Village) ----
-   currentUserRole comes from the login/session once real auth exists.
-   'admin' (default) leaves every existing control exactly as it was. */
-let currentUserRole='admin';
-function setFieldWorkerMode(on){currentUserRole=on?'field_worker':'admin';setupFieldWorkerLogic();}
-function setupFieldWorkerLogic(){
-  const cs=document.getElementById('constituency-select');
-  const rs=document.getElementById('role-select');
-  const vs=document.getElementById('scope-village');
-  if(!cs||!rs||!vs)return;
-  if(currentUserRole!=='field_worker'){
-    rs.disabled=false;vs.disabled=false;
-    const gsA=document.getElementById('scope-councillor');
-    if(gsA)gsA.disabled=false;
-    const ph=cs.querySelector('option[value=""]');
-    if(ph)ph.remove();
-    return;
-  }
-  if(!cs.querySelector('option[value=""]')){
-    const o=document.createElement('option');
-    o.value='';o.textContent='Select constituency...';
-    cs.insertBefore(o,cs.firstChild);
-  }
-  cs.value='';
-  rs.disabled=true;vs.disabled=true;
-  const gs0=document.getElementById('scope-councillor');
-  if(gs0){gs0.disabled=true;gs0.value='';}
-  if(cs.dataset.fw)return;
-  cs.dataset.fw='1';
-  cs.addEventListener('change',function(){
-    if(this.value){rs.disabled=false;}
-    else{rs.disabled=true;vs.disabled=true;vs.value='';rs.value='admin';onRoleChange();}
-  });
-  rs.addEventListener('change',function(){
-    if(currentUserRole!=='field_worker')return;
-    const gs=document.getElementById('scope-councillor');
-    if(this.value){if(gs)gs.disabled=false;vs.disabled=!(gs&&gs.value);}
-    else{if(gs){gs.disabled=true;gs.value='';}vs.disabled=true;vs.value='';onScopeChange();}
-  });
-}
 function onRoleChange(){
   currentRole=document.getElementById('role-select').value;
   const vw=document.getElementById('scope-village');
   vw.style.display=currentRole==='candidate'?'inline-block':'none';
-  const cw=document.getElementById('scope-councillor');
-  if(cw)cw.style.display=currentRole==='candidate'?'inline-block':'none';
   if(currentRole==='candidate'&&assignedVillage){vw.value=assignedVillage;currentVillage=assignedVillage;}
   else{currentVillage='';}
   setRoleLabel();
@@ -1628,7 +1597,7 @@ function applyScope(){
   vS.innerHTML=(currentRole==='candidate'?'':'<option value="all">All Villages ('+base.length+')</option>');
   base.forEach(v=>{const o=document.createElement('option');o.value=v.name;o.textContent=v.name+(currentRole==='candidate'?'':' (Rank #'+v.rank+')');vS.appendChild(o);});
   document.getElementById('showing-count').textContent=base.length;
-  renderDashboard();renderCandidateDashboard();renderBattleWard();renderVillages();renderAssembly();renderVoters();renderTasks();renderWeekly();renderHours();renderGoals();renderFeatures();animateCounters();
+  renderDashboard();renderCandidateDashboard();renderVillages();renderAssembly();renderVoters();renderTasks();renderWeekly();renderHours();renderGoals();renderFeatures();animateCounters();
   updateConstituencyStats();
 }
 
@@ -1934,27 +1903,11 @@ function wardTotalCard(v,c){
       +seatPartyRow(c.p3.short,'var(--c-brown-light)','—',v.p3+'%'));
   return `<div class="pos-card active"><div class="pos-head">${v.name}</div><div class="pos-seat">Your ward totals · 2026 recorded votes</div><div class="pos-stats"><div class="pos-stat"><span>Voters</span><b>${vf(v.voters)}</b></div><div class="pos-stat"><span>Polled 2026</span><b>${vf(v.polled)}</b></div><div class="pos-stat"><span>Ward size</span><b>${v.booths} booths</b></div><div class="pos-stat"><span>Lead</span><b style="color:${v.lead>=0?'var(--c-green)':'var(--c-orange)'};">${v.lead>=0?'+':''}${v.lead} pp</b></div></div>${rows}<div class="pos-tier" style="margin-top:10px;">2026 status · ${v.tier}</div></div>`;
 }
-function partyPerf(mine,rivals){
-  const best=rivals.length?Math.max.apply(null,rivals):0;
-  const gap=Math.round((mine-best)*10)/10;
-  const status=gap>=0?'Positive':(gap>=-5?'Neutral':(gap>=-15?'Weak':'Low'));
-  const a=Math.abs(gap);
-  return {status:status,margin:a>=10?'High':(a>=5?'Medium':'Low'),gap:gap};
-}
-function perfChip(inc,tvk,aia){
-  const t=inc+tvk+aia;
-  if(!t)return '<span style="color:var(--c-text-muted);font-size:11px;">—</span>';
-  const p=partyPerf(inc/t*100,[tvk/t*100,aia/t*100]);
-  const col=p.status==='Positive'?'var(--c-green)':(p.status==='Neutral'?'var(--c-golden)':(p.status==='Weak'?'var(--c-orange)':'#C62828'));
-  return '<span style="display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;color:'+col+';">'
-    +'<span style="width:7px;height:7px;border-radius:50%;background:'+col+';display:inline-block;"></span>'
-    +p.status+'</span><div style="font-size:10px;color:var(--c-text-muted);">margin '+p.margin+' · '+(p.gap>=0?'+':'')+p.gap+' pp</div>';
-}
 function seatWardsTable(rows,totalLabel){
   const c=activeCtx();
-  return `<div class="table-wrap"><table><thead><tr><th>Ward</th><th>${c.party.short}</th><th>${c.p2.short}</th><th>${c.p3.short}</th><th>${c.party.short} status</th><th>Lead</th><th>Polled</th></tr></thead><tbody>`
-    +rows.map(r=>`<tr><td><strong>${r.w}</strong></td><td>${vf(r.inc)} <span style="color:var(--c-text-muted);font-size:11px;">${seatPct(r.inc,r.inc+r.tvk+r.aiadmk)}</span></td><td>${vf(r.tvk)} <span style="color:var(--c-text-muted);font-size:11px;">${seatPct(r.tvk,r.inc+r.tvk+r.aiadmk)}</span></td><td>${vf(r.aiadmk)} <span style="color:var(--c-text-muted);font-size:11px;">${seatPct(r.aiadmk,r.inc+r.tvk+r.aiadmk)}</span></td><td>${perfChip(r.inc,r.tvk,r.aiadmk)}</td><td style="color:${seatLead(r.inc,r.tvk,r.aiadmk).charAt(0)==='+'?'var(--c-green)':'var(--c-orange)'};font-weight:700;">${seatLead(r.inc,r.tvk,r.aiadmk)}</td><td>${vf(r.polled)}</td></tr>`).join('')
-    +(totalLabel?`<tr style="background:var(--c-warm);font-weight:800;"><td>${totalLabel}</td><td>${vf(rows.reduce((s,r)=>s+r.inc,0))}</td><td>${vf(rows.reduce((s,r)=>s+r.tvk,0))}</td><td>${vf(rows.reduce((s,r)=>s+r.aiadmk,0))}</td><td>${perfChip(rows.reduce((s,r)=>s+r.inc,0),rows.reduce((s,r)=>s+r.tvk,0),rows.reduce((s,r)=>s+r.aiadmk,0))}</td><td>${veLead(rows)}</td><td>${vf(rows.reduce((s,r)=>s+r.polled,0))}</td></tr>`:'')+'</tbody></table></div>';
+  return `<div class="table-wrap"><table><thead><tr><th>Ward</th><th>${c.party.short}</th><th>${c.p2.short}</th><th>${c.p3.short}</th><th>Lead</th><th>Polled</th></tr></thead><tbody>`
+    +rows.map(r=>`<tr><td><strong>${r.w}</strong></td><td>${vf(r.inc)} <span style="color:var(--c-text-muted);font-size:11px;">${seatPct(r.inc,r.inc+r.tvk+r.aiadmk)}</span></td><td>${vf(r.tvk)} <span style="color:var(--c-text-muted);font-size:11px;">${seatPct(r.tvk,r.inc+r.tvk+r.aiadmk)}</span></td><td>${vf(r.aiadmk)} <span style="color:var(--c-text-muted);font-size:11px;">${seatPct(r.aiadmk,r.inc+r.tvk+r.aiadmk)}</span></td><td style="color:${seatLead(r.inc,r.tvk,r.aiadmk).charAt(0)==='+'?'var(--c-green)':'var(--c-orange)'};font-weight:700;">${seatLead(r.inc,r.tvk,r.aiadmk)}</td><td>${vf(r.polled)}</td></tr>`).join('')
+    +(totalLabel?`<tr style="background:var(--c-warm);font-weight:800;"><td>${totalLabel}</td><td>${vf(rows.reduce((s,r)=>s+r.inc,0))}</td><td>${vf(rows.reduce((s,r)=>s+r.tvk,0))}</td><td>${vf(rows.reduce((s,r)=>s+r.aiadmk,0))}</td><td>${veLead(rows)}</td><td>${vf(rows.reduce((s,r)=>s+r.polled,0))}</td></tr>`:'')+'</tbody></table></div>';
 }
 function veLead(rows){if(!rows.length)return '—';const ti=rows.reduce((s,r)=>s+r.inc,0),tt=rows.reduce((s,r)=>s+r.tvk,0),ta=rows.reduce((s,r)=>s+r.aiadmk,0);return seatLead(ti,tt,ta);}
 /* ---- analytics report (LOCAL_BODIES.election_analytics_report) ---- */
@@ -2012,9 +1965,6 @@ function analyticsVillageCardHTML(vname){
     +aYearBlock('2021 · Village Form 20',v21)
     +'</div>';
 }
-function analyticsCardFor(v,w){
-  return analyticsWardCardHTML(v.name,w?w.no:null);
-}
 function renderSeatProfile(){
   const box=document.getElementById('seat-profile');if(!box)return;
   const pos=candPosCode(),m=STANDING_POSITIONS[pos]||STANDING_POSITIONS.CO,v=candVillage(),c=activeCtx();
@@ -2051,7 +2001,982 @@ function seatVillagesFor(asm){
   const c=Object.values(constituencies).find(x=>x.assembly===asm);
   return c?c.villages:constituencies['AC 37 Kanchipuram'].villages;
 }
-/* ==================== BATTLE MAP — ward monitor (party-relative) ==================== */
+/* ==================== REGISTRATION CASCADE ====================
+   Position -> Constituency -> Village -> Ward (WM) / Village (PP) / Group (CO)
+   Top level is Constituency until a block mapping is supplied; swapping it to
+   Panchayat Union later means changing modalCtxKey() and the option list only.
+   Councillor groups are DERIVED by chunking, NOT official TNSEC delimitation. */
+const CO_GROUP_SIZE=11;
+let assignedWard='';
+let assignedGroup='';
+
+function acKeyOf(key){return (key||currentConstituency)==='AC 29 Sriperumbudur (SC)'?'AC29':'AC37';}
+/* Real ward units from the delimitation workbook. Ward vote splits are ESTIMATED:
+   Form 20 reports per polling station, and a station can serve several wards. */
+function villageWards(v,ctxKey){
+  if(v&&typeof WARD_UNITS!=='undefined'){
+    const ac=WARD_UNITS[acKeyOf(ctxKey)];
+    const rows=ac&&ac.wards?ac.wards[v.name]:null;
+    if(rows&&rows.length){
+      const st=(typeof WARD_STREETS!=='undefined'&&WARD_STREETS[acKeyOf(ctxKey)])
+               ? (WARD_STREETS[acKeyOf(ctxKey)][v.name]||{}) : {};
+      return rows.map(function(r){
+        const sw=st[String(r.ward)]||{};
+        return {no:r.ward,label:r.label,seat:r.seat,inc:r.ally,tvk:r.tvk,aiadmk:r.aia,
+                polled:r.valid,booths:(sw.b&&sw.b.length?sw.b:(r.booths||[])),
+                streets:sw.s||[],estimated:true};
+      });
+    }
+  }
+  return (v&&v.boothList?v.boothList:[]).map(function(b){
+    return {no:b[0],tvk:b[2],inc:b[3],aiadmk:b[4],polled:b[5],booths:[b[0]],estimated:false};
+  });
+}
+function officialUnionWards(key,c){
+  if(typeof LOCAL_BODIES==='undefined')return null;
+  const co=LOCAL_BODIES.election_data.positions.councillor;
+  const byAc=co.union_wards_by_ac||{};
+  const uw=byAc[key]||(key==='AC 29 Sriperumbudur (SC)'?co.union_wards:null);
+  if(!uw)return null;
+  const out=uw.map(function(w){
+    const members=w.group_of_villages.map(function(n){
+      return c.villages.find(function(v){return v.name===n;});
+    }).filter(Boolean);
+    const missing=[];
+    (w.no_data_villages||[]).forEach(function(t){
+      const alias=(VILLAGE_ALIASES[key]||{})[t];
+      const v=alias?c.villages.find(function(x){return x.name===alias;}):null;
+      if(v && !members.some(function(m){return m.name===v.name;})) members.push(v);
+      else missing.push(t);
+    });
+    return {id:w.ward_id,name:w.union_ward_name,members:members,
+            missing:missing,official:true,
+            delimPop:w.delimitationPopulation};
+  }).filter(function(g){return g.members.length;});
+  return out.length?out:null;
+}
+function councillorGroups(key){
+  const c=constituencies[key]||activeCtx();
+  const off=officialUnionWards(key,c);
+  if(off)return off;
+  const vs=c.villages.slice().sort(function(a,b){return a.name.localeCompare(b.name);});
+  const out=[];
+  for(var i=0;i<vs.length;i+=CO_GROUP_SIZE){
+    var chunk=vs.slice(i,i+CO_GROUP_SIZE);
+    out.push({id:'G'+(out.length+1),
+      name:'Group '+(out.length+1)+' · '+chunk[0].name+' – '+chunk[chunk.length-1].name,
+      members:chunk});
+  }
+  return out;
+}
+function findGroup(key,id){
+  return councillorGroups(key).find(function(g){return g.id===id;});
+}
+/* Tamil delimitation names that failed matching at file-build time, hand-verified
+   against Form-20 village lists (transliteration + ward context). Resolved here so
+   union-ward groups show their full village roster. Unmatched names stay in `missing`. */
+const VILLAGE_ALIASES = {
+  'AC 29 Sriperumbudur (SC)': {
+    'குணகரம்பாக்கம்':'Gunagarambakkam',
+    'சோகண்டி':'Sogandi',
+    'எச்சூர்':'Echur',
+    'பொடñர்':'Podavur'
+  },
+  'AC 37 Kanchipuram': {}
+};
+/* Verified out-of-AC villages: real places whose booths vote in Uthiramerur AC,
+   so this app (AC29+AC37 Form-20) has no assembly numbers for them. Shown as a
+   scope note instead of a bare "no data". Sources: ta.wikipedia (Kalakattoor),
+   villageinfo.in (Kambarajapuram). */
+const MISSING_AC_NOTE = {
+  'கம்பராஜபுரம்':'உத்திரமேரூர் தொகுதி',
+  'களக்காட்டூர் - 1 வடி 4':'உத்திரமேரூர் தொகுதி'
+};
+function missingLabel(t){
+  const note=MISSING_AC_NOTE[t];
+  return note?(t+' ('+note+')'):t;
+}
+function coGroupOf(key,village){
+  const gs=(typeof councillorGroups==='function')?councillorGroups(key):[];
+  for(let i=0;i<gs.length;i++){
+    if(gs[i].id===village) return gs[i];
+    if(gs[i].members.some(function(m){return m.name===village;})) return gs[i];
+  }
+  return null;
+}
+function groupTotals(g){
+  return g.members.reduce(function(a,v){
+    return {inc:a.inc+(v.inc||0),tvk:a.tvk+(v.tvk||0),aiadmk:a.aiadmk+(v.aiadmk||0),
+            polled:a.polled+(v.polled||0),booths:a.booths+(v.booths||0)};
+  },{inc:0,tvk:0,aiadmk:0,polled:0,booths:0});
+}
+
+/* ---- modal cascade ---- */
+function modalCtxKey(){
+  const asm=document.getElementById('f-constituency').value;
+  return Object.keys(constituencies).find(function(k){
+    return constituencies[k].assembly===asm;
+  })||currentConstituency;
+}
+function modalVillages(){
+  const c=constituencies[modalCtxKey()]||activeCtx();
+  return c.villages;
+}
+function populateModalWards(){
+  const sel=document.getElementById('f-ward');
+  const vn=document.getElementById('f-village').value;
+  const v=modalVillages().find(function(x){return x.name===vn;});
+  const ws=villageWards(v);
+  if(!vn){
+    sel.innerHTML='<option value="">Select a village first</option>';
+    sel.disabled=true;return;
+  }
+  if(!ws.length){
+    sel.innerHTML='<option value="">No ward-level data for this village</option>';
+    sel.disabled=true;return;
+  }
+  sel.disabled=false;
+  sel.innerHTML='<option value="">Select ward...</option>';
+  ws.forEach(function(w,i){
+    const o=document.createElement('option');
+    o.value=w.no;
+    o.textContent=(w.label||('Ward '+w.no))+' — '+w.polled.toLocaleString('en-IN')
+      +(w.booths&&w.booths.length?' · booth '+w.booths.join('/'):'')
+      +(w.streets&&w.streets.length?' · '+w.streets.length+' தெரு':'');
+    sel.appendChild(o);
+  });
+}
+function populateModalGroups(){
+  const sel=document.getElementById('f-councillor');
+  sel.innerHTML='<option value="">Select group...</option>';
+  councillorGroups(modalCtxKey()).forEach(function(g){
+    const t=groupTotals(g);
+    const o=document.createElement('option');
+    o.value=g.id;
+    o.textContent=g.name+' ('+g.members.length+' villages · '+t.polled.toLocaleString('en-IN')+' polled)';
+    sel.appendChild(o);
+  });
+}
+function updateModalCascade(){
+  const pos=document.getElementById('f-position').value||'';
+  function show(id,on){document.getElementById(id).style.display=on?'':'none';}
+  show('fg-village',pos==='WM'||pos==='PP');
+  show('fg-ward',pos==='WM');
+  show('fg-councillor',pos==='CO');
+  show('fg-cascade-note',pos==='CO');
+  const lbl=document.getElementById('lbl-village');
+  if(lbl)lbl.textContent=pos==='PP'?'Village Panchayat *':'Assigned Village *';
+  if(pos==='WM')populateModalWards();
+  if(pos==='CO')populateModalGroups();
+}
+
+/* ---- seat profile panels ---- */
+function wardProfileHTML(v,w,c){
+  const t=w.inc+w.tvk+w.aiadmk;
+  const lead=t?Math.round((w.inc/t*100-Math.max(w.tvk/t*100,w.aiadmk/t*100))*10)/10:0;
+  return '<div class="pos-grid"><div class="pos-card active">'+
+    '<div class="pos-head">Ward '+w.no+'</div>'+
+    '<div class="pos-seat">'+v.name+' · '+bodyNameOf(v)+'</div>'+
+    '<div class="pos-stats">'+
+      '<div class="pos-stat"><span>Polled 2026</span><b>'+vf(w.polled)+'</b></div>'+
+      '<div class="pos-stat"><span>Lead</span><b style="color:'+(lead>=0?'var(--c-green)':'var(--c-orange)')+';">'+(lead>=0?'+':'')+lead+' pp</b></div>'+
+    '</div>'+
+    seatPartyRow(c.party.short,'var(--c-golden)',vf(w.inc),seatPct(w.inc,t))+
+    seatPartyRow(c.p2.short,'var(--c-green)',vf(w.tvk),seatPct(w.tvk,t))+
+    seatPartyRow(c.p3.short,'var(--c-brown-light)',vf(w.aiadmk),seatPct(w.aiadmk,t))+
+  '</div></div>';
+}
+function groupProfileHTML(g,c){
+  const t=groupTotals(g),tot=t.inc+t.tvk+t.aiadmk;
+  const rows=g.members.map(function(v){
+    return {w:v.name,inc:v.inc||0,tvk:v.tvk||0,aiadmk:v.aiadmk||0,polled:v.polled||0};
+  });
+  return '<div class="pos-grid"><div class="pos-card active">'+
+    '<div class="pos-head">'+g.name+'</div>'+
+    '<div class="pos-seat">'+g.members.length+' villages grouped</div>'+
+    '<div class="pos-stats">'+
+      '<div class="pos-stat"><span>Villages</span><b>'+g.members.length+'</b></div>'+
+      '<div class="pos-stat"><span>Booths</span><b>'+t.booths+'</b></div>'+
+      '<div class="pos-stat"><span>Polled 2026</span><b>'+vf(t.polled)+'</b></div>'+
+      '<div class="pos-stat"><span>Lead</span><b>'+seatLead(
+          tot?Math.round(t.inc/tot*1000)/10:0,
+          tot?Math.round(t.tvk/tot*1000)/10:0,
+          tot?Math.round(t.aiadmk/tot*1000)/10:0)+'</b></div>'+
+    '</div>'+
+    seatPartyRow(c.party.short,'var(--c-golden)',vf(t.inc),seatPct(t.inc,tot))+
+    seatPartyRow(c.p2.short,'var(--c-green)',vf(t.tvk),seatPct(t.tvk,tot))+
+    seatPartyRow(c.p3.short,'var(--c-brown-light)',vf(t.aiadmk),seatPct(t.aiadmk,tot))+
+    '<div class="pos-tier" style="margin-top:10px;">Derived grouping of '+CO_GROUP_SIZE+' villages — not official delimitation</div>'+
+  '</div></div>'+seatWardsTable(rows,g.name+' · Total');
+}
+
+function initCandidateModal(){
+  const pSel=document.getElementById('f-party');
+  if(!pSel.dataset.init){partyList.forEach(x=>{const o=document.createElement('option');o.value=x;o.textContent=x;pSel.appendChild(o);});pSel.dataset.init='1';}
+  const cSel=document.getElementById('f-constituency');
+  if(!cSel.dataset.init){const def=document.createElement('option');def.value='';def.textContent='Select constituency...';cSel.appendChild(def);const uniq=[...new Set(Object.values(constituencies).map(c=>c.assembly))];uniq.forEach(x=>{const o=document.createElement('option');o.value=x;o.textContent=x;cSel.appendChild(o);});cSel.dataset.init='1';cSel.addEventListener('change',()=>{const vSel=document.getElementById('f-village');vSel.innerHTML='<option value="">Select village...</option>';seatVillagesFor(cSel.value).forEach(v=>{const o=document.createElement('option');o.value=v.name;o.textContent=v.name;vSel.appendChild(o);});const av=assignedVillage&&seatVillagesFor(cSel.value).some(v=>v.name===assignedVillage)?assignedVillage:'';vSel.value=av;});}
+  const vSel=document.getElementById('f-village');
+  if(!vSel.dataset.casc){vSel.addEventListener('change',function(){if(document.getElementById('f-position').value==='WM')populateModalWards();});vSel.dataset.casc='1';}
+  const posSel=document.getElementById('f-position');
+  if(!posSel.dataset.casc){posSel.addEventListener('change',updateModalCascade);posSel.dataset.casc='1';}
+  if(!cSel.dataset.casc){cSel.addEventListener('change',function(){setTimeout(updateModalCascade,0);});cSel.dataset.casc='1';}
+  vSel.innerHTML='<option value="">Select village...</option>';
+  seatVillagesFor(cSel.value||(document.getElementById('cand-constituency').textContent||Object.values(constituencies)[0].assembly)).forEach(v=>{const o=document.createElement('option');o.value=v.name;o.textContent=v.name;vSel.appendChild(o);});
+}
+
+/* ---- registration persistence ---- */
+const CC_PROFILE_KEY='cc_profile_v1';
+function candidateProfile(){
+  return {name:document.getElementById('cand-name').textContent,
+    party:document.getElementById('cand-party').textContent,
+    constituency:document.getElementById('cand-constituency').textContent,
+    village:assignedVillage,
+    ward:assignedWard,
+    group:assignedGroup,
+    pos:document.getElementById('cand-position').dataset.position||'CO',
+    mobile1:document.getElementById('cand-mobile1').value,
+    mobile2:document.getElementById('cand-mobile2').value,
+    email:document.getElementById('cand-email').value,
+    role:document.getElementById('role-select').value};
+}
+function saveCandidateProfile(){try{localStorage.setItem(CC_PROFILE_KEY,JSON.stringify(candidateProfile()));}catch(e){}}
+function restoreCandidateProfile(){
+  let p=null;try{p=JSON.parse(localStorage.getItem(CC_PROFILE_KEY));}catch(e){}
+  if(!p||!p.name)return;
+  const targetKey=Object.keys(constituencies).find(k=>constituencies[k].assembly===p.constituency);
+  if(targetKey&&targetKey!==currentConstituency){
+    switchConstituency(targetKey);
+    const cs=document.getElementById('constituency-select');if(cs)cs.value=targetKey;
+  }
+  assignedVillage=(p.village&&villages.some(v=>v.name===p.village))?p.village:'';
+  assignedWard=p.ward||'';
+  assignedGroup=p.group||'';
+  const posMeta=STANDING_POSITIONS[p.pos]||STANDING_POSITIONS.CO;
+  document.getElementById('cand-name').textContent=p.name;
+  document.getElementById('cand-avatar').textContent=p.name.split(/\s+/).map(w=>w[0]).join('').slice(0,2).toUpperCase()||'CC';
+  if(p.party)document.getElementById('cand-party').textContent=p.party;
+  document.getElementById('cand-constituency').textContent=p.constituency||activeCtx().assembly;
+  document.getElementById('cand-position').dataset.position=p.pos||'CO';
+  document.getElementById('cand-position').textContent=posMeta.icon+' Standing for · '+posMeta.label+' ('+posMeta.seat+')';
+  if(p.mobile1)document.getElementById('cand-mobile1').value=p.mobile1;
+  if(p.mobile2)document.getElementById('cand-mobile2').value=p.mobile2;
+  if(p.email)document.getElementById('cand-email').value=p.email;
+  if(p.role){document.getElementById('role-select').value=p.role;onRoleChange();}
+  refreshLocalBodyLine();renderSeatProfile();renderCandidateDashboard();
+}
+function openCandidateModal(){
+  initCandidateModal();
+  document.getElementById('f-name').value=document.getElementById('cand-name').textContent;
+  document.getElementById('f-party').value=document.getElementById('cand-party').textContent;
+  document.getElementById('f-constituency').value=document.getElementById('cand-constituency').textContent;
+  document.getElementById('f-village').value=assignedVillage;
+  document.getElementById('f-position').value=document.getElementById('cand-position').dataset.position||'CO';
+  updateModalCascade();
+  document.getElementById('f-ward').value=assignedWard;
+  document.getElementById('f-councillor').value=assignedGroup;
+  document.getElementById('f-mobile1').value=document.getElementById('cand-mobile1').value;
+  document.getElementById('f-mobile2').value=document.getElementById('cand-mobile2').value;
+  document.getElementById('f-email').value=document.getElementById('cand-email').value;
+  document.getElementById('cand-modal').classList.add('open');
+  document.getElementById('f-name').focus();
+}
+function closeCandidateModal(){document.getElementById('cand-modal').classList.remove('open');}
+function saveCandidate(){
+  const name=document.getElementById('f-name').value.trim();
+  if(!name||!document.getElementById('f-mobile1').value.trim()){alert('Please enter candidate name and primary mobile number.');return;}
+  const initials=name.split(/\s+/).map(w=>w[0]).join('').slice(0,2).toUpperCase();
+  document.getElementById('cand-name').textContent=name;
+  document.getElementById('cand-avatar').textContent=initials||'CC';
+  const selParty=document.getElementById('f-party').value||'';
+  const party=selParty||(PARTY.symbol+' '+PARTY.name);
+  var constituency=document.getElementById('f-constituency').value||activeCtx().assembly;
+  const targetKey=Object.keys(constituencies).find(k=>constituencies[k].assembly===constituency);
+  if(targetKey&&targetKey!==currentConstituency)switchConstituency(targetKey);
+  assignedVillage=document.getElementById('f-village').value;
+  assignedWard=document.getElementById('f-ward').value||'';
+  assignedGroup=document.getElementById('f-councillor').value||'';
+  const pos=document.getElementById('f-position').value||'CO';
+  const posMeta=STANDING_POSITIONS[pos]||STANDING_POSITIONS.CO;
+  document.getElementById('cand-party').textContent=party;
+  document.getElementById('cand-position').dataset.position=pos;
+  document.getElementById('cand-position').textContent=posMeta.icon+' Standing for · '+posMeta.label+' ('+posMeta.seat+')';
+  document.getElementById('cand-constituency').textContent=constituency;
+  refreshLocalBodyLine();renderSeatProfile();renderCandidateDashboard();
+  document.getElementById('cand-mobile1').value=document.getElementById('f-mobile1').value.trim();
+  document.getElementById('cand-mobile2').value=document.getElementById('f-mobile2').value.trim();
+  document.getElementById('cand-email').value=document.getElementById('f-email').value.trim();
+  if(assignedVillage&&document.getElementById('role-select').value==='candidate'){document.getElementById('scope-village').value=assignedVillage;onScopeChange();}
+  saveCandidateProfile();
+  closeCandidateModal();
+  alert('Candidate saved successfully'+(assignedVillage?` for ${assignedVillage}.`:'')+'.');
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeCandidateModal();document.getElementById('mon-modal').classList.remove('open');}});
+document.getElementById('cand-modal').addEventListener('click',closeCandidateModal);
+document.getElementById('mon-modal').addEventListener('click',function(){this.classList.remove('open');});
+
+/* ==================== ELECTION MONITOR PRO ====================
+   Flow: Login -> Select Role -> Position -> Area -> Home
+   Votes are real 2026 Form 20 rows; union wards are the official 2020 delimitation. */
+const MON = {user:'', mobile:'', role:'', pos:'', party:'', block:'', village:'', ward:'', step:1};
+const MON_POS_TA = {PP:'ஊராட்சி மன்ற தலைவர்', CO:'ஒன்றிய கவுன்சிலர்', WM:'வார்டு மெம்பர்'};
+const MON_STEPS = ['Login','பங்கு','பதவி','பகுதி','Home'];
+
+function monGo(n){
+  MON.step = n;
+  for (var i=1;i<=5;i++){
+    var el=document.getElementById('mon-step-'+i);
+    if(el) el.hidden = (i!==n);
+  }
+  monStepBar();
+  window.scrollTo({top:document.getElementById('sec-monitor').offsetTop-70, behavior:'smooth'});
+}
+function monStepBar(){
+  const bar=document.getElementById('mon-stepbar'); if(!bar) return;
+  bar.innerHTML = MON_STEPS.map(function(s,i){
+    const n=i+1, done=n<MON.step, now=n===MON.step;
+    const bg = now?'var(--c-golden)':(done?'var(--c-green)':'var(--c-light)');
+    const fg = (now||done)?'#fff':'var(--c-text-muted)';
+    return '<span style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;'
+      +'padding:5px 12px;background:'+bg+';color:'+fg+';border-radius:20px;">'
+      +(done?'✓':n)+' '+s+'</span>';
+  }).join('');
+}
+function monMsg(t){
+  const m=document.getElementById('mon-msg');
+  if(!m) return;
+  if(!t){m.style.display='none';return;}
+  m.textContent=t; m.style.display='block';
+}
+
+/* ---- STEP 1: login ---- */
+function monEnter(){
+  const mobile=(document.getElementById('mon-mobile').value||'').trim();
+  const otp=(document.getElementById('mon-otp').value||'').trim();
+  if(!/^\d{10}$/.test(mobile)) return monMsg('சரியான 10 இலக்க மொபைல் எண்ணை உள்ளிடவும்.');
+  if(otp!=='1234') return monMsg('OTP தவறு (Demo: 1234).');
+  monMsg('');
+  MON.user=(document.getElementById('mon-user').value||'').trim();
+  MON.mobile=mobile;
+  monGo(2);
+}
+function monReset(){
+  MON.role=MON.pos=MON.party=MON.village=MON.ward='';
+  if(typeof setLocalBodyMode==='function')setLocalBodyMode(false);
+  monGo(1);
+}
+
+/* ---- STEP 2: role ---- */
+function monSetRole(r){
+  MON.role=r;
+  document.getElementById('mon-pos-title').textContent =
+    (r==='field') ? 'Field worker for — யாருக்காக?' : 'Position — பதவி';
+  monGo(3);
+}
+
+/* ---- STEP 3: position + party ---- */
+function monSetParty(p){ MON.party=p; if(MON.pos) monBuildArea(); }
+function monSetPos(p){
+  MON.pos=p;
+  monBuildArea();
+  monGo(4);
+}
+
+/* ---- STEP 4: area ---- */
+function monBlocks(){ return Object.keys(constituencies); }
+function monCtxOf(k){ return constituencies[k] || constituencies[currentConstituency]; }
+function monBuildArea(){
+  const bs=document.getElementById('mon-block');
+  if(bs && !bs.options.length){
+    bs.innerHTML = monBlocks().map(function(k){
+      return '<option value="'+k+'">'+constituencies[k].label+'</option>'; }).join('');
+    MON.block = bs.value = currentConstituency;
+  }
+  if(!MON.block) MON.block = bs ? bs.value : currentConstituency;
+  const title=document.getElementById('mon-area-title');
+  const vlab=document.getElementById('mon-v-label');
+  const wwrap=document.getElementById('mon-w-wrap');
+  if(MON.pos==='CO'){
+    title.textContent='ஒன்றிய கவுன்சிலர் — ஊராட்சி';
+    vlab.textContent='ஊராட்சி Village Panchayat';
+    wwrap.style.display='none';
+  }else if(MON.pos==='WM'){
+    title.textContent='ஊராட்சி → வார்டு எண்';
+    vlab.textContent='ஊராட்சி Village Panchayat';
+    wwrap.style.display='';
+  }else{
+    title.textContent='ஊராட்சி Village Panchayat';
+    vlab.textContent='ஊராட்சி Village Panchayat';
+    wwrap.style.display='none';
+  }
+  monFillVillages();
+}
+function monBlockChange(){
+  MON.block=document.getElementById('mon-block').value;
+  MON.village=MON.ward='';
+  monFillVillages();
+}
+function monFillVillages(){
+  const sel=document.getElementById('mon-village');
+  const c=monCtxOf(MON.block);
+  let opts='<option value="">— தேர்ந்தெடுக்கவும் —</option>';
+  opts+=c.villages.slice().sort(function(a,b){return a.name.localeCompare(b.name);})
+    .map(function(v){ return '<option value="'+v.name+'">'+v.name+' ('+v.booths+' பூத்)</option>'; }).join('');
+  sel.innerHTML=opts;
+  sel.value=MON.village||'';
+  monVillageChange();
+}
+function monVillageChange(){
+  MON.village=document.getElementById('mon-village').value;
+  MON.ward='';
+  const note=document.getElementById('mon-area-note');
+  const btn=document.getElementById('mon-enter-btn');
+  if(MON.pos==='WM'){
+    const ws=document.getElementById('mon-ward');
+    const c=monCtxOf(MON.block);
+    const v=c.villages.find(function(x){return x.name===MON.village;});
+    const rows=(typeof villageWards==='function')?villageWards(v,MON.block):[];
+    if(!MON.village){ ws.innerHTML='<option value="">— முதலில் ஊரைத் தேர்ந்தெடுக்கவும் —</option>'; ws.disabled=true; }
+    else if(!rows.length){ ws.innerHTML='<option value="">வார்டு தரவு இல்லை</option>'; ws.disabled=true; }
+    else {
+      ws.disabled=false;
+      ws.innerHTML='<option value="">— வார்டு —</option>'+rows.map(function(w,i){
+        const label=w.label||('வார்டு '+(i+1));
+        const tag=' ('+w.polled.toLocaleString('en-IN')+' polled)'
+          +(w.booths&&w.booths.length?' · Booth '+w.booths.join('/'):'')
+          +(w.streets&&w.streets.length?' · '+w.streets.length+' தெரு':'');
+        return '<option value="'+w.no+'">'+label+tag+'</option>';
+      }).join('');
+    }
+    note.textContent = rows.length
+      ? (rows[0].estimated
+          ? 'வார்டு விவரம் delimitation புத்தகத்திலிருந்து — தெருக்கள் இதில் சேர்க்கப்பட்டுள்ளன (வாக்கு 2026 Estimate).'
+          : 'வார்டு = ஒரு பூத் என வரையறுக்கப்பட்டது (derived).')
+      : '';
+  }else{
+    note.textContent='';
+  }
+  monEnableBtn();
+}
+function monWardChange(){ MON.ward=document.getElementById('mon-ward').value; monEnableBtn(); }
+function monEnableBtn(){
+  const btn=document.getElementById('mon-enter-btn');
+  btn.disabled = !(MON.village && (MON.pos!=='WM' || MON.ward));
+}
+
+/* ---- STEP 5: home / report ---- */
+/* Overview tiles (masonry grid) + collapsible heavy sections.
+   String-only DOM work so nothing else breaks; idempotent. */
+const MON_SECS=['mon-victory','mon-trajectory','mon-battle','mon-goals','mon-compare','mon-rank','mon-localbody'];
+function monOpenSec(id){
+  const box=document.getElementById(id);
+  if(!box) return;
+  try{
+    const d=box.querySelector?box.querySelector('details.mon-sec'):null;
+    if(d) d.open=true;
+  }catch(e){}
+  if(box.scrollIntoView){try{box.scrollIntoView({behavior:'smooth',block:'start'});}catch(e){}}
+}
+function monCompactSections(){
+  let tiles='';
+  const b=(typeof monBattleVotes==='function')?monBattleVotes():null;
+  if(b&&b.ctx){
+    const c=b.ctx, mine=myPartyOr(c);
+    const rank=Object.keys(b.parties).map(function(k){return {p:k,v:b.parties[k]};}).sort(function(x,y){return y.v-x.v;});
+    const mineV=b.parties[mine]||0, leader=rank[0], against=(leader.p===mine)?rank[1]:leader;
+    const gapPP=b.three?Math.round((mineV/b.three*100-against.v/b.three*100)*10)/10:0;
+    const myShare=b.three?Math.round(mineV/b.three*1000)/10:0;
+    const col=monPartyCol(c);
+    tiles+='<button class="ov-tile hero" type="button" onclick="monOpenSec(\'mon-battle\')">'
+      +'<span>'+zoneOf(gapPP).zone+'</span><b>'+(gapPP>=0?'+':'')+gapPP+'pp</b>'
+      +'<em>'+mine+' vs '+against.p+' · போர் வரைபடம்</em></button>'
+      +'<button class="ov-tile" type="button" onclick="monOpenSec(\'mon-battle\')">'
+      +'<span>'+mine+' பங்கு</span><b>'+myShare+'%</b><em>'+vf(b.polled)+' பதிவு</em></button>';
+    const units=(typeof monScopeUnits==='function')?monScopeUnits():[];
+    if(units.length){
+      let top=units[0], topSh=-1;
+      units.forEach(function(u){
+        const t=u.inc+u.tvk+u.aiadmk, sh=t?monMine(u,col)/t*100:0;
+        if(sh>topSh){topSh=sh;top=u;}
+      });
+      tiles+='<button class="ov-tile" type="button" onclick="monOpenSec(\'mon-rank\')">'
+        +'<span>No.1 · தரவரிசை</span><b>'+Math.round(topSh*10)/10+'%</b><em>'+top.name+'</em></button>';
+      const y=units.filter(function(u){return u.y21;}).reduce(function(a,u){
+        return {ally:a.ally+(u.y21.ally||0),opp:a.opp+(u.y21.opp||0)};},{ally:0,opp:0});
+      const tot26=units.reduce(function(a,u){return a+u.inc+u.tvk+u.aiadmk;},0);
+      if((y.ally+y.opp)>0&&tot26){
+        const my26=units.reduce(function(a,u){return a+monMine(u,col);},0)/tot26*100;
+        const sw=Math.round((my26-y.ally/(y.ally+y.opp)*100)*10)/10;
+        tiles+='<button class="ov-tile" type="button" onclick="monOpenSec(\'mon-compare\')">'
+          +'<span>\'21 → \'26 மாற்றம்</span><b>'+(sw>=0?'+':'')+sw+'pp</b><em>கடைசி 2 ஆண்டு</em></button>';
+      }
+    }
+  }
+  if(localBodyMode){
+    const link=lbLinkForVillage();
+    if(link){
+      const pres=((link.results||[]).find(function(r){return r.p&&r.p.indexOf('President')>-1;})||link.results[0])||null;
+      tiles+='<button class="ov-tile" type="button" onclick="monOpenSec(\'mon-localbody\')">'
+        +'<span>உள்ளாட்சி · '+(link.wards||[]).length+' வார்டு</span><b>'+(pres?pres.wn:'—')+'</b>'
+        +'<em>'+(pres?lbPartyLabel(pres.win):'')+'</em></button>';
+    }
+  }
+  const ov=document.getElementById('mon-overview');
+  if(ov) ov.innerHTML=tiles?('<div class="ov-grid">'+tiles+'</div>'):'';
+  MON_SECS.forEach(function(id){
+    const box=document.getElementById(id);
+    if(!box||box.style.display==='none') return;
+    const h=box.innerHTML||'';
+    if(!h||h.indexOf('<details')===0) return;
+    const m=h.match(/^<div class="card-title">([\s\S]*?)<\/div>/);
+    if(!m) return;
+    box.innerHTML='<details class="mon-sec"><summary><div class="card-title">'+m[1]
+      +'<span class="chev">▸</span></div></summary><div class="mon-sec-body">'
+      +h.slice(m[0].length)+'</div></details>';
+  });
+}
+function monPartyCol(c){
+  if(MON.party===c.p2.short) return 'tvk';
+  if(MON.party===c.p3.short) return 'aiadmk';
+  return 'inc';
+}
+function monPartyLabel(c){
+  const col=monPartyCol(c);
+  return col==='tvk'?c.p2.short:(col==='aiadmk'?c.p3.short:c.party.short);
+}
+function monMine(r,col){ return col==='tvk'?r.tvk:(col==='aiadmk'?r.aiadmk:r.inc); }
+function monStatusCell(r,col){
+  const three=r.inc+r.tvk+r.aiadmk;
+  if(!three) return '<span style="color:var(--c-text-muted);">—</span>';
+  const mine=monMine(r,col);
+  const rivals=['inc','tvk','aiadmk'].filter(function(k){return k!==col;})
+    .map(function(k){ return (k==='tvk'?r.tvk:(k==='aiadmk'?r.aiadmk:r.inc))/three*100; });
+  const p=partyPerf(mine/three*100, rivals);
+  const cl=p.status==='Positive'?'var(--c-green)':(p.status==='Neutral'?'var(--c-golden)':(p.status==='Weak'?'var(--c-orange)':'#C62828'));
+  return '<span style="color:'+cl+';font-weight:700;">'+p.status+'</span>'
+    +'<div style="font-size:10px;color:var(--c-text-muted);">margin '+p.margin+' · '+(p.gap>=0?'+':'')+p.gap+' pp</div>';
+}
+function monWardTable(rows,c,totalLabel){
+  const col=monPartyCol(c), pl=monPartyLabel(c);
+  const sum=function(k){ return rows.reduce(function(s,r){return s+(r[k]||0);},0); };
+  const body=rows.map(function(r){
+    const three=r.inc+r.tvk+r.aiadmk, other=Math.max(0,r.polled-three);
+    return '<tr><td><strong>'+r.w+'</strong></td>'
+      +'<td>'+vf(r.inc)+'</td><td>'+vf(r.tvk)+'</td><td>'+vf(r.aiadmk)+'</td>'
+      +'<td style="color:var(--c-text-muted);">'+vf(other)+'</td>'
+      +'<td><strong>'+vf(r.polled)+'</strong></td>'
+      +'<td>'+monStatusCell(r,col)+'</td></tr>';
+  }).join('');
+  const tot={inc:sum('inc'),tvk:sum('tvk'),aiadmk:sum('aiadmk'),polled:sum('polled')};
+  const totOther=Math.max(0,tot.polled-(tot.inc+tot.tvk+tot.aiadmk));
+  return '<div class="table-wrap"><table><thead><tr><th>வார்டு</th><th>'+c.party.short+'</th><th>'+c.p2.short
+    +'</th><th>'+c.p3.short+'</th><th>பிற</th><th>Polled</th><th>'+pl+' நிலை</th></tr></thead><tbody>'
+    +body
+    +'<tr style="background:var(--c-warm);font-weight:800;"><td>'+totalLabel+'</td><td>'+vf(tot.inc)+'</td><td>'+vf(tot.tvk)
+    +'</td><td>'+vf(tot.aiadmk)+'</td><td>'+vf(totOther)+'</td><td>'+vf(tot.polled)+'</td><td>'+monStatusCell(tot,col)+'</td></tr>'
+    +'</tbody></table></div>';
+}
+function monHome(){
+  setTimeout(function(){renderMonBattle();renderMonGoals();renderMonTrajectory();renderMonCompare();renderMonRank();renderLocalBody();monCompactSections();},0);
+  const c=monCtxOf(MON.block);
+  const pl=monPartyLabel(c);
+  const roleTa = MON.role==='field' ? 'களப்பணியாளர்' : 'வேட்பாளர்';
+  const posTa = MON_POS_TA[MON.pos]||MON.pos;
+  let subject='', rows=[], extra='';
+  const coGroup = MON.pos==='CO' ? coGroupOf(MON.block, MON.village) : null;
+
+  if(MON.pos==='CO' && coGroup){
+    const g=coGroup;
+    subject=g.name+((MON.village&&MON.village!==g.id)?' · '+MON.village:'');
+    rows=[];
+    g.members.forEach(function(v){
+      const ws=villageWards(v,MON.block);
+      if(ws.length){
+        ws.forEach(function(w,i){
+          const label=w.label||(!w.estimated?('வார்டு '+(i+1)):('வார்டு '+(i+1)));
+          const boothTag=w.booths&&w.booths.length?(' · Booth '+w.booths.join('/')):(' · Booth '+(w.no||w.booths[0]));
+          const streetTag=w.streets&&w.streets.length?(' · '+w.streets.length+' தெரு'):'';
+          rows.push({w:v.name+' · '+label+boothTag+streetTag,inc:w.inc,tvk:w.tvk,aiadmk:w.aiadmk,polled:w.polled});
+        });
+      }else{
+        rows.push({w:v.name,inc:v.inc||0,tvk:v.tvk||0,aiadmk:v.aiadmk||0,polled:v.polled||0});
+      }
+    });
+    extra='<div style="font-size:12px;color:var(--c-text-muted);margin-bottom:10px;">'+g.members.length+' ஊராட்சிகள்'
+      +(g.official?' · அதிகாரப்பூர்வ 2020 வரையறை':'')+'</div>'
+      +((g.missing&&g.missing.length)?'<div style="font-size:12px;color:var(--c-orange);margin-bottom:10px;">⚠️ Form 20 தரவு இல்லாத ஊர்கள்: '+g.missing.map(missingLabel).join(', ')+'</div>':'');
+  } else {
+    const v=c.villages.find(function(x){return x.name===MON.village;});
+    if(!v) return;
+    const ws=villageWards(v,MON.block);
+
+    if(localBodyMode && MON.pos==='PP' && typeof LOCALBODY_LINK!=='undefined'){
+      const ac=acKeyOf(MON.block);
+      const link=LOCALBODY_LINK[ac]?LOCALBODY_LINK[ac][MON.village]:null;
+      if(link){
+        const pres=(link.results||[]).find(function(r){return r.p&&r.p.indexOf('President')>-1;})||link.results[0]||null;
+        const wards=link.wards||[];
+        subject=link.ta+' Village Panchayat President';
+        extra='<div style="font-size:12px;color:var(--c-text-muted);margin-bottom:10px;">'
+          +(link.union?link.union+' ஒன்றியம் · ':'')+'அதிகாரப்பூர்வ 2011 உள்ளாட்சித் தேர்தல் தரவு</div>';
+        const lbTotal=pres?pres.v:0, lbElectors=pres?pres.e:0;
+        const lbWards=wards.length;
+        document.getElementById('mon-home-head').innerHTML=
+          '<div class="card-title"><span class="icon" aria-hidden="true">🏛️</span> '+link.ta+' Village Panchayat President</div>'
+          +extra
+          +'<div class="pos-stats">'
+          +'<div class="pos-stat"><span>வார்டுகள்</span><b>'+lbWards+'</b></div>'
+          +'<div class="pos-stat"><span>வாக்காளர்</span><b>'+lbElectors.toLocaleString('en-IN')+'</b></div>'
+          +'<div class="pos-stat"><span>பதிவானது</span><b>'+lbTotal.toLocaleString('en-IN')+'</b></div>'
+          +(pres?'<div class="pos-stat"><span>வென்றவர்</span><b>'+pres.wn+'</b></div>':'')
+          +'</div>';
+        let wardTbl='';
+        if(wards.length){
+          wardTbl='<div class="table-wrap"><table class="lb-tbl"><thead><tr><th>வார்டு</th><th>உறுப்பினர்</th><th>பாலினம்</th><th>இடஒதுக்கீடு</th></tr></thead><tbody>'
+            +wards.map(function(w){
+              return '<tr><td class="lb-w">'+w.w+'</td><td><strong>'+w.member+'</strong></td><td>'+(w.sex||'')+'</td><td><div class="lb-sub">'+(w.res||'')+'</div></td></tr>';
+            }).join('')
+            +'</tbody></table></div>';
+        }
+        document.getElementById('mon-home-body').innerHTML=wardTbl;
+        monGo(5);
+        return;
+      }
+    }
+
+    if(MON.pos==='WM'){
+      const w=ws.find(function(x){return String(x.no)===String(MON.ward);});
+      if(!w) return;
+      subject=MON.village+' · வார்டு (Booth '+w.no+')';
+      rows=[{w:'Booth '+w.no,inc:w.inc,tvk:w.tvk,aiadmk:w.aiadmk,polled:w.polled}];
+    } else {
+      subject=MON.village;
+      rows=ws.length?ws.map(function(w,i){
+        const label=w.label||('வார்டு '+(i+1));
+        const boothTag=w.booths&&w.booths.length?(' (Booth '+w.booths.join('/')+')'):(' (B'+w.no+')');
+        const streetTag=w.streets&&w.streets.length?(' · '+w.streets.length+' தெரு'):'';
+        return {w:label+boothTag+streetTag,inc:w.inc,tvk:w.tvk,aiadmk:w.aiadmk,polled:w.polled};
+      })
+                    :[{w:MON.village,inc:v.inc||0,tvk:v.tvk||0,aiadmk:v.aiadmk||0,polled:v.polled||0}];
+      extra='<div style="font-size:12px;color:var(--c-text-muted);margin-bottom:10px;">'+(ws.length||1)+' வார்டு / பூத் · '+bodyNameOf(v)+'</div>';
+    }
+  }
+  const t=rows.reduce(function(a,r){return {inc:a.inc+r.inc,tvk:a.tvk+r.tvk,aiadmk:a.aiadmk+r.aiadmk,polled:a.polled+r.polled};},{inc:0,tvk:0,aiadmk:0,polled:0});
+  const three=t.inc+t.tvk+t.aiadmk;
+  const col=monPartyCol(c);
+  const mine=monMine(t,col);
+  const sharePct=three?Math.round(mine/three*1000)/10:0;
+
+  document.getElementById('mon-home-head').innerHTML=
+    '<div class="card-title"><span class="icon" aria-hidden="true">🏠</span> Home — '+subject+'</div>'
+    +'<div style="font-size:12px;color:var(--c-text-muted);margin-bottom:12px;">'
+    + roleTa+' · '+posTa+(MON.party?(' · '+MON.party):'')+' · '+(MON.user||MON.mobile)+'</div>'
+    + extra
+    +'<div class="pos-stats">'
+    +'<div class="pos-stat"><span>மொத்த வாக்கு 2026</span><b>'+vf(t.polled)+'</b></div>'
+    +'<div class="pos-stat"><span>'+pl+' வாக்கு</span><b>'+vf(mine)+'</b></div>'
+    +'<div class="pos-stat"><span>'+pl+' பங்கு</span><b>'+sharePct+'%</b></div>'
+    +'<div class="pos-stat"><span>'+pl+' நிலை</span><b>'+monStatusCell(t,col)+'</b></div>'
+    +'</div>';
+  document.getElementById('mon-home-body').innerHTML=
+    '<div class="card">'+monWardTable(rows,c,'மொத்தம்')+'</div>';
+  monGo(5);
+}
+
+/* ============ LOCAL BODY MODE (official 2011 results) ============
+   Kept strictly separate from the assembly data. Assembly polling stations are
+   NOT local-body wards, and no assembly vote is redistributed into a ward here.
+   Everything below is a real local-body result as declared by TNSEC. */
+
+let localBodyMode = false;
+
+function lbAvailable(){ return typeof LOCALBODY_2011 !== 'undefined'; }
+
+/* the app stores Latin village names; the results file carries Tamil body names,
+   so match on a normalised form and keep anything unmatched visible */
+function lbNorm(s){ return (s||'').replace(/\s+/g,'').toLowerCase(); }
+
+function lbBodies(role){
+  if(!lbAvailable()) return [];
+  const seen={};
+  LOCALBODY_2011.blocks.forEach(function(b){
+    if(role && b.r!==role) return;
+    const k=b.b;
+    if(!seen[k]) seen[k]={body:k, type:b.bt, wards:0, roles:{}, electors:0, polled:0};
+    seen[k].wards++;
+    seen[k].roles[b.r]=(seen[k].roles[b.r]||0)+1;
+    seen[k].electors+=b.e||0; seen[k].polled+=b.v||0;
+  });
+  return Object.keys(seen).map(function(k){return seen[k];})
+    .sort(function(a,b){return b.wards-a.wards;});
+}
+
+function lbBlocksFor(body, role){
+  if(!lbAvailable()) return [];
+  return LOCALBODY_2011.blocks.filter(function(b){
+    return (!body || b.b===body) && (!role || b.r===role);
+  }).sort(function(a,b){return a.w-b.w;});
+}
+
+/* party tally across a set of ward results */
+function lbTally(blocks){
+  const seats={}, votes={};
+  let e=0,v=0;
+  blocks.forEach(function(b){
+    seats[b.win]=(seats[b.win]||0)+1;
+    e+=b.e||0; v+=b.v||0;
+    (b.c||[]).forEach(function(c){ votes[c[1]]=(votes[c[1]]||0)+c[2]; });
+  });
+  return {seats:seats, votes:votes, electors:e, polled:v, wards:blocks.length};
+}
+
+const LB_ROLE_TA={CO:'கவுன்சிலர்', WM:'வார்டு மெம்பர்', PP:'தலைவர்'};
+
+function lbPartyLabel(p){ return p==='NOPARTY' ? 'கட்சி இல்லை' : p; }
+function lbPartyColour(p){
+  if(p==='NOPARTY') return 'var(--c-text-muted)';
+  return p==='DMK'?'var(--c-golden)':p==='AIADMK'?'var(--c-green)':
+         p==='INC'?'var(--c-sky)':p==='PMK'?'var(--c-brown-mid)':
+         p==='IND'?'var(--c-brown-light)':'var(--c-purple)';
+}
+
+function lbGoalHTML(blocks, mine){
+  let row=null;
+  if(typeof MON!=='undefined' && MON.ward){
+    row=blocks.find(function(b){ return String(b.w)===String(MON.ward); });
+  }
+  if(!row) row=blocks.slice().sort(function(a,b){return (b.v||0)-(a.v||0);})[0];
+  if(!row) return '';
+  const cands=(row.c||[]).slice().sort(function(a,b){return b[2]-a[2];});
+  if(!cands.length) return '';
+  const win=cands[0];
+  const ours=cands.find(function(c){ return c[1]===mine; });
+  const oursV=ours?ours[2]:0;
+  const need=ours&&ours===win?0:(win[2]-oursV+1);
+  const total=cands.reduce(function(a,c){return a+c[2];},0);
+  const share=total?Math.round(oursV/total*1000)/10:0;
+  const held=ours&&ours===win;
+  return '<div class="lb-goal'+(held?' won':'')+'">'
+    +'<div class="lb-goal-h"><b>'+(row.w?('வார்டு '+row.w):'தலைவர்')
+      +' · '+mine+'</b><span>2011 முடிவு வைத்து</span></div>'
+    +'<div class="lb-goal-g">'
+      +'<div><span>'+mine+' வாக்கு</span><b>'+oursV.toLocaleString('en-IN')+'</b></div>'
+      +'<div><span>பங்கு</span><b>'+share+'%</b></div>'
+      +'<div><span>வென்றது</span><b>'+lbPartyLabel(win[1])+' '+win[2].toLocaleString('en-IN')+'</b></div>'
+      +'<div><span>'+(held?'முன்னிலை':'தேவை')+'</span><b>'
+        +(held?('+'+(win[2]-(cands[1]?cands[1][2]:0)).toLocaleString('en-IN')):('+'+need.toLocaleString('en-IN')))+'</b></div>'
+    +'</div>'
+    +'<div class="lb-warn">⚠️ இது <b>2011 தரவு</b> — அதன் பிறகு வாக்காளர் எண்ணிக்கை, வார்டு வரையறை, கட்சி கூட்டணி எல்லாம் மாறியிருக்கும். இலக்காக மட்டும் வைக்கவும், உறுதியாக அல்ல.</div>'
+  +'</div>';
+}
+function lbLinkForVillage(){
+  if(typeof MON==='undefined'||!MON.village||!MON.pos) return null;
+  if(typeof LOCALBODY_LINK==='undefined') return null;
+  const ac=acKeyOf(MON.block);
+  const acData=LOCALBODY_LINK[ac];
+  return acData?acData[MON.village]:null;
+}
+
+function lbVillageCard(){
+  if(typeof localBodyMode!=='undefined' && !localBodyMode) return '';
+  const link=lbLinkForVillage();
+  if(!link) return '';
+  const wards=link.wards||[];
+  const results=link.results||[];
+  const pres=results.find(function(r){return r.p&&r.p.indexOf('President')>-1;})||results[0]||null;
+  const coun=results.find(function(r){return r.p&&r.p.indexOf('Councillor')>-1;})||null;
+  var villTa=link.ta||MON.village;
+  var unionTa=link.union||'';
+  var wardRows=wards.map(function(w){
+    var sexTag=w.sex==='ஆண்'?'<span style="color:var(--c-navy);">♂</span>':'<span style="color:var(--c-golden);">♀</span>';
+    return '<tr><td class="lb-w">வார்டு '+w.w+'</td>'
+      +'<td><strong>'+w.member+'</strong><div class="lb-sub">'+sexTag+' '+w.res+'</div></td></tr>';
+  }).join('');
+
+  var presHTML='';
+  if(pres){
+    var votePct=pres.e?Math.round(pres.v/pres.e*100):0;
+    presHTML='<div class="lb-role">தலைவர் முடிவு — '+lbPartyLabel(pres.win)+'</div>'
+      +'<div class="lb-stats">'
+        +'<div><span>வென்றவர்</span><b>'+pres.wn+'</b></div>'
+        +'<div><span>கட்சி</span><b>'+lbPartyLabel(pres.win)+'</b></div>'
+        +'<div><span>வாக்கு</span><b>'+pres.wv.toLocaleString('en-IN')+'</b></div>'
+        +'<div><span>பதிவு</span><b>'+votePct+'%</b></div>'
+      +'</div>'
+      +'<div class="lb-goal">'
+        +'<div class="lb-goal-h"><b>தலைவர் · '+lbPartyLabel(pres.win)+'</b><span>2011 முடிவு</span></div>'
+        +'<div class="lb-goal-g">'
+          +'<div><span>வென்ற வாக்கு</span><b>'+pres.wv.toLocaleString('en-IN')+'</b></div>'
+          +'<div><span>மொத்த வாக்கு</span><b>'+pres.v.toLocaleString('en-IN')+'</b></div>'
+          +'<div><span>வாக்காளர்</span><b>'+pres.e.toLocaleString('en-IN')+'</b></div>'
+          +'<div><span>வாக்குப்பதிவு</span><b>'+votePct+'%</b></div>'
+        +'</div>'
+      +'</div>';
+  }
+
+  var warn='<div class="lb-warn">⚠️ இது <b>2011 தரவு</b> — அதன் பிறகு வாக்காளர் எண்ணிக்கை, வார்டு வரையறை, கட்சி கூட்டணி எல்லாம் மாறியிருக்கும். இலக்காக மட்டும் வைக்கவும், உறுதியாக அல்ல.</div>';
+
+  return '<div class="card-title"><span class="icon" aria-hidden="true">🏛️</span> உள்ளாட்சி தரவு · '+villTa+'</div>'
+    +'<div class="lb-role">'+(unionTa?unionTa+' ஒன்றியம் · ':'')+link.src+'</div>'
+    +presHTML
+    +(wards.length?'<div class="lb-seats"><b>வார்டு உறுப்பினர்கள் ('+wards.length+' வார்டு)</b></div>'
+      +'<div class="table-wrap"><table class="lb-tbl"><thead><tr><th>வார்டு</th><th>உறுப்பினர்</th></tr></thead><tbody>'
+      +wardRows+'</tbody></table></div>':'')
+    +'<div class="lb-note"><b>ஆதாரம்:</b> TNSEC அதிகாரப்பூர்வ 2011 உள்ளாட்சித் தேர்தல் முடிவுகள். '
+      +'இவை உண்மையான வார்டு வாக்குகள் — சட்டமன்ற வாக்குச்சாவடியிலிருந்து கணக்கிடப்பட்டவை அல்ல.</div>'
+    +warn;
+}
+
+/* Councillor scope: every village in the selected union ward + its 2011
+   panchayat-president info where linked. LB-gated, assembly untouched. */
+function lbCoVillagesSection(){
+  if(typeof MON==='undefined'||MON.pos!=='CO') return '';
+  if(typeof LOCALBODY_LINK==='undefined') return '';
+  const g=coGroupOf(MON.block, MON.village);
+  if(!g||!g.members.length) return '';
+  const ac=acKeyOf(MON.block);
+  const linkAc=LOCALBODY_LINK[ac]||{};
+  const rows=g.members.map(function(m){
+    const link=linkAc[m.name];
+    let lb='<span style="color:var(--c-text-muted);font-size:11px;">உள்ளாட்சி இணைப்பு இல்லை</span>';
+    if(link&&(link.results||[]).length){
+      const pres=link.results.find(function(r){return r.p&&r.p.indexOf('President')>-1;})||link.results[0];
+      if(pres) lb='<strong>'+pres.wn+'</strong> <span class="pill" style="color:'+lbPartyColour(pres.win)+'">'+lbPartyLabel(pres.win)+'</span>';
+    }
+    const here=(m.name===MON.village)?' <span class="pill">உங்கள் ஊர்</span>':'';
+    return '<tr><td><strong>'+m.name+'</strong>'+here+'</td><td>'+lb+'</td></tr>';
+  }).join('');
+  return '<div class="lb-seats"><b>'+g.name+' · கிராமங்களின் உள்ளாட்சித் தகவல் (2011)</b></div>'
+    +'<div class="table-wrap"><table class="lb-tbl"><thead><tr><th>கிராமம்</th><th>ஊராட்சித் தலைவர்</th></tr></thead>'
+    +'<tbody>'+rows+'</tbody></table></div>';
+}
+
+function lbCardHTML(){
+  if(!lbAvailable())
+    return '<div class="card-title">உள்ளாட்சி தரவு</div><div style="color:var(--c-text-muted);font-size:13px;">தரவு ஏற்றப்படவில்லை.</div>';
+  var wantRole = (typeof MON!=='undefined' && MON.pos) ? MON.pos : '';
+
+  var villCard = lbVillageCard();
+  if(villCard) return villCard;
+
+  /* Village-level positions with a chosen village but no official village link:
+     never show the all-bodies (e.g. Municipality Chairman) browser — that is
+     another town's data. Show an honest no-link note instead. */
+  if((wantRole==='PP'||wantRole==='WM') && typeof MON!=='undefined' && MON.village){
+    return '<div class="card-title"><span class="icon" aria-hidden="true">🏛️</span> உள்ளாட்சி தரவு · '+MON.village+'</div>'
+      +'<div class="lb-note">இந்த ஊருக்கு அதிகாரப்பூர்வ 2011 உள்ளாட்சி இணைப்பு இல்லை — '
+      +'நகராட்சித் தலைவர் போன்ற வேறு உள்ளாட்சித் தரவு இங்கு காட்டப்படாது. '
+      +'மேலே உள்ள சட்டமன்ற (2026) தரவை பயன்படுத்தவும்.</div>';
+  }
+
+  const bodies = lbBodies(wantRole);
+  const sel = document.getElementById('lb-body');
+  const chosen = sel && sel.value ? sel.value : (bodies[0] ? bodies[0].body : '');
+  const blocks = lbBlocksFor(chosen, wantRole);
+  const t = lbTally(blocks);
+  const parties = Object.keys(t.seats).sort(function(a,b){return t.seats[b]-t.seats[a];});
+  const totalSeats = blocks.length;
+
+  const opts = bodies.map(function(b){
+    return '<option value="'+b.body+'"'+(b.body===chosen?' selected':'')+'>'+b.body+' ('+b.wards+')</option>';
+  }).join('');
+
+  const seatRows = parties.map(function(p){
+    const n=t.seats[p], pct=totalSeats?Math.round(n/totalSeats*100):0;
+    return '<div class="lb-row"><span class="lb-p"><i style="background:'+lbPartyColour(p)+'"></i>'+lbPartyLabel(p)+'</span>'
+      +'<span class="lb-bar"><b style="width:'+pct+'%;background:'+lbPartyColour(p)+'"></b></span>'
+      +'<span class="lb-n">'+n+' <small>இடம்</small></span></div>';
+  }).join('');
+
+  const wardRows = blocks.slice(0,60).map(function(b){
+    const top=(b.c&&b.c[0])?b.c[0]:null, second=(b.c&&b.c[1])?b.c[1]:null;
+    const marg = (top&&second)?(top[2]-second[2]):null;
+    return '<tr><td class="lb-w">'+(b.w?('வா '+b.w):'தலைவர்')+'</td>'
+      +'<td><strong>'+(top?top[0]:'—')+'</strong>'
+        +'<div class="lb-sub">'+(b.res||'')+'</div></td>'
+      +'<td><span class="pill" style="color:'+lbPartyColour(b.win)+'">'+lbPartyLabel(b.win)+'</span></td>'
+      +'<td class="lb-num">'+(top?top[2].toLocaleString('en-IN'):'—')
+        +'<div class="lb-sub">'+(top?top[3]+'%':'')+'</div></td>'
+      +'<td class="lb-num">'+(marg===null?'—':('+'+marg.toLocaleString('en-IN')))
+        +'<div class="lb-sub">'+(second?('vs '+lbPartyLabel(second[1])):'')+'</div></td>'
+      +'<td class="lb-num">'+(b.v||0).toLocaleString('en-IN')
+        +'<div class="lb-sub">'+(b.e?Math.round(b.v/b.e*100)+'%':'')+'</div></td></tr>';
+  }).join('');
+
+  return '<div class="card-title"><span class="icon" aria-hidden="true">🏛️</span> உள்ளாட்சி முடிவுகள் 2011 '
+    +'<span style="font-size:12px;color:var(--c-text-muted);font-weight:500;">· உண்மையான வார்டு வாக்குகள்</span></div>'
+    +'<div class="lb-role">'+(blocks[0]?blocks[0].p:'')
+      +(wantRole?'':' · அனைத்து பதவிகளும்')+'</div>'
+    +'<div class="lb-pick"><label for="lb-body">உள்ளாட்சி</label>'
+      +'<select id="lb-body" class="modal-select" onchange="renderLocalBody()">'+opts+'</select></div>'
+    +'<div class="lb-stats">'
+      +'<div><span>வார்டுகள்</span><b>'+t.wards+'</b></div>'
+      +'<div><span>வாக்காளர்</span><b>'+t.electors.toLocaleString('en-IN')+'</b></div>'
+      +'<div><span>பதிவானது</span><b>'+t.polled.toLocaleString('en-IN')+'</b></div>'
+      +'<div><span>வாக்குப்பதிவு</span><b>'+(t.electors?Math.round(t.polled/t.electors*100):0)+'%</b></div>'
+    +'</div>'
+    +lbGoalHTML(blocks, (typeof MON!=='undefined'&&MON.party)?MON.party:'DMK')
+    +'<div class="lb-seats"><b>கட்சி வாரியாக இடங்கள்</b>'+seatRows+'</div>'
+    +lbCoVillagesSection()
+    +'<div class="table-wrap"><table class="lb-tbl"><thead><tr>'
+      +'<th>வார்டு</th><th>வென்றவர்</th><th>கட்சி</th><th>வாக்கு</th><th>வித்தியாசம்</th><th>பதிவு</th>'
+      +'</tr></thead><tbody>'+wardRows+'</tbody></table></div>'
+    +(blocks.length>60?'<div class="lb-note">முதல் 60 வார்டு காட்டப்படுகிறது ('+blocks.length+'-ல்).</div>':'')
+    +lbDelimSection(chosen)
+    +'<div class="lb-note"><b>ஆதாரம்:</b> TNSEC அதிகாரப்பூர்வ 2011 உள்ளாட்சித் தேர்தல் முடிவுகள். '
+      +'இவை உண்மையான வார்டு வாக்குகள் — சட்டமன்ற வாக்குச்சாவடியிலிருந்து கணக்கிடப்பட்டவை அல்ல.</div>';
+}
+
+/* Current (2020 draft delimitation) ward boundaries for parsed Town Panchayats.
+   Display-only, inside the LB card (toggle-gated). 2011 results above untouched. */
+function lbDelimSection(bodyName){
+  if(typeof TP_DELIM_2020==='undefined'||!TP_DELIM_2020.towns||!bodyName) return '';
+  const town=TP_DELIM_2020.towns.find(function(t){return t.ta===bodyName;});
+  if(!town) return '';
+  if(town.pending){
+    return '<div class="lb-seats"><b>2020 தற்போதைய வார்டு எல்லை</b></div>'
+      +'<div class="lb-note">'+town.en+' — scan PDF; வார்டு பட்டியல் விரைவில்.</div>';
+  }
+  const rows=(town.wards||[]).map(function(wd){
+    const sts=(wd.s||[]).map(function(s){return s[0];}).join(', ');
+    const hh=(wd.s||[]).reduce(function(a,s){return a+(s[2]||0);},0);
+    return '<tr><td class="lb-w">வார்டு '+wd.w+'</td>'
+      +'<td class="lb-wrap">'+sts+'<div class="lb-sub">'+wd.s.length+' தெரு · '+(wd.p?wd.p.toLocaleString('en-IN')+' மக்கள்':'')
+      +(hh?' · '+hh.toLocaleString('en-IN')+' குடும்பம்':'')+'</div></td></tr>';
+  }).join('');
+  return '<div class="lb-seats"><b>2020 தற்போதைய வார்டு எல்லை ('+town.wards.length+' வார்டு)</b></div>'
+    +'<div class="table-wrap"><table class="lb-tbl"><thead><tr><th>வார்டு</th><th>தெருக்கள் (2020 வரையறை)</th></tr></thead>'
+    +'<tbody>'+rows+'</tbody></table></div>'
+    +'<div class="lb-note"><b>ஆதாரம்:</b> TNSEC வார்டு வரையறை 2020 (அதிகாரப்பூர்வ PDF). '
+    +'மேலே உள்ள 2011 முடிவுகள் வரலாற்றுத் தரவு — எல்லை மாறியிருக்கலாம்.</div>';
+}
+
+function renderLocalBody(){
+  const box=document.getElementById('mon-localbody');
+  const div=document.getElementById('mon-asm-divider');
+  if(div)div.style.display=localBodyMode?'':'none';
+  if(!box)return;
+  if(!localBodyMode){ box.style.display='none'; monCompactSections(); return; }
+  box.style.display='';
+  box.innerHTML=lbCardHTML();
+  monCompactSections();
+}
+
+function setLocalBodyMode(on){
+  localBodyMode=!!on;
+  const t=document.getElementById('lb-toggle');
+  if(t&&t.setAttribute)t.setAttribute('aria-checked', localBodyMode?'true':'false');
+  const w=document.getElementById('lb-toggle-wrap');
+  if(w&&w.classList)w.classList.toggle('on', localBodyMode);
+  const d=document.getElementById('mon-asm-divider');
+  if(d)d.style.display=localBodyMode?'':'none';
+  renderLocalBody();
+}
+function toggleLocalBody(){ setLocalBodyMode(!localBodyMode); }
+function restoreLocalBodyMode(){
+  setLocalBodyMode(false);
+}
+
+/* ============ BATTLE MAP — ward monitor (party-relative) ============ */
 let myParty='';   /* set at onboarding; falls back to the constituency ally */
 
 function partiesFor(key){
@@ -2074,31 +2999,6 @@ function partyAliased(c){
   const want=myParty||c.party.short;
   const shown=myPartyOr(c);
   return (want!==shown)?{picked:want,shown:shown}:null;
-}
-
-/* votes for the currently selected ward / village / group, as a party map */
-function battleVotes(){
-  const c=activeCtx(), v=candVillage(), pos=candPosCode();
-  let inc=0,tvk=0,aia=0,polled=0,label='',booths=[];
-  if(pos==='CO'&&assignedGroup){
-    const g=findGroup(currentConstituency,assignedGroup);
-    if(!g)return null;
-    g.members.forEach(function(m){inc+=m.inc||0;tvk+=m.tvk||0;aia+=m.aiadmk||0;polled+=m.polled||0;});
-    label=g.name; booths=['-'];
-  }else if(pos==='WM'&&v&&assignedWard){
-    const w=villageWards(v).find(function(x){return String(x.no)===String(assignedWard);});
-    if(!w)return null;
-    inc=w.inc;tvk=w.tvk;aia=w.aiadmk;polled=w.polled;
-    label=v.name+' · வார்டு '+w.no; booths=['Booth '+w.no];
-  }else if(v){
-    inc=v.inc||0;tvk=v.tvk||0;aia=v.aiadmk||0;polled=v.polled||0;
-    label=v.name; booths=villageWards(v).map(function(w){return 'Booth '+w.no;});
-  }else return null;
-  const three=inc+tvk+aia;
-  const parties={};
-  parties[c.party.short]=inc; parties[c.p2.short]=tvk; parties[c.p3.short]=aia;
-  return {label:label,booths:booths,parties:parties,others:Math.max(0,polled-three),
-          polled:polled,three:three,village:v};
 }
 
 function zoneOf(gap){
@@ -2130,9 +3030,15 @@ function insightFor(mine,lead,runner,gapPP,marginVotes,booths){
     +mine+'-க்கு இங்கு அதிக உழைப்பு தேவை; வளங்களை நெருக்கமான வார்டுகளுக்கு மாற்றுவது நல்லது.';
 }
 
-/* ============ VICTORY GOAL + INTEGRATED GOALS (Monitor home) ============ */
+function partyPerf(mine,rivals){
+  const best=rivals.length?Math.max.apply(null,rivals):0;
+  const gap=Math.round((mine-best)*10)/10;
+  const status=gap>=0?'Positive':(gap>=-5?'Neutral':(gap>=-15?'Weak':'Low'));
+  const a=Math.abs(gap);
+  return {status:status,margin:a>=10?'High':(a>=5?'Medium':'Low'),gap:gap};
+}
 
-/* electors per ward are NOT in Form 20 — estimate from the seat's turnout factor */
+/* ============ VICTORY GOAL + INTEGRATED GOALS (Monitor home) ============ */
 function ctxTurnoutFactor(c){
   const polled=c.villages.reduce(function(s,v){return s+(v.polled||0);},0);
   if(!polled||!c.electors)return 1.2;
@@ -2241,357 +3147,13 @@ function goalsCardHTML(b){
     +'</div>';
 }
 
-function renderMonGoals(){
-  const vg=document.getElementById('mon-victory'), gl=document.getElementById('mon-goals');
-  const b=monBattleVotes();
-  if(!b){ if(vg)vg.style.display='none'; if(gl)gl.style.display='none'; return; }
-  const prev=myParty;
-  if(typeof MON!=='undefined'&&MON.party)myParty=MON.party;
-  if(vg){vg.style.display=''; vg.innerHTML=victoryCardHTML(b);}
-  if(gl){gl.style.display=''; gl.innerHTML=goalsCardHTML(b);}
-  myParty=prev;
-}
-
-/* ============ VICTORY TRAJECTORY — 2021 → 2026 → target ============
-   Plotted as LEAD in percentage points, not vote share: 2021 was a two-party
-   contest and 2026 a three-way, so comparing raw share would read TVK's entry
-   as a collapse. Lead-vs-nearest-rival is comparable across both, and the
-   zero line is exactly the win threshold. */
-
-function trajectoryFor(b){
-  const c=b.ctx||activeCtx(), mine=myPartyOr(c);
-  const v=b.village||(function(){
-    if(typeof MON!=='undefined'&&MON.village)
-      return c.villages.find(function(x){return x.name===MON.village;});
-    return null;
-  })();
-  /* 2026 lead for the selected unit */
-  const rank=Object.keys(b.parties).map(function(k){return {p:k,v:b.parties[k]};})
-                 .sort(function(x,y){return y.v-x.v;});
-  const mineV=b.parties[mine]||0;
-  const rival=(rank[0].p===mine?rank[1]:rank[0]);
-  const lead26=b.three?Math.round((mineV/b.three*100-rival.v/b.three*100)*10)/10:0;
-
-  /* 2021 lead comes from the village unit — booth-level 2021 does not exist */
-  let lead21=null, scope21='';
-  if(v&&v.y21&&(v.y21.ally+v.y21.opp)){
-    const t=v.y21.ally+v.y21.opp;
-    lead21=Math.round((v.y21.ally/t*100-v.y21.opp/t*100)*10)/10;
-    scope21=v.name;
-  }
-  const swing=(lead21===null)?null:Math.round((lead26-lead21)*10)/10;
-  const projected=(swing===null)?null:Math.round((lead26+swing)*10)/10;
-  let momentum,icon,cls;
-  if(swing===null){momentum='தரவு இல்லை';icon='—';cls='tj-flat';}
-  else if(swing>=2){momentum='Positive Momentum';icon='📈';cls='tj-up';}
-  else if(swing<=-2){momentum='Negative Momentum';icon='📉';cls='tj-down';}
-  else{momentum='Flat / Stable';icon='➖';cls='tj-flat';}
-  return {mine:mine,rival:rival.p,lead21:lead21,lead26:lead26,swing:swing,
-          projected:projected,momentum:momentum,icon:icon,cls:cls,scope21:scope21,
-          winning:lead26>=0};
-}
-
-function trajectorySVG(t){
-  const pts=[{k:'2021',y:t.lead21},{k:'2026',y:t.lead26}];
-  if(t.projected!==null)pts.push({k:'அடுத்து',y:t.projected,proj:true});
-  const ys=pts.filter(function(p){return p.y!==null;}).map(function(p){return p.y;});
-  if(!ys.length)return '';
-  let lo=Math.min.apply(null,ys.concat([0])), hi=Math.max.apply(null,ys.concat([0]));
-  const pad=Math.max(4,(hi-lo)*0.25); lo-=pad; hi+=pad;
-  const W=300,H=120,L=34,R=10,T=12,B=24;
-  const px=function(i){return L+i*((W-L-R)/(pts.length-1));};
-  const py=function(y){return T+(hi-y)/(hi-lo)*(H-T-B);};
-  const zeroY=py(0);
-  const solid=pts.filter(function(p){return !p.proj;});
-  const line=solid.map(function(p,i){return (i?'L':'M')+px(i)+' '+py(p.y);}).join(' ');
-  let dash='';
-  if(t.projected!==null)dash='M'+px(pts.length-2)+' '+py(pts[pts.length-2].y)
-    +'L'+px(pts.length-1)+' '+py(pts[pts.length-1].y);
-  const area=line+'L'+px(solid.length-1)+' '+zeroY+'L'+px(0)+' '+zeroY+'Z';
-  const dots=pts.map(function(p,i){
-    if(p.y===null)return '';
-    return '<circle cx="'+px(i)+'" cy="'+py(p.y)+'" r="'+(p.proj?3.5:4.5)+'" '
-      +'fill="'+(p.proj?'var(--c-brown-light)':(p.y>=0?'var(--c-green)':'#C62828'))+'" '
-      +'stroke="var(--c-white)" stroke-width="2"'+(p.proj?'':' class="tj-dot"')+'/>';
-  }).join('');
-  const labs=pts.map(function(p,i){
-    if(p.y===null)return '';
-    return '<text x="'+px(i)+'" y="'+(py(p.y)+(p.y>=0?-11:17))+'" text-anchor="middle" '
-      +'class="tj-val">'+(p.y>=0?'+':'')+p.y+'</text>'
-      +'<text x="'+px(i)+'" y="'+(H-6)+'" text-anchor="middle" class="tj-ax">'+p.k+'</text>';
-  }).join('');
-  return '<svg viewBox="0 0 '+W+' '+H+'" class="tj-svg" role="img" aria-label="Victory trajectory">'
-    +'<line x1="'+L+'" y1="'+zeroY+'" x2="'+(W-R)+'" y2="'+zeroY+'" class="tj-zero"/>'
-    +'<text x="'+(L-6)+'" y="'+(zeroY+4)+'" text-anchor="end" class="tj-ax">0</text>'
-    +'<path d="'+area+'" class="tj-area '+(t.winning?'up':'down')+'"/>'
-    +'<path d="'+line+'" class="tj-line '+(t.winning?'up':'down')+'"/>'
-    +(dash?'<path d="'+dash+'" class="tj-proj"/>':'')
-    +dots+labs+'</svg>';
-}
-
-function recommendationsFor(t,b){
-  const booth=(b.booths&&b.booths[0]&&b.booths[0]!=='-')?b.booths[0]:'இந்த பகுதி';
-  const r=[];
-  if(t.winning&&t.swing!==null&&t.swing>=2){
-    r.push(booth+'-ல் உள்ள நடுநிலை வாக்காளர்களின் கவனத்தை ஈர்க்க கூடுதல் பிரச்சாரங்களை மேற்கொள்ளவும்.');
-    r.push('தற்போதுள்ள ஆதரவு தளத்தைத் தக்கவைக்க களப்பணியாளர்களின் செயல்பாட்டை உறுதிப்படுத்தவும்.');
-  }else if(t.winning){
-    r.push('முன்னிலை இருந்தாலும் வளர்ச்சி நின்றுவிட்டது — '+booth+'-ல் புதிய வாக்காளர் தொடர்பு தேவை.');
-    r.push(t.rival+'-ன் நகர்வுகளை கண்காணித்து, வாரந்தோறும் இலக்கை மறுபரிசீலனை செய்யவும்.');
-  }else if(t.swing!==null&&t.swing>=2){
-    r.push('பின்தங்கியிருந்தாலும் போக்கு சாதகமாக உள்ளது — இதே வேகத்தை தொடர்ந்தால் இடைவெளி குறையும்.');
-    r.push(booth+'-ல் வீட்டு வீட்டு பிரச்சாரத்தை இரட்டிப்பாக்கவும்.');
-  }else{
-    r.push(t.rival+' முன்னிலையில் உள்ளது, போக்கும் சாதகமாக இல்லை — புதிய அணுகுமுறை தேவை.');
-    r.push('வளங்களை நெருக்கமான வார்டுகளுக்கு மாற்றுவது பயனளிக்கும்.');
-  }
-  return r;
-}
-
-function trajectoryCardHTML(b){
-  const t=trajectoryFor(b);
-  if(t.lead21===null){
-    return '<div class="card-title"><span class="icon" aria-hidden="true">📈</span> வெற்றி பாதை '
-      +'<span style="font-size:12px;color:var(--c-text-muted);font-weight:500;">· Victory Trajectory</span></div>'
-      +'<div style="font-size:13px;color:var(--c-text-muted);line-height:1.6;">'
-      +'இந்த ஊராட்சிக்கு 2021 ஒப்பீட்டுத் தரவு இல்லை, அதனால் போக்கு காட்ட முடியவில்லை. '
-      +'2026 நிலை மட்டும் Battle Map-ல் உள்ளது.</div>';
-  }
-  const recs=recommendationsFor(t,b).map(function(x){return '<li>'+x+'</li>';}).join('');
-  return '<div class="card-title"><span class="icon" aria-hidden="true">📈</span> வெற்றி பாதை '
-    +'<span style="font-size:12px;color:var(--c-text-muted);font-weight:500;">· 2021 → 2026 → அடுத்து</span></div>'
-    +'<div class="tj-head '+t.cls+'"><span class="tj-icon">'+t.icon+'</span>'
-      +'<div><b>'+t.momentum+'</b><span>'+(t.swing>=0?'+':'')+t.swing+' pp · 2021-ஐ விட</span></div></div>'
-    +trajectorySVG(t)
-    +'<div class="tj-key">கோடு = '+t.mine+' முன்னிலை (pp), '+t.rival+'-ஐ விட. '
-      +'<b>0 கோட்டுக்கு மேல் = வெற்றி நிலை.</b> புள்ளிக்கோடு = இதே போக்கு தொடர்ந்தால்.</div>'
-    +'<div class="tj-recs"><b>பரிந்துரைகள்</b><ul>'+recs+'</ul></div>'
-    +(t.scope21?'<div class="tj-note">2021 ஒப்பீடு ஊராட்சி அளவில் ('+t.scope21+') — பூத் அளவில் 2021 தரவு இல்லை.</div>':'');
-}
-
-
-/* ---- Monitor: 2 year comparison + unit rankings, scoped to the selection ---- */
-function monCtxSel(){
-  if(typeof MON==='undefined'||!MON.block)return activeCtx();
-  return monCtxOf(MON.block);
-}
-function renderMonCompare(){
-  const box=document.getElementById('mon-compare');
-  if(!box)return;
-  const c=monCtxSel(), t21=c.t21, t26=c.t26;
-  if(!t26){box.style.display='none';return;}
-  box.style.display='';
-  box.innerHTML='<div class="card-title"><span class="icon" aria-hidden="true">\ud83d\udcca</span> \u0b95\u0b9f\u0ba8\u0bcd\u0ba4 2 \u0b86\u0ba3\u0bcd\u0b9f\u0bc1 \u0b92\u0baa\u0bcd\u0baa\u0bc0\u0b9f\u0bc1 <span style="font-size:12px;color:var(--c-text-muted);font-weight:500;">\u00b7 Last 2 Years Comparison</span></div>'
-    +'<div class="bar-chart" id="mon-compare-chart" style="height:210px;"></div>';
-  const d26=t26.ally+t26.tvk+t26.aia;
-  const shares=[].concat(!t21?[]:[
-    {label:"'21 "+c.party.short,val:Math.round(t21.ally/(t21.ally+t21.opp)*1000)/10,color:'var(--c-golden)'},
-    {label:"'21 "+c.opp21,val:Math.round(t21.opp/(t21.ally+t21.opp)*1000)/10,color:'var(--c-brown-light)'}],[
-    {label:"'26 "+c.party.short,val:Math.round(t26.ally/d26*1000)/10,color:'var(--c-golden)'},
-    {label:"'26 "+c.p2.short,val:Math.round(t26.tvk/d26*1000)/10,color:'var(--c-green)'},
-    {label:"'26 "+c.p3.short,val:Math.round(t26.aia/d26*1000)/10,color:'var(--c-brown-mid)'}]);
-  renderBarChart('mon-compare-chart',shares);
-}
-function renderMonRanks(){
-  const box=document.getElementById('mon-ranks');
-  if(!box)return;
-  const c=monCtxSel();
-  let list=c.villages.slice();
-  let scopeLabel='\u0b85\u0ba9\u0bc8\u0ba4\u0bcd\u0ba4\u0bc1 \u0b8a\u0bb0\u0bbe\u0b9f\u0bcd\u0b9a\u0bbf\u0b95\u0bb3\u0bcd';
-  if(typeof MON!=='undefined'&&MON.pos==='CO'&&MON.village){
-    const g=(councillorGroups(MON.block)||[]).find(function(x){return x.id===MON.village;});
-    if(g){list=g.members.slice(); scopeLabel=g.name;}
-  }
-  if(!list.length){box.style.display='none';return;}
-  box.style.display='';
-  const mineName=(typeof MON!=='undefined'&&MON.pos!=='CO')?MON.village:null;
-  list.sort(function(a,b){return b.lead-a.lead;});
-  const rows=list.slice(0,40).map(function(v,i){
-    const y=v.y21, t=y?(y.ally+y.opp):0;
-    const s21=t?Math.round(y.ally/t*1000)/10:null;
-    const l21=t?Math.round((y.ally/t*100-y.opp/t*100)*10)/10:null;
-    const swing=(l21===null)?null:Math.round((v.lead-l21)*10)/10;
-    const me=mineName&&v.name===mineName;
-    return '<tr'+(me?' class="mr-me"':'')+'>'
-      +'<td class="mr-rank">'+(i+1)+'</td>'
-      +'<td><strong>'+v.name+'</strong>'+(me?' <em>\u0ba8\u0bc0\u0b99\u0bcd\u0b95\u0bb3\u0bcd</em>':'')+'<div class="mr-sub">'+v.booths+' booths \u00b7 '+v.tier+'</div></td>'
-      +'<td class="mr-n">'+v.support+'%<div class="mr-sub">'+c.party.short+' 26</div></td>'
-      +'<td class="mr-n">'+(s21===null?'\u2014':s21+'%')+'<div class="mr-sub">21</div></td>'
-      +'<td class="mr-n '+(swing===null?'':(swing>=0?'mr-up':'mr-down'))+'">'
-        +(swing===null?'\u2014':(swing>=0?'+':'')+swing)+'<div class="mr-sub">swing pp</div></td></tr>';
-  }).join('');
-  box.innerHTML='<div class="card-title"><span class="icon" aria-hidden="true">\ud83c\udfc5</span> \u0b8a\u0bb0\u0bbe\u0b9f\u0bcd\u0b9a\u0bbf \u0ba4\u0bb0\u0bb5\u0bb0\u0bbf\u0b9a\u0bc8 <span style="font-size:12px;color:var(--c-text-muted);font-weight:500;">\u00b7 2026 vs 2021 \u00b7 '+scopeLabel+'</span></div>'
-    +'<div class="table-wrap"><table class="mr-tbl"><thead><tr><th>#</th><th>\u0b8a\u0bb0\u0bbe\u0b9f\u0bcd\u0b9a\u0bbf</th><th>2026</th><th>2021</th><th>Swing</th></tr></thead>'
-    +'<tbody>'+rows+'</tbody></table></div>';
-}
-
-function renderMonTrajectory(){
-  const box=document.getElementById('mon-trajectory');
-  if(!box)return;
-  const b=monBattleVotes();
-  if(!b){box.style.display='none';return;}
-  box.style.display='';
-  const prev=myParty;
-  if(typeof MON!=='undefined'&&MON.party)myParty=MON.party;
-  box.innerHTML=trajectoryCardHTML(b);
-  myParty=prev;
-}
-
-/* ============ LOCAL BODY MODE (official 2011 results) ============
-   Kept strictly separate from the assembly data. Assembly polling stations are
-   NOT local-body wards, and no assembly vote is redistributed into a ward here.
-   Everything below is a real local-body result as declared by TNSEC. */
-
-let localBodyMode = false;
-
-function lbAvailable(){ return typeof LOCALBODY_2011 !== 'undefined'; }
-
-/* the app stores Latin village names; the results file carries Tamil body names,
-   so match on a normalised form and keep anything unmatched visible */
-function lbNorm(s){ return (s||'').replace(/\s+/g,'').toLowerCase(); }
-
-function lbPartyLabel(p){ return p==='NOPARTY' ? 'கட்சி இல்லை' : p; }
-function lbPartyColour(p){
-  if(p==='NOPARTY') return 'var(--c-text-muted)';
-  return p==='DMK'?'var(--c-golden)':p==='AIADMK'?'var(--c-green)':
-         p==='INC'?'var(--c-sky)':p==='PMK'?'var(--c-brown-mid)':
-         p==='IND'?'var(--c-brown-light)':'var(--c-purple)';
-}
-
-/* ---- 2011 local body accessors (roster arrays + results objects) ---- */
-function lb2011(){ return (typeof LOCALBODY_2011!=='undefined')?LOCALBODY_2011:null; }
-function lbRoster(){ const d=lb2011(); return d&&d.roster?d.roster:[]; }
-function lbResults(){ const d=lb2011(); return d&&d.results?d.results:[]; }
-function lbUnions(){
-  const seen={},out=[];
-  lbRoster().forEach(function(r){ if(!seen[r[0]]){seen[r[0]]=1;out.push(r[0]);} });
-  return out.sort();
-}
-function lbBodiesIn(union){
-  const seen={},out=[];
-  lbRoster().forEach(function(r){
-    if(union && r[0]!==union) return;
-    if(!seen[r[1]]){seen[r[1]]=1;out.push(r[1]);}
-  });
-  if(!union){ lbResults().forEach(function(b){ if(!seen[b.b]){seen[b.b]=1;out.push(b.b);} }); }
-  return out.sort();
-}
-function lbWardsOf(body){
-  return lbRoster().filter(function(r){return r[1]===body;})
-                   .sort(function(a,b){return a[2]-b[2];});
-}
-function lbResultsOf(body){
-  return lbResults().filter(function(b){return b.b===body;});
-}
-/* 2020 street boundaries, only where the delimitation report could be read */
-function urbanWard(body,ward){
-  if(typeof URBAN_WARD_STREETS==='undefined')return null;
-  const rec=(URBAN_WARD_STREETS.AC29||{})[body];
-  return rec?(rec.wards[String(ward)]||null):null;
-}
-function urbanBodies(){
-  if(typeof URBAN_WARD_STREETS==='undefined')return [];
-  return Object.keys(URBAN_WARD_STREETS.AC29||{});
-}
-/* verified only when every street carries its printed building count */
-function streetsVerified(w){
-  return !!(w&&w.b&&w.b.length&&w.b.every(function(x){return x!==null&&x!==undefined;}));
-}
-var LB_UNION='', LB_BODY='';
-function lbSelUnion(){ return LB_UNION; }
-function lbSelBody(){ return LB_BODY; }
-function lbPickUnion(u){ LB_UNION=u; LB_BODY=''; renderLocalBody(); }
-function lbPickBody(b){ LB_BODY=b; renderLocalBody(); }
-function lbCardHTML(){
-  if(!lbAvailable()) return '<div class="lb-empty">\u0b89\u0bb3\u0bcd\u0bb3\u0bbe\u0b9f\u0bcd\u0b9a\u0bbf \u0ba4\u0bb0\u0bb5\u0bc1 \u0b8f\u0bb1\u0bcd\u0bb1\u0baa\u0bcd\u0baa\u0b9f\u0bb5\u0bbf\u0bb2\u0bcd\u0bb2\u0bc8.</div>';
-  const bodies = lbBodiesIn(lbSelUnion());
-  if(!bodies.length) return '<div class="lb-empty">\u0ba4\u0bb0\u0bb5\u0bc1 \u0b87\u0bb2\u0bcd\u0bb2\u0bc8.</div>';
-  if(bodies.indexOf(lbSelBody())<0) LB_BODY = bodies[0];
-  const body = LB_BODY;
-  const wards = lbWardsOf(body);
-  const res   = lbResultsOf(body);
-  const uni   = lbUnions();
-
-  const unionSel = '<label for="lb-union">\u0b92\u0ba9\u0bcd\u0bb1\u0bbf\u0baf\u0bae\u0bcd</label>'
-    +'<select id="lb-union" onchange="lbPickUnion(this.value)"><option value="">\u0b85\u0ba9\u0bc8\u0ba4\u0bcd\u0ba4\u0bc1\u0bae\u0bcd</option>'
-    +uni.map(function(u){return '<option value="'+u+'"'+(u===lbSelUnion()?' selected':'')+'>'+u+'</option>';}).join('')+'</select>';
-  const bodySel = '<label for="lb-body">\u0b89\u0bb3\u0bcd\u0bb3\u0bbe\u0b9f\u0bcd\u0b9a\u0bbf</label>'
-    +'<select id="lb-body" onchange="lbPickBody(this.value)">'
-    +bodies.map(function(b){return '<option value="'+b+'"'+(b===body?' selected':'')+'>'+b+'</option>';}).join('')+'</select>';
-
-  /* ward roster: who won each ward, and the streets where they exist */
-  const rows = wards.map(function(r){
-    const w = urbanWard(body, r[2]);
-    const ver = streetsVerified(w);
-    const st = (w&&w.s&&w.s.length)
-      ? '<div class="lb-st">'+w.s.slice(0,14).map(function(x){return '<span>'+x+'</span>';}).join('')
-        +(w.s.length>14?'<span class="more">+'+(w.s.length-14)+'</span>':'')
-        +'<em class="'+(ver?'ok':'chk')+'">'+(ver?'\u2713 \u0b9a\u0bb0\u0bbf\u0baa\u0bbe\u0bb0\u0bcd\u0b95\u0bcd\u0b95\u0baa\u0bcd\u0baa\u0b9f\u0bcd\u0b9f\u0ba4\u0bc1'
-             :'\u26a0 \u0b9a\u0bb0\u0bbf\u0baa\u0bbe\u0bb0\u0bcd\u0b95\u0bcd\u0b95\u0baa\u0bcd\u0baa\u0b9f\u0bb5\u0bbf\u0bb2\u0bcd\u0bb2\u0bc8')+'</em></div>'
-      : '';
-    const bd = (w&&w.bounds&&Object.keys(w.bounds).length)
-      ? '<div class="lb-bd">'+Object.keys(w.bounds).map(function(k){
-          const v=w.bounds[k];
-          return '<span>'+k+': '+v.street+(v.ward?(' \u00b7 \u0bb5\u0bbe'+v.ward):'')+'</span>';}).join('')+'</div>'
-      : '';
-    return '<tr><td class="lb-w">\u0bb5\u0bbe '+r[2]+'</td>'
-      +'<td><strong>'+r[3]+'</strong><div class="lb-sub">'+r[5]+'</div>'+st+bd+'</td>'
-      +'<td class="lb-n">'+(w&&w.pop?w.pop.toLocaleString('en-IN'):'\u2014')+'</td></tr>';
-  }).join('');
-
-  const resRows = res.map(function(b){
-    const c=(b.c||[]);
-    return '<tr><td class="lb-w">'+(b.w?('\u0bb5\u0bbe '+b.w):'\u0ba4\u0bb2\u0bc8\u0bb5\u0bb0\u0bcd')+'</td>'
-      +'<td><strong>'+(b.wn||'')+'</strong><div class="lb-sub">'+b.p+'</div></td>'
-      +'<td><span class="pill" style="color:'+lbPartyColour(b.win)+'">'+lbPartyLabel(b.win)+'</span></td>'
-      +'<td class="lb-n">'+(b.wv?b.wv.toLocaleString('en-IN'):'\u2014')
-      +'<div class="lb-sub">'+(b.v?b.v.toLocaleString('en-IN')+' \u0baa\u0ba4\u0bbf\u0bb5\u0bc1':'')+'</div></td></tr>';
-  }).join('');
-
-  return '<div class="card-title"><span class="icon" aria-hidden="true">\ud83c\udfdb\ufe0f</span> '
-      +'\u0b89\u0bb3\u0bcd\u0bb3\u0bbe\u0b9f\u0bcd\u0b9a\u0bbf 2011 <span style="font-size:12px;color:var(--c-text-muted);font-weight:500;">\u00b7 TNSEC \u0b85\u0ba4\u0bbf\u0b95\u0bbe\u0bb0\u0baa\u0bcd\u0baa\u0bc2\u0bb0\u0bcd\u0bb5 \u0bae\u0bc1\u0b9f\u0bbf\u0bb5\u0bc1</span></div>'
-    +'<div class="lb-pick">'+unionSel+bodySel+'</div>'
-    +(rows?('<div class="lb-h">\u0bb5\u0bbe\u0bb0\u0bcd\u0b9f\u0bc1 \u0b89\u0bb1\u0bc1\u0baa\u0bcd\u0baa\u0bbf\u0ba9\u0bb0\u0bcd\u0b95\u0bb3\u0bcd \u00b7 '+wards.length+'</div>'
-      +'<div class="table-wrap"><table class="lb-tbl"><thead><tr><th>\u0bb5\u0bbe\u0bb0\u0bcd\u0b9f\u0bc1</th><th>\u0b89\u0bb1\u0bc1\u0baa\u0bcd\u0baa\u0bbf\u0ba9\u0bb0\u0bcd / \u0ba4\u0bc6\u0bb0\u0bc1\u0b95\u0bcd\u0b95\u0bb3\u0bcd</th><th>\u0bae\u0b95\u0bcd\u0b95\u0bb3\u0bcd</th></tr></thead><tbody>'+rows+'</tbody></table></div>'):'')
-    +(resRows?('<div class="lb-h">\u0bb5\u0bbe\u0b95\u0bcd\u0b95\u0bc1 \u0bae\u0bc1\u0b9f\u0bbf\u0bb5\u0bc1\u0b95\u0bb3\u0bcd</div>'
-      +'<div class="table-wrap"><table class="lb-tbl"><thead><tr><th>\u0b87\u0b9f\u0bae\u0bcd</th><th>\u0bb5\u0bc6\u0ba9\u0bcd\u0bb1\u0bb5\u0bb0\u0bcd</th><th>\u0b95\u0b9f\u0bcd\u0b9a\u0bbf</th><th>\u0bb5\u0bbe\u0b95\u0bcd\u0b95\u0bc1</th></tr></thead><tbody>'+resRows+'</tbody></table></div>'):'')
-    +'<div class="lb-src">\u0b86\u0ba4\u0bbe\u0bb0\u0bae\u0bcd \u00b7 TNSEC 2011 \u0b89\u0bb3\u0bcd\u0bb3\u0bbe\u0b9f\u0bcd\u0b9a\u0bbf \u0bae\u0bc1\u0b9f\u0bbf\u0bb5\u0bc1\u0b95\u0bb3\u0bcd + 2020 \u0bb5\u0bbe\u0bb0\u0bcd\u0b9f\u0bc1 \u0bae\u0bb1\u0bc1\u0bb5\u0bb0\u0bc8\u0baf\u0bb1\u0bc8. '
-      +'2019 \u0bae\u0bbe\u0bb5\u0b9f\u0bcd\u0b9f\u0baa\u0bcd \u0baa\u0bbf\u0bb0\u0bbf\u0bb5\u0bc1\u0b95\u0bcd\u0b95\u0baa\u0bcd \u0baa\u0bbf\u0bb1\u0b95\u0bc1 \u0b9a\u0bc6\u0b99\u0bcd\u0b95\u0bb2\u0bcd\u0baa\u0b9f\u0bcd\u0b9f\u0bc1 \u0bae\u0bbe\u0bb5\u0b9f\u0bcd\u0b9f\u0ba4\u0bcd\u0ba4\u0bbf\u0bb1\u0bcd\u0b95\u0bc1\u0b9a\u0bcd \u0b9a\u0bc6\u0ba9\u0bcd\u0bb1 \u0b85\u0bb2\u0b95\u0bc1\u0b95\u0bb3\u0bcd \u0ba8\u0bc0\u0b95\u0bcd\u0b95\u0baa\u0bcd\u0baa\u0b9f\u0bcd\u0b9f\u0ba9.</div>';
-}
-
-function renderLocalBody(){
-  const box=document.getElementById('mon-localbody');
-  const div=document.getElementById('mon-asm-divider');
-  if(div)div.style.display=localBodyMode?'':'none';
-  if(!box)return;
-  if(!localBodyMode){ box.style.display='none'; return; }
-  box.style.display='';
-  box.innerHTML=lbCardHTML();
-}
-
-function setLocalBodyMode(on){
-  localBodyMode=!!on;
-  try{ localStorage.setItem('cc_lb_mode', localBodyMode?'1':'0'); }catch(e){}
-  const t=document.getElementById('lb-toggle');
-  if(t)t.setAttribute('aria-checked', localBodyMode?'true':'false');
-  const w=document.getElementById('lb-toggle-wrap');
-  if(w)w.classList.toggle('on', localBodyMode);
-  renderLocalBody();
-}
-function toggleLocalBody(){ setLocalBodyMode(!localBodyMode); }
-function restoreLocalBodyMode(){
-  let v='0';
-  try{ v=localStorage.getItem('cc_lb_mode')||'0'; }catch(e){}
-  setLocalBodyMode(v==='1');
-}
-
 function monBattleVotes(){
   if(typeof MON==='undefined'||!MON.block||!MON.village)return null;
   const c=monCtxOf(MON.block);
   let inc=0,tvk=0,aia=0,polled=0,label='',booths=[];
-  if(MON.pos==='CO'){
-    const g=(councillorGroups(MON.block)||[]).find(function(x){return x.id===MON.village;});
-    if(!g)return null;
+  const coGroup = MON.pos==='CO' ? coGroupOf(MON.block, MON.village) : null;
+  if(coGroup){
+    const g=coGroup;
     g.members.forEach(function(m){inc+=m.inc||0;tvk+=m.tvk||0;aia+=m.aiadmk||0;polled+=m.polled||0;});
     label=g.name;booths=['-'];
   }else{
@@ -2612,6 +3174,172 @@ function monBattleVotes(){
   return {label:label,booths:booths,parties:parties,others:Math.max(0,polled-three),
           polled:polled,three:three,ctx:c};
 }
+
+/* ---- scoped units + last-2-years comparison + trajectory (Monitor Home) ---- */
+function monScopeUnits(){
+  const c=monCtxOf(MON.block);
+  const uw=function(w){return {name:'Booth '+w.no,booths:1,polled:w.polled,inc:w.inc,tvk:w.tvk,aiadmk:w.aiadmk};};
+  if(MON.pos==='CO'){
+    const g=coGroupOf(MON.block, MON.village);
+    if(g)return g.members.map(function(m){return {name:m.name,booths:m.booths,polled:m.polled||0,
+      inc:m.inc||0,tvk:m.tvk||0,aiadmk:m.aiadmk||0,y21:m.y21,support:0,lead:0};});
+  }
+  const v=c.villages.find(function(x){return x.name===MON.village;});
+  if(!v)return [];
+  if(MON.pos==='WM'){
+    const w=villageWards(v).find(function(x){return String(x.no)===String(MON.ward);});
+    if(!w)return [];
+    const u=uw(w);u.y21=null;return [u];
+  }
+  const ws=villageWards(v);
+  if(ws.length)return ws.map(uw);
+  return [{name:v.name,booths:v.booths,polled:v.polled||0,inc:v.inc||0,tvk:v.tvk||0,
+    aiadmk:v.aiadmk||0,y21:v.y21,support:0,lead:0}];
+}
+function monUnits2026(){return monScopeUnits().map(function(u){return u;});}
+function renderMonTrajectory(){
+  const box=document.getElementById('mon-trajectory');
+  if(!box)return;
+  const b=monBattleVotes();
+  if(!b){box.style.display='none';return;}
+  box.style.display='';
+  const prev=myParty;
+  if(typeof MON!=='undefined'&&MON.party)myParty=MON.party;
+  box.innerHTML=trajectoryCardHTML(b);
+  myParty=prev;
+}
+function trajectoryCardHTML(b){
+  const c=b.ctx, mine=myPartyOr(c);
+  const rank=Object.keys(b.parties).map(function(k){return {p:k,v:b.parties[k]};})
+                 .sort(function(x,y){return y.v-x.v;});
+  const mineV=b.parties[mine]||0;
+  const leader=rank[0], runner=rank[1], iLead=leader.p===mine;
+  const rival=iLead?runner:leader;
+  const myShare=b.three?Math.round(mineV/b.three*1000)/10:0;
+  const rivalShare=b.three?Math.round(rival.v/b.three*1000)/10:0;
+  const gap=Math.round((myShare-rivalShare)*10)/10;
+  const momentum=gap>=0;
+  const growth=(gap>=0?'+':'')+gap.toFixed(1);
+  const units=monScopeUnits();
+  const total=units.reduce(function(a,u){return {inc:a.inc+u.inc,tvk:a.tvk+u.tvk,aiadmk:a.aiadmk+u.aiadmk};},{inc:0,tvk:0,aiadmk:0});
+  const totThree=total.inc+total.tvk+total.aiadmk;
+  let cx=20,py=[],labels=[];
+  let accI=0,accT=0;
+  units.forEach(function(u,i){
+    accI+=u.inc;accT+=(u.inc+u.tvk+u.aiadmk);
+    const pct=accT?Math.round(accI/accT*1000)/10:0;
+    py.push(pct);
+    if(i===0||i===units.length-1)labels.push({x:i,pct:pct});
+  });
+  const n=units.length;
+  const W=320,H=140,PL=34,PR=12,PT=14,PB=26;
+  const yMax=Math.max(myShare,rivalShare,10);
+  const X=function(i){return PL+(n===1?0:i*(W-PL-PR)/Math.max(1,n-1));};
+  const Y=function(p){return PT+(H-PT-PB)*(1-p/yMax);};
+  const pts=py.map(function(p,i){return X(i)+','+Y(p);});
+  const poly='M'+pts.join(' L');
+  const area=poly+' L'+X(n-1)+','+(H-PB)+' L'+X(0)+','+(H-PB)+' Z';
+  const thr=Math.max(0,Math.min(yMax,rivalShare));
+  const lastX=X(n-1),lastY=Y(py[n-1]);
+  const st='Positive Momentum',clss='good';
+  const statusCls=momentum?(gap>=5?'good':'good'):'bad';
+  return '<div class="card-title"><span class="icon" aria-hidden="true">📈</span> வெற்றி பாதை · Victory Trajectory'
+    +' <span style="font-size:12px;color:var(--c-text-muted);font-weight:500;">· '+b.label+'</span></div>'
+    +'<div class="mt-head">'
+      +'<span class="mt-status '+statusCls+'">'+(momentum?'📈 '+st:'📉 Need Push')+'</span>'
+      +'<div class="mt-growth">'+growth+'%<small>vs '+rival.p+' · vote-share gap</small></div>'
+    +'</div>'
+    +'<svg class="mt-svg" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Victory trajectory graph">'
+      +'<line class="mt-rival" x1="'+PL+'" y1="'+Y(thr)+'" x2="'+(W-PR)+'" y2="'+Y(thr)+'"/>'
+      +'<text class="mt-victory" x="'+PL+'" y="'+(Y(thr)-4)+'" fill="var(--c-brown-mid)">'+rival.p+' '+rivalShare+'% — வெற்றி இலக்கு / to beat</text>'
+      +'<path class="mt-area" d="'+area+'" fill="var(--c-green)"/>'
+      +'<polyline class="mt-line" points="'+pts.join(' ')+'" stroke="var(--c-green)"/>'
+      +'<g class="mt-axis">'
+        +labels.map(function(l){return '<text x="'+X(l.x)+'" y="'+(H-10)+'" text-anchor="middle">'+(units[l.x].name.length>9?units[l.x].name.substring(0,9)+'…':units[l.x].name)+'</text>';}).join('')
+      +'</g>'
+      +'<text class="mt-axis" x="4" y="'+Y(yMax)+'">'+yMax+'%</text>'
+      +'<text class="mt-axis" x="4" y="'+(H-PB)+'">0%</text>'
+      +(n===1
+        ?'<circle class="mt-dot" cx="'+X(0)+'" cy="'+lastY+'" r="5" fill="var(--c-green)" stroke="#fff" stroke-width="2"/>'
+        :'<circle class="mt-dot" cx="'+lastX+'" cy="'+lastY+'" r="5" fill="var(--c-green)" stroke="#fff" stroke-width="2"/>')
+    +'</svg>'
+    +'<div class="mt-legend"><span><i style="background:var(--c-green);"></i>'+mine+' cumulative 2026 share</span><span><i class="sw"></i>'+rival.p+' victory line</span></div>'
+    +'<div class="mt-rec"><b>பரிந்துரைகள் · Recommendations</b><ul style="margin:0;padding:0;list-style:none;">'
+      +'<li>'+(momentum
+          ?'தற்போதுள்ள ஆதரவு தளத்தைத் தக்கவைக்க களப்பணியாளர்களின் செயல்பாட்டை உறுதிப்படுத்தவும். '+gap.toFixed(1)+'% முன்னிலையை காக்க வேண்டும்.'
+          :'நடுநிலை வாக்காளர்களின் கவனத்தை ஈர்க்க கூடுதல் பிரச்சாரங்களை மேற்கொள்ளவும் — '+rival.p+' ஐ முந்த +'+(-gap).toFixed(1)+'% தேவை.')+'</li>'
+      +'<li>'+(totThree?('மொத்தம் '+totThree.toLocaleString('en-IN')+' மூன்று-கட்சி வாக்குகள். '+mine+' '+mineV.toLocaleString('en-IN')+' க்கு, '+(iLead?'ஒவ்வொரு வாக்கும் கேடயம்':'உடைப்பதே இலக்கு')+'.'):'')+'</li>'
+    +'</ul></div>';
+}
+function renderMonCompare(){
+  const box=document.getElementById('mon-compare');
+  if(!box)return;
+  const units=monScopeUnits();
+  if(!units.length){box.style.display='none';return;}
+  const c=monCtxOf(MON.block);
+  const tot26=units.reduce(function(a,u){return {inc:a.inc+u.inc,tvk:a.tvk+u.tvk,aiadmk:a.aiadmk+u.aiadmk};},{inc:0,tvk:0,aiadmk:0});
+  const d26=tot26.inc+tot26.tvk+tot26.aiadmk;
+  const y=units.filter(function(u){return u.y21;}).
+    reduce(function(a,u){return {ally:a.ally+(u.y21.ally||0),opp:a.opp+(u.y21.opp||0)};},{ally:0,opp:0});
+  const has21=(y.ally+y.opp)>0;
+  const shares=[];
+  if(has21){shares.push({label:"'21 "+c.party.short,val:Math.round(y.ally/(y.ally+y.opp)*1000)/10,color:'var(--c-golden)'});
+    shares.push({label:"'21 "+c.opp21,val:Math.round(y.opp/(y.ally+y.opp)*1000)/10,color:'var(--c-brown-light)'});}
+  if(d26){shares.push({label:"'26 "+c.party.short,val:Math.round(tot26.inc/d26*1000)/10,color:'var(--c-golden)'});
+    shares.push({label:"'26 "+c.p2.short,val:Math.round(tot26.tvk/d26*1000)/10,color:'var(--c-green)'});
+    shares.push({label:"'26 "+c.p3.short,val:Math.round(tot26.aiadmk/d26*1000)/10,color:'var(--c-brown-mid)'});}
+  if(!shares.length)shares.push({label:'No 2026 data',val:0,color:'var(--c-brown-light)'});
+  box.style.display='';
+  box.innerHTML='<div class="card-title"><span class="icon" aria-hidden="true">📈</span> Last 2 Years Comparison <span style="font-size:12px;color:var(--c-text-muted);font-weight:500;">· '+units.length+' unit(s)</span></div><div class="bar-chart" id="mon-compare-chart"></div>';
+  renderBarChart('mon-compare-chart',shares);
+}
+function renderMonRank(){
+  const box=document.getElementById('mon-rank');
+  if(!box)return;
+  const units=monScopeUnits().map(function(u){
+    const tot=u.inc+u.tvk+u.aiadmk;
+    return Object.assign({},u,{support:tot?Math.round(u.inc/tot*1000)/10:0,lead:tot?Math.round((u.inc/tot*1000-Math.max(u.tvk,u.aiadmk)/tot*1000)*10)/10:0});
+  }).sort(function(a,b){return b.support-a.support;});
+  if(!units.length){box.style.display='none';return;}
+  const c=monCtxOf(MON.block);
+  const rows=units.map(function(v,i){
+    const tb=v.lead>=10?'Fortress':v.lead>=2?'Lean':v.lead>=0?'Thin ice':'Opposition';
+    return '<tr style="cursor:pointer;" onclick="monDrill(\''+v.name.replace(/'/g,'')+'\')">'
+      +'<td><span class="rank-badge '+(i<3?'rank-'+(i+1):'rank-default')+'">'+(i+1)+'</span></td>'
+      +'<td><strong>'+v.name+'</strong><div style="font-size:11px;color:var(--c-text-muted);">'+v.booths+' booth(s) · '+tb+'</div></td>'
+      +'<td>'+v.booths+'</td>'
+      +'<td><div style="display:flex;flex-direction:column;gap:4px;min-width:120px;"><div style="display:flex;justify-content:space-between;font-size:11px;"><span style="color:var(--c-text-muted);">'+c.party.short+'</span><strong style="color:var(--c-green);">'+v.support+'%</strong></div><div class="progress-bar" style="width:100%;"><div class="progress-fill golden" style="width:'+Math.min(100,v.support)+'%"></div></div></div></td>'
+      +'<td>'+y21Cell(v,c)+'</td>'
+      +'<td>'+(v.polled?'<strong>'+v.polled.toLocaleString()+'</strong>':'<span style="color:var(--c-text-muted);">—</span>')+'</td>'
+      +'<td>'+swingCell(v)+'</td></tr>';
+  }).join('');
+  box.style.display='';
+  box.innerHTML='<div class="card-title"><span class="icon" aria-hidden="true">🏆</span> Unit Rankings — 2026 Vote Share vs 2021 <span style="font-size:12px;color:var(--c-text-muted);font-weight:500;">· '+units.length+' unit(s) · tap a row to drill in</span></div>'+
+    '<div class="table-wrap"><table><thead><tr><th>Rank</th><th>Village / Unit</th><th>Booths</th><th>2026 Share %</th><th>2021 vs Opp %</th><th>Votes Polled</th><th>Δ 21→26</th></tr></thead><tbody>'+rows+'</tbody></table></div>';
+}
+function monDrill(name){
+  if(!name)return;
+  const c=monCtxOf(MON.block);
+  const m=/^Booth (\d+)$/.exec(name);
+  if(m){
+    MON.ward=m[1]; MON.pos='WM';
+  }else{
+    if(!c.villages.find(function(x){return x.name===name;}))return;
+    MON.village=name; MON.pos='PP';
+  }
+  monFillVillages();
+  monHome();
+}
+function renderMonGoals(){
+  const vg=document.getElementById('mon-victory'), gl=document.getElementById('mon-goals');
+  const b=monBattleVotes();
+  if(!b){ if(vg)vg.style.display='none'; if(gl)gl.style.display='none'; return; }
+  const prev=myParty;
+  if(typeof MON!=='undefined'&&MON.party)myParty=MON.party;
+  if(vg){vg.style.display=''; vg.innerHTML=victoryCardHTML(b);}
+  if(gl){gl.style.display=''; gl.innerHTML=goalsCardHTML(b);}
+  myParty=prev;
+}
 function renderMonBattle(){
   const box=document.getElementById('mon-battle');
   if(!box)return;
@@ -2622,14 +3350,6 @@ function renderMonBattle(){
   if(typeof MON!=='undefined'&&MON.party)myParty=MON.party;
   box.innerHTML=battleCardHTML(b,b.ctx);
   myParty=prev;
-}
-function renderBattleWard(){
-  const box=document.getElementById('battle-ward');
-  if(!box)return;
-  const b=battleVotes();
-  if(!b){box.style.display='none';return;}
-  box.style.display='';
-  box.innerHTML=battleCardHTML(b,activeCtx());
 }
 function battleCardHTML(b,c){
   const mine=myPartyOr(c);
@@ -2671,775 +3391,9 @@ function battleCardHTML(b,c){
         +(b.booths.length>12?' +'+(b.booths.length-12):'')+'</div>':'');
   return html;
 }
-
-/* ==================== REGISTRATION CASCADE ====================
-   Position -> Constituency -> Village -> Ward (WM) / Village (PP) / Group (CO)
-   Top level is Constituency until a block mapping is supplied; swapping it to
-   Panchayat Union later means changing modalCtxKey() and the option list only.
-   Councillor groups are DERIVED by chunking, NOT official TNSEC delimitation. */
-const CO_GROUP_SIZE=11;
-let assignedWard='';
-let assignedGroup='';
-
-function acKeyOf(key){return (key||currentConstituency)==='AC 29 Sriperumbudur (SC)'?'AC29':'AC37';}
-/* Real ward units from the delimitation workbook. Ward vote splits are ESTIMATED:
-   Form 20 reports per polling station, and a station can serve several wards. */
-function villageWards(v,ctxKey){
-  if(v&&typeof WARD_UNITS!=='undefined'){
-    const ac=WARD_UNITS[acKeyOf(ctxKey)];
-    const rows=ac&&ac.wards?ac.wards[v.name]:null;
-    if(rows&&rows.length){
-      const st=(typeof WARD_STREETS!=='undefined'&&WARD_STREETS[acKeyOf(ctxKey)])
-               ? (WARD_STREETS[acKeyOf(ctxKey)][v.name]||{}) : {};
-      return rows.map(function(r){
-        const sw=st[String(r.ward)]||{};
-        return {no:r.ward,label:r.label,seat:r.seat,inc:r.ally,tvk:r.tvk,aiadmk:r.aia,
-                polled:r.valid,booths:(sw.b&&sw.b.length?sw.b:(r.booths||[])),
-                streets:sw.s||[],estimated:true};
-      });
-    }
-  }
-  return (v&&v.boothList?v.boothList:[]).map(function(b){
-    return {no:b[0],tvk:b[2],inc:b[3],aiadmk:b[4],polled:b[5],booths:[b[0]],estimated:false};
-  });
-}
-function officialUnionWards(key,c){
-  if(typeof LOCAL_BODIES==='undefined')return null;
-  const co=LOCAL_BODIES.election_data.positions.councillor;
-  const byAc=co.union_wards_by_ac||{};
-  const uw=byAc[key]||(key==='AC 29 Sriperumbudur (SC)'?co.union_wards:null);
-  if(!uw)return null;
-  const out=uw.map(function(w){
-    const members=w.group_of_villages.map(function(n){
-      return c.villages.find(function(v){return v.name===n;});
-    }).filter(Boolean);
-    return {id:w.ward_id,name:w.union_ward_name,members:members,
-            missing:w.no_data_villages||[],official:true,
-            delimPop:w.delimitationPopulation};
-  }).filter(function(g){return g.members.length;});
-  return out.length?out:null;
-}
-function councillorGroups(key){
-  const c=constituencies[key]||activeCtx();
-  const off=officialUnionWards(key,c);
-  if(off)return off;
-  const vs=c.villages.slice().sort(function(a,b){return a.name.localeCompare(b.name);});
-  const out=[];
-  for(var i=0;i<vs.length;i+=CO_GROUP_SIZE){
-    var chunk=vs.slice(i,i+CO_GROUP_SIZE);
-    out.push({id:'G'+(out.length+1),
-      name:'Group '+(out.length+1)+' · '+chunk[0].name+' – '+chunk[chunk.length-1].name,
-      members:chunk});
-  }
-  return out;
-}
-function findGroup(key,id){
-  return councillorGroups(key).find(function(g){return g.id===id;});
-}
-function groupTotals(g){
-  return g.members.reduce(function(a,v){
-    return {inc:a.inc+(v.inc||0),tvk:a.tvk+(v.tvk||0),aiadmk:a.aiadmk+(v.aiadmk||0),
-            polled:a.polled+(v.polled||0),booths:a.booths+(v.booths||0)};
-  },{inc:0,tvk:0,aiadmk:0,polled:0,booths:0});
-}
-
-/* ---- modal cascade ---- */
-function modalCtxKey(){
-  const asm=document.getElementById('f-constituency').value;
-  return Object.keys(constituencies).find(function(k){
-    return constituencies[k].assembly===asm;
-  })||currentConstituency;
-}
-function modalVillages(){
-  const c=constituencies[modalCtxKey()]||activeCtx();
-  return c.villages;
-}
-function populateModalWards(){
-  const sel=document.getElementById('f-ward');
-  const vn=document.getElementById('f-village').value;
-  const v=modalVillages().find(function(x){return x.name===vn;});
-  const ws=villageWards(v);
-  if(!vn){
-    sel.innerHTML='<option value="">Select a village first</option>';
-    sel.disabled=true;return;
-  }
-  if(!ws.length){
-    sel.innerHTML='<option value="">No ward-level data for this village</option>';
-    sel.disabled=true;return;
-  }
-  sel.disabled=false;
-  sel.innerHTML='<option value="">Select ward...</option>';
-  ws.forEach(function(w){
-    const o=document.createElement('option');
-    o.value=w.no;
-    o.textContent=(w.label||('Ward '+w.no))+' — '+w.polled.toLocaleString('en-IN')+(w.booths&&w.booths.length?' · booth '+w.booths.join('/'):'')+(w.streets&&w.streets.length?' · '+w.streets.length+' தெரு':'');
-    sel.appendChild(o);
-  });
-}
-function populateModalGroups(){
-  const sel=document.getElementById('f-councillor');
-  sel.innerHTML='<option value="">Select group...</option>';
-  councillorGroups(modalCtxKey()).forEach(function(g){
-    const t=groupTotals(g);
-    const o=document.createElement('option');
-    o.value=g.id;
-    o.textContent=g.name+' ('+g.members.length+' villages · '+t.polled.toLocaleString('en-IN')+' polled)';
-    sel.appendChild(o);
-  });
-}
-function updateModalCascade(){
-  const pos=document.getElementById('f-position').value||'';
-  function show(id,on){document.getElementById(id).style.display=on?'':'none';}
-  show('fg-village',pos==='WM'||pos==='PP');
-  show('fg-ward',pos==='WM');
-  show('fg-councillor',pos==='CO');
-  show('fg-cascade-note',pos==='CO');
-  const lbl=document.getElementById('lbl-village');
-  if(lbl)lbl.textContent=pos==='PP'?'Village Panchayat *':'Assigned Village *';
-  if(pos==='WM')populateModalWards();
-  if(pos==='CO')populateModalGroups();
-}
-
-/* ---- seat profile panels ---- */
-function wardProfileHTML(v,w,c){
-  const t=w.inc+w.tvk+w.aiadmk;
-  const lead=t?Math.round((w.inc/t*100-Math.max(w.tvk/t*100,w.aiadmk/t*100))*10)/10:0;
-  return '<div class="pos-grid"><div class="pos-card active">'+
-    '<div class="pos-head">Ward '+w.no+'</div>'+
-    '<div class="pos-seat">'+v.name+' · '+bodyNameOf(v)+'</div>'+
-    '<div class="pos-stats">'+
-      '<div class="pos-stat"><span>Polled 2026</span><b>'+vf(w.polled)+'</b></div>'+
-      '<div class="pos-stat"><span>Lead</span><b style="color:'+(lead>=0?'var(--c-green)':'var(--c-orange)')+';">'+(lead>=0?'+':'')+lead+' pp</b></div>'+
-      '<div class="pos-stat"><span>'+c.party.short+' status</span><b>'+perfChip(w.inc,w.tvk,w.aiadmk)+'</b></div>'+
-    '</div>'+
-    seatPartyRow(c.party.short,'var(--c-golden)',vf(w.inc),seatPct(w.inc,t))+
-    seatPartyRow(c.p2.short,'var(--c-green)',vf(w.tvk),seatPct(w.tvk,t))+
-    seatPartyRow(c.p3.short,'var(--c-brown-light)',vf(w.aiadmk),seatPct(w.aiadmk,t))+
-    (w.booths&&w.booths.length?'<div class="pos-tier" style="margin-top:10px;">Booths serving this ward \u00b7 '+w.booths.join(', ')+'</div>':'')+
-    (w.streets&&w.streets.length?'<div class="st-box"><b>தெருக்கள் · '+w.streets.length+'</b><div class="st-list">'+w.streets.map(function(x){return '<span>'+x+'</span>';}).join('')+'</div></div>':'')+
-    (w.estimated?'<div class="est-note">\u0bb5\u0bbe\u0bb0\u0bcd\u0b9f\u0bc1 \u0b85\u0bb3\u0bb5\u0bbf\u0bb2\u0bbe\u0ba9 \u0bb5\u0bbe\u0b95\u0bcd\u0b95\u0bc1 = <b>\u0bae\u0ba4\u0bbf\u0baa\u0bcd\u0baa\u0bc0\u0b9f\u0bc1</b>. Form 20 \u0bb5\u0bbe\u0b95\u0bcd\u0b95\u0bc1\u0b9a\u0bcd\u0b9a\u0bbe\u0bb5\u0b9f\u0bbf \u0b85\u0bb3\u0bb5\u0bbf\u0bb2\u0bcd \u0bae\u0b9f\u0bcd\u0b9f\u0bc1\u0bae\u0bc7 \u0b85\u0bb1\u0bbf\u0bb5\u0bbf\u0b95\u0bcd\u0b95\u0bbf\u0bb1\u0ba4\u0bc1; \u0b92\u0bb0\u0bc1 \u0b9a\u0bbe\u0bb5\u0b9f\u0bbf \u0baa\u0bb2 \u0bb5\u0bbe\u0bb0\u0bcd\u0b9f\u0bc1\u0b95\u0bb3\u0bc1\u0b95\u0bcd\u0b95\u0bc1 \u0b9a\u0bc7\u0bb5\u0bc8 \u0b9a\u0bc6\u0baf\u0bcd\u0b95\u0bbf\u0bb1\u0ba4\u0bc1.</div>':'')+
-  '</div></div>';
-}
-function groupProfileHTML(g,c){
-  const t=groupTotals(g),tot=t.inc+t.tvk+t.aiadmk;
-  const rows=g.members.map(function(v){
-    return {w:v.name,inc:v.inc||0,tvk:v.tvk||0,aiadmk:v.aiadmk||0,polled:v.polled||0};
-  });
-  return '<div class="pos-grid"><div class="pos-card active">'+
-    '<div class="pos-head">'+g.name+'</div>'+
-    '<div class="pos-seat">'+g.members.length+' villages'+(g.official?' · official delimitation':' grouped')+'</div>'+
-    '<div class="pos-stats">'+
-      '<div class="pos-stat"><span>Villages</span><b>'+g.members.length+'</b></div>'+
-      '<div class="pos-stat"><span>Booths</span><b>'+t.booths+'</b></div>'+
-      '<div class="pos-stat"><span>Polled 2026</span><b>'+vf(t.polled)+'</b></div>'+
-      '<div class="pos-stat"><span>Lead</span><b>'+seatLead(
-          tot?Math.round(t.inc/tot*1000)/10:0,
-          tot?Math.round(t.tvk/tot*1000)/10:0,
-          tot?Math.round(t.aiadmk/tot*1000)/10:0)+'</b></div>'+
-    '</div>'+
-    seatPartyRow(c.party.short,'var(--c-golden)',vf(t.inc),seatPct(t.inc,tot))+
-    seatPartyRow(c.p2.short,'var(--c-green)',vf(t.tvk),seatPct(t.tvk,tot))+
-    seatPartyRow(c.p3.short,'var(--c-brown-light)',vf(t.aiadmk),seatPct(t.aiadmk,tot))+
-    '<div class="pos-tier" style="margin-top:10px;">'+(g.official
-        ?('Official 2020 delimitation'+(g.missing&&g.missing.length
-            ?' · no Form 20 data for: '+g.missing.join(', ')
-            :' · all villages covered'))
-        :('Derived grouping of '+CO_GROUP_SIZE+' villages — not official delimitation'))+'</div>'+
-  '</div></div>'+seatWardsTable(rows,g.name+' · Total');
-}
-
-function initCandidateModal(){
-  const pSel=document.getElementById('f-party');
-  if(!pSel.dataset.init){partyList.forEach(x=>{const o=document.createElement('option');o.value=x;o.textContent=x;pSel.appendChild(o);});pSel.dataset.init='1';}
-  const cSel=document.getElementById('f-constituency');
-  if(!cSel.dataset.init){const def=document.createElement('option');def.value='';def.textContent='Select constituency...';cSel.appendChild(def);const uniq=[...new Set(Object.values(constituencies).map(c=>c.assembly))];uniq.forEach(x=>{const o=document.createElement('option');o.value=x;o.textContent=x;cSel.appendChild(o);});cSel.dataset.init='1';cSel.addEventListener('change',()=>{const vSel=document.getElementById('f-village');vSel.innerHTML='<option value="">Select village...</option>';seatVillagesFor(cSel.value).forEach(v=>{const o=document.createElement('option');o.value=v.name;o.textContent=v.name;vSel.appendChild(o);});const av=assignedVillage&&seatVillagesFor(cSel.value).some(v=>v.name===assignedVillage)?assignedVillage:'';vSel.value=av;});}
-  const vSel=document.getElementById('f-village');
-  if(!vSel.dataset.casc){vSel.addEventListener('change',function(){if(document.getElementById('f-position').value==='WM')populateModalWards();});vSel.dataset.casc='1';}
-  const posSel=document.getElementById('f-position');
-  if(!posSel.dataset.casc){posSel.addEventListener('change',updateModalCascade);posSel.dataset.casc='1';}
-  if(!cSel.dataset.casc){cSel.addEventListener('change',function(){setTimeout(updateModalCascade,0);});cSel.dataset.casc='1';}
-  vSel.innerHTML='<option value="">Select village...</option>';
-  seatVillagesFor(cSel.value||(document.getElementById('cand-constituency').textContent||Object.values(constituencies)[0].assembly)).forEach(v=>{const o=document.createElement('option');o.value=v.name;o.textContent=v.name;vSel.appendChild(o);});
-}
-
-/* ---- registration persistence ---- */
-const CC_PROFILE_KEY='cc_profile_v1';
-function candidateProfile(){
-  return {name:document.getElementById('cand-name').textContent,
-    party:document.getElementById('cand-party').textContent,
-    constituency:document.getElementById('cand-constituency').textContent,
-    village:assignedVillage,
-    ward:assignedWard,
-    group:assignedGroup,
-    pos:document.getElementById('cand-position').dataset.position||'CO',
-    mobile1:document.getElementById('cand-mobile1').value,
-    mobile2:document.getElementById('cand-mobile2').value,
-    email:document.getElementById('cand-email').value,
-    role:document.getElementById('role-select').value};
-}
-function saveCandidateProfile(){try{localStorage.setItem(CC_PROFILE_KEY,JSON.stringify(candidateProfile()));}catch(e){}}
-function restoreCandidateProfile(){
-  let p=null;try{p=JSON.parse(localStorage.getItem(CC_PROFILE_KEY));}catch(e){}
-  if(!p||!p.name)return;
-  const targetKey=Object.keys(constituencies).find(k=>constituencies[k].assembly===p.constituency);
-  if(targetKey&&targetKey!==currentConstituency){
-    switchConstituency(targetKey);
-    const cs=document.getElementById('constituency-select');if(cs)cs.value=targetKey;
-  }
-  assignedVillage=(p.village&&villages.some(v=>v.name===p.village))?p.village:'';
-  assignedWard=p.ward||'';
-  assignedGroup=p.group||'';
-  const posMeta=STANDING_POSITIONS[p.pos]||STANDING_POSITIONS.CO;
-  document.getElementById('cand-name').textContent=p.name;
-  document.getElementById('cand-avatar').textContent=p.name.split(/\s+/).map(w=>w[0]).join('').slice(0,2).toUpperCase()||'CC';
-  if(p.party)document.getElementById('cand-party').textContent=p.party;
-  document.getElementById('cand-constituency').textContent=p.constituency||activeCtx().assembly;
-  document.getElementById('cand-position').dataset.position=p.pos||'CO';
-  document.getElementById('cand-position').textContent=posMeta.icon+' Standing for · '+posMeta.label+' ('+posMeta.seat+')';
-  if(p.mobile1)document.getElementById('cand-mobile1').value=p.mobile1;
-  if(p.mobile2)document.getElementById('cand-mobile2').value=p.mobile2;
-  if(p.email)document.getElementById('cand-email').value=p.email;
-  if(p.role){document.getElementById('role-select').value=p.role;onRoleChange();}
-  refreshLocalBodyLine();renderSeatProfile();renderCandidateDashboard();renderBattleWard();
-}
-function openCandidateModal(){
-  initCandidateModal();
-  document.getElementById('f-name').value=document.getElementById('cand-name').textContent;
-  document.getElementById('f-party').value=document.getElementById('cand-party').textContent;
-  document.getElementById('f-constituency').value=document.getElementById('cand-constituency').textContent;
-  document.getElementById('f-village').value=assignedVillage;
-  document.getElementById('f-position').value=document.getElementById('cand-position').dataset.position||'CO';
-  updateModalCascade();
-  document.getElementById('f-ward').value=assignedWard;
-  document.getElementById('f-councillor').value=assignedGroup;
-  document.getElementById('f-mobile1').value=document.getElementById('cand-mobile1').value;
-  document.getElementById('f-mobile2').value=document.getElementById('cand-mobile2').value;
-  document.getElementById('f-email').value=document.getElementById('cand-email').value;
-  document.getElementById('cand-modal').classList.add('open');
-  document.getElementById('f-name').focus();
-}
-function closeCandidateModal(){document.getElementById('cand-modal').classList.remove('open');}
-function saveCandidate(){
-  const name=document.getElementById('f-name').value.trim();
-  if(!name||!document.getElementById('f-mobile1').value.trim()){alert('Please enter candidate name and primary mobile number.');return;}
-  const initials=name.split(/\s+/).map(w=>w[0]).join('').slice(0,2).toUpperCase();
-  document.getElementById('cand-name').textContent=name;
-  document.getElementById('cand-avatar').textContent=initials||'CC';
-  const selParty=document.getElementById('f-party').value||'';
-  const party=selParty||(PARTY.symbol+' '+PARTY.name);
-  var constituency=document.getElementById('f-constituency').value||activeCtx().assembly;
-  const targetKey=Object.keys(constituencies).find(k=>constituencies[k].assembly===constituency);
-  if(targetKey&&targetKey!==currentConstituency)switchConstituency(targetKey);
-  assignedVillage=document.getElementById('f-village').value;
-  assignedWard=document.getElementById('f-ward').value||'';
-  assignedGroup=document.getElementById('f-councillor').value||'';
-  const pos=document.getElementById('f-position').value||'CO';
-  const posMeta=STANDING_POSITIONS[pos]||STANDING_POSITIONS.CO;
-  document.getElementById('cand-party').textContent=party;
-  document.getElementById('cand-position').dataset.position=pos;
-  document.getElementById('cand-position').textContent=posMeta.icon+' Standing for · '+posMeta.label+' ('+posMeta.seat+')';
-  document.getElementById('cand-constituency').textContent=constituency;
-  refreshLocalBodyLine();renderSeatProfile();renderCandidateDashboard();renderBattleWard();
-  document.getElementById('cand-mobile1').value=document.getElementById('f-mobile1').value.trim();
-  document.getElementById('cand-mobile2').value=document.getElementById('f-mobile2').value.trim();
-  document.getElementById('cand-email').value=document.getElementById('f-email').value.trim();
-  if(assignedVillage&&document.getElementById('role-select').value==='candidate'){document.getElementById('scope-village').value=assignedVillage;onScopeChange();}
-  saveCandidateProfile();
-  closeCandidateModal();
-  alert('Candidate saved successfully'+(assignedVillage?` for ${assignedVillage}.`:'')+'.');
-}
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeCandidateModal();document.getElementById('mon-modal').classList.remove('open');}});
-document.getElementById('cand-modal').addEventListener('click',closeCandidateModal);
-document.getElementById('mon-modal').addEventListener('click',function(){this.classList.remove('open');});
-
-/* ==================== ELECTION MONITOR PRO ====================
-   Flow: Login -> Select Role -> Position -> Area -> Home
-   Votes are real 2026 Form 20 rows; union wards are the official 2020 delimitation. */
-const MON = {user:'', mobile:'', role:'', pos:'', party:'', block:'', village:'', ward:'', step:1};
-const MON_POS_TA = {PP:'ஊராட்சி மன்ற தலைவர்', CO:'ஒன்றிய கவுன்சிலர்', WM:'வார்டு மெம்பர்'};
-const MON_STEPS = ['Login','பங்கு','பதவி','பகுதி','Home'];
-
-function monGo(n){
-  MON.step = n;
-  for (var i=1;i<=5;i++){
-    var el=document.getElementById('mon-step-'+i);
-    if(el) el.hidden = (i!==n);
-  }
-  monStepBar();
-  window.scrollTo({top:document.getElementById('sec-monitor').offsetTop-70, behavior:'smooth'});
-}
-function monStepBar(){
-  const bar=document.getElementById('mon-stepbar'); if(!bar) return;
-  bar.innerHTML = MON_STEPS.map(function(s,i){
-    const n=i+1, done=n<MON.step, now=n===MON.step;
-    const bg = now?'var(--c-golden)':(done?'var(--c-green)':'var(--c-light)');
-    const fg = (now||done)?'#fff':'var(--c-text-muted)';
-    return '<span style="display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:700;'
-      +'padding:5px 12px;background:'+bg+';color:'+fg+';border-radius:20px;">'
-      +(done?'✓':n)+' '+s+'</span>';
-  }).join('');
-}
-function monMsg(t){
-  const m=document.getElementById('mon-msg');
-  if(!m) return;
-  if(!t){m.style.display='none';return;}
-  m.textContent=t; m.style.display='block';
-}
-
-/* ---- STEP 1: login ---- */
-function monEnter(){
-  const mobile=(document.getElementById('mon-mobile').value||'').trim();
-  const otp=(document.getElementById('mon-otp').value||'').trim();
-  if(!/^\d{10}$/.test(mobile)) return monMsg('சரியான 10 இலக்க மொபைல் எண்ணை உள்ளிடவும்.');
-  if(otp!=='1234') return monMsg('OTP தவறு (Demo: 1234).');
-  monMsg('');
-  MON.user=(document.getElementById('mon-user').value||'').trim();
-  MON.mobile=mobile;
-  monGo(2);
-}
-function monReset(){
-  MON.role=MON.pos=MON.party=MON.village=MON.ward='';
-  monGo(1);
-}
-
-/* ---- STEP 2: role ---- */
-function monSetRole(r){
-  MON.role=r;
-  document.getElementById('mon-pos-title').textContent =
-    (r==='field') ? 'Field worker for — யாருக்காக?' : 'Position — பதவி';
-  monGo(3);
-}
-
-/* ---- STEP 3: position + party ---- */
-function monSetParty(p){ MON.party=p; if(MON.pos) monBuildArea(); }
-function monSetPos(p){
-  MON.pos=p;
-  monBuildArea();
-  monGo(4);
-}
-
-/* ---- STEP 4: area ---- */
-function monBlocks(){ return Object.keys(constituencies); }
-function monCtxOf(k){ return constituencies[k] || constituencies[currentConstituency]; }
-function monBuildArea(){
-  const bs=document.getElementById('mon-block');
-  if(bs && !bs.options.length){
-    bs.innerHTML = monBlocks().map(function(k){
-      return '<option value="'+k+'">'+constituencies[k].label+'</option>'; }).join('');
-    MON.block = bs.value = currentConstituency;
-  }
-  if(!MON.block) MON.block = bs ? bs.value : currentConstituency;
-  const title=document.getElementById('mon-area-title');
-  const vlab=document.getElementById('mon-v-label');
-  const wwrap=document.getElementById('mon-w-wrap');
-  if(MON.pos==='CO'){
-    title.textContent='கவுன்சிலர் வார்டு — ஊர்களின் குழு';
-    vlab.textContent='ஒன்றிய வார்டு Union Ward';
-    wwrap.style.display='none';
-  }else if(MON.pos==='WM'){
-    title.textContent='ஊராட்சி → வார்டு எண்';
-    vlab.textContent='ஊராட்சி Village Panchayat';
-    wwrap.style.display='';
-  }else{
-    title.textContent='ஊராட்சி Village Panchayat';
-    vlab.textContent='ஊராட்சி Village Panchayat';
-    wwrap.style.display='none';
-  }
-  monFillVillages();
-}
-function monBlockChange(){
-  MON.block=document.getElementById('mon-block').value;
-  MON.village=MON.ward='';
-  monFillVillages();
-}
-function monFillVillages(){
-  const sel=document.getElementById('mon-village');
-  const c=monCtxOf(MON.block);
-  let opts='<option value="">— தேர்ந்தெடுக்கவும் —</option>';
-  if(MON.pos==='CO'){
-    const groups=(typeof councillorGroups==='function')?councillorGroups(MON.block):[];
-    opts+=groups.map(function(g){
-      const n=g.members.length, miss=(g.missing&&g.missing.length)?(' · '+g.missing.length+' ஊர் தரவு இல்லை'):'';
-      return '<option value="'+g.id+'">'+g.name+' ('+n+' ஊர்'+miss+')</option>';
-    }).join('');
-  }else{
-    opts+=c.villages.slice().sort(function(a,b){return a.name.localeCompare(b.name);})
-      .map(function(v){ return '<option value="'+v.name+'">'+v.name+' ('+v.booths+' பூத்)</option>'; }).join('');
-  }
-  sel.innerHTML=opts;
-  sel.value=MON.village||'';
-  monVillageChange();
-}
-function monVillageChange(){
-  MON.village=document.getElementById('mon-village').value;
-  MON.ward='';
-  const note=document.getElementById('mon-area-note');
-  const btn=document.getElementById('mon-enter-btn');
-  if(MON.pos==='WM'){
-    const ws=document.getElementById('mon-ward');
-    const c=monCtxOf(MON.block);
-    const v=c.villages.find(function(x){return x.name===MON.village;});
-    const rows=(typeof villageWards==='function')?villageWards(v):[];
-    if(!MON.village){ ws.innerHTML='<option value="">— முதலில் ஊரைத் தேர்ந்தெடுக்கவும் —</option>'; ws.disabled=true; }
-    else if(!rows.length){ ws.innerHTML='<option value="">வார்டு தரவு இல்லை</option>'; ws.disabled=true; }
-    else {
-      ws.disabled=false;
-      ws.innerHTML='<option value="">— வார்டு —</option>'+rows.map(function(w,i){
-        return '<option value="'+w.no+'">'+(w.label||('வார்டு '+w.no))+' · '+w.polled.toLocaleString('en-IN')+' polled'+(w.booths&&w.booths.length?' · booth '+w.booths.join('/'):'')+(w.streets&&w.streets.length?' · '+w.streets.length+' தெரு':'')+'</option>';
-      }).join('');
-    }
-    note.textContent = rows.length?('வார்டு = ஒரு பூத் என வரையறுக்கப்பட்டது (derived).'):'';
-  }else{
-    note.textContent='';
-  }
-  monEnableBtn();
-}
-function monWardChange(){ MON.ward=document.getElementById('mon-ward').value; monEnableBtn(); }
-function monEnableBtn(){
-  const btn=document.getElementById('mon-enter-btn');
-  btn.disabled = !(MON.village && (MON.pos!=='WM' || MON.ward));
-}
-
-/* ---- STEP 5: home / report ---- */
-function monPartyCol(c){
-  if(MON.party===c.p2.short) return 'tvk';
-  if(MON.party===c.p3.short) return 'aiadmk';
-  return 'inc';
-}
-function monPartyLabel(c){
-  const col=monPartyCol(c);
-  return col==='tvk'?c.p2.short:(col==='aiadmk'?c.p3.short:c.party.short);
-}
-function monMine(r,col){ return col==='tvk'?r.tvk:(col==='aiadmk'?r.aiadmk:r.inc); }
-function monStatusCell(r,col){
-  const three=r.inc+r.tvk+r.aiadmk;
-  if(!three) return '<span style="color:var(--c-text-muted);">—</span>';
-  const mine=monMine(r,col);
-  const rivals=['inc','tvk','aiadmk'].filter(function(k){return k!==col;})
-    .map(function(k){ return (k==='tvk'?r.tvk:(k==='aiadmk'?r.aiadmk:r.inc))/three*100; });
-  const p=partyPerf(mine/three*100, rivals);
-  const cl=p.status==='Positive'?'var(--c-green)':(p.status==='Neutral'?'var(--c-golden)':(p.status==='Weak'?'var(--c-orange)':'#C62828'));
-  return '<span style="color:'+cl+';font-weight:700;">'+p.status+'</span>'
-    +'<div style="font-size:10px;color:var(--c-text-muted);">margin '+p.margin+' · '+(p.gap>=0?'+':'')+p.gap+' pp</div>';
-}
-function monWardTable(rows,c,totalLabel){
-  const col=monPartyCol(c), pl=monPartyLabel(c);
-  const sum=function(k){ return rows.reduce(function(s,r){return s+(r[k]||0);},0); };
-  const body=rows.map(function(r){
-    const three=r.inc+r.tvk+r.aiadmk, other=Math.max(0,r.polled-three);
-    return '<tr><td><strong>'+r.w+'</strong></td>'
-      +'<td>'+vf(r.inc)+'</td><td>'+vf(r.tvk)+'</td><td>'+vf(r.aiadmk)+'</td>'
-      +'<td style="color:var(--c-text-muted);">'+vf(other)+'</td>'
-      +'<td><strong>'+vf(r.polled)+'</strong></td>'
-      +'<td>'+monStatusCell(r,col)+'</td></tr>';
-  }).join('');
-  const tot={inc:sum('inc'),tvk:sum('tvk'),aiadmk:sum('aiadmk'),polled:sum('polled')};
-  const totOther=Math.max(0,tot.polled-(tot.inc+tot.tvk+tot.aiadmk));
-  return '<div class="table-wrap"><table><thead><tr><th>வார்டு</th><th>'+c.party.short+'</th><th>'+c.p2.short
-    +'</th><th>'+c.p3.short+'</th><th>பிற</th><th>Polled</th><th>'+pl+' நிலை</th></tr></thead><tbody>'
-    +body
-    +'<tr style="background:var(--c-warm);font-weight:800;"><td>'+totalLabel+'</td><td>'+vf(tot.inc)+'</td><td>'+vf(tot.tvk)
-    +'</td><td>'+vf(tot.aiadmk)+'</td><td>'+vf(totOther)+'</td><td>'+vf(tot.polled)+'</td><td>'+monStatusCell(tot,col)+'</td></tr>'
-    +'</tbody></table></div>';
-}
-function monHome(){
-  setTimeout(function(){renderMonBattle();renderMonTrajectory();renderMonCompare();renderMonRanks();renderMonGoals();renderLocalBody();},0);
-  const c=monCtxOf(MON.block);
-  const pl=monPartyLabel(c);
-  const roleTa = MON.role==='field' ? 'களப்பணியாளர்' : 'வேட்பாளர்';
-  const posTa = MON_POS_TA[MON.pos]||MON.pos;
-  let subject='', rows=[], extra='';
-
-  if(MON.pos==='CO'){
-    const g=(councillorGroups(MON.block)||[]).find(function(x){return x.id===MON.village;});
-    if(!g) return;
-    subject=g.name;
-    rows=g.members.map(function(v){ return {w:v.name,inc:v.inc||0,tvk:v.tvk||0,aiadmk:v.aiadmk||0,polled:v.polled||0}; });
-    extra='<div style="font-size:12px;color:var(--c-text-muted);margin-bottom:10px;">'+g.members.length+' ஊராட்சிகள்'
-      +(g.official?' · அதிகாரப்பூர்வ 2020 வரையறை':'')+'</div>'
-      +((g.missing&&g.missing.length)?'<div style="font-size:12px;color:var(--c-orange);margin-bottom:10px;">⚠️ Form 20 தரவு இல்லாத ஊர்கள்: '+g.missing.join(', ')+'</div>':'');
-  } else {
-    const v=c.villages.find(function(x){return x.name===MON.village;});
-    if(!v) return;
-    const ws=villageWards(v);
-    if(MON.pos==='WM'){
-      const w=ws.find(function(x){return String(x.no)===String(MON.ward);});
-      if(!w) return;
-      subject=MON.village+' · வார்டு (Booth '+w.no+')';
-      rows=[{w:'Booth '+w.no,inc:w.inc,tvk:w.tvk,aiadmk:w.aiadmk,polled:w.polled}];
-    } else {
-      subject=MON.village;
-      rows=ws.length?ws.map(function(w,i){ return {w:'வார்டு '+(i+1)+' (B'+w.no+')',inc:w.inc,tvk:w.tvk,aiadmk:w.aiadmk,polled:w.polled}; })
-                    :[{w:MON.village,inc:v.inc||0,tvk:v.tvk||0,aiadmk:v.aiadmk||0,polled:v.polled||0}];
-      extra='<div style="font-size:12px;color:var(--c-text-muted);margin-bottom:10px;">'+(ws.length||1)+' வார்டு / பூத் · '+bodyNameOf(v)+'</div>';
-    }
-  }
-  const t=rows.reduce(function(a,r){return {inc:a.inc+r.inc,tvk:a.tvk+r.tvk,aiadmk:a.aiadmk+r.aiadmk,polled:a.polled+r.polled};},{inc:0,tvk:0,aiadmk:0,polled:0});
-  const three=t.inc+t.tvk+t.aiadmk;
-  const col=monPartyCol(c);
-  const mine=monMine(t,col);
-  const sharePct=three?Math.round(mine/three*1000)/10:0;
-
-  document.getElementById('mon-home-head').innerHTML=
-    '<div class="card-title"><span class="icon" aria-hidden="true">🏠</span> Home — '+subject+'</div>'
-    +'<div style="font-size:12px;color:var(--c-text-muted);margin-bottom:12px;">'
-    + roleTa+' · '+posTa+(MON.party?(' · '+MON.party):'')+' · '+(MON.user||MON.mobile)+'</div>'
-    + extra
-    +'<div class="pos-stats">'
-    +'<div class="pos-stat"><span>மொத்த வாக்கு 2026</span><b>'+vf(t.polled)+'</b></div>'
-    +'<div class="pos-stat"><span>'+pl+' வாக்கு</span><b>'+vf(mine)+'</b></div>'
-    +'<div class="pos-stat"><span>'+pl+' பங்கு</span><b>'+sharePct+'%</b></div>'
-    +'<div class="pos-stat"><span>'+pl+' நிலை</span><b>'+monStatusCell(t,col)+'</b></div>'
-    +'</div>';
-  document.getElementById('mon-home-body').innerHTML=
-    '<div class="card">'+monWardTable(rows,c,'மொத்தம்')+'</div>';
-  monGo(5);
-}
 function initMonitor(){ monStepBar(); }
+document.querySelector('.nav-link[data-sec="monitor"]')&&document.querySelector('.nav-link[data-sec="monitor"]').addEventListener('click',initMonitor);
 document.addEventListener('DOMContentLoaded',function(){ setTimeout(monStepBar,3300); });
 </script>
-<div class="ob-overlay" id="ob-overlay" style="display:none;">
-  <div class="ob-card">
-    <div class="ob-brand"><span class="ob-logo">BU</span> Brand U MAX</div>
-    <div class="ob-steps" id="ob-steps"></div>
-
-    <!-- 1. LOGIN -->
-    <div class="ob-pane" data-step="1">
-      <h3>உள்நுழைவு <span>Login</span></h3>
-      <div class="form-group"><label>பெயர் / User Name</label><input type="text" id="ob-name" placeholder="உங்கள் பெயர்"></div>
-      <div class="form-group"><label>கைபேசி எண் / Ph.No</label><input type="tel" id="ob-phone" inputmode="numeric" maxlength="10" placeholder="10 இலக்க எண்"></div>
-      <div class="form-group"><label>OTP</label><input type="text" id="ob-otp" inputmode="numeric" maxlength="6" placeholder="OTP"></div>
-      <div class="ob-note" id="ob-otp-note">டெமோ OTP: <b>1234</b> — இது demo மட்டும், உண்மையான பாதுகாப்பு இல்லை.</div>
-      <div class="ob-err" id="ob-err-1" hidden></div>
-      <button class="btn btn-gold ob-next" type="button" onclick="obLogin()">ENTER</button>
-    </div>
-
-    <!-- 2. ROLE -->
-    <div class="ob-pane" data-step="2" hidden>
-      <h3>பங்கு தேர்வு <span>Select Role</span></h3>
-      <div class="ob-choices" id="ob-role-choices">
-        <button class="ob-choice" type="button" data-val="candidate"><b>வேட்பாளர்</b><span>Candidate</span></button>
-        <button class="ob-choice" type="button" data-val="field_worker"><b>களப்பணியாளர்</b><span>Field Worker</span></button>
-      </div>
-      <div class="ob-err" id="ob-err-2" hidden></div>
-      <div class="ob-actions"><button class="btn btn-outline ob-back" type="button" onclick="obGo(1)">பின்</button>
-      <button class="btn btn-gold ob-next" type="button" onclick="obStep2()">ENTER</button></div>
-    </div>
-
-    <!-- 2b. PARTY -->
-    <div class="ob-pane" data-step="5" hidden>
-      <h3>கட்சியைத் தேர்ந்தெடுக்கவும் <span>Select Party</span></h3>
-      <div class="ob-choices ob-col" id="ob-party-choices"></div>
-      <div class="ob-note">இந்த தொகுதியின் Form 20-ல் பதிவான கட்சிகள் மட்டும்.</div>
-      <div class="ob-err" id="ob-err-5" hidden></div>
-      <div class="ob-actions"><button class="btn btn-outline ob-back" type="button" onclick="obGo(2)">பின்</button>
-      <button class="btn btn-gold ob-next" type="button" onclick="obStepParty()">ENTER</button></div>
-    </div>
-
-    <!-- 3. POSITION -->
-    <div class="ob-pane" data-step="3" hidden>
-      <h3>பதவி <span>Position</span></h3>
-      <div class="ob-choices ob-col" id="ob-pos-choices">
-        <button class="ob-choice" type="button" data-val="PP"><b>ஊராட்சி மன்ற தலைவர்</b><span>Village Panchayat President</span></button>
-        <button class="ob-choice" type="button" data-val="CO"><b>ஒன்றிய கவுன்சிலர்</b><span>Union Councillor</span></button>
-        <button class="ob-choice" type="button" data-val="WM"><b>வார்டு மெம்பர்</b><span>Ward Member</span></button>
-      </div>
-      <div class="ob-err" id="ob-err-3" hidden></div>
-      <div class="ob-actions"><button class="btn btn-outline ob-back" type="button" onclick="obGo(2)">பின்</button>
-      <button class="btn btn-gold ob-next" type="button" onclick="obStep3()">ENTER</button></div>
-    </div>
-
-    <!-- 4. AREA -->
-    <div class="ob-pane" data-step="4" hidden>
-      <h3>பகுதி <span>Area</span></h3>
-      <div class="form-group"><label>தொகுதி <span class="ob-en">Constituency</span></label>
-        <select id="ob-ac" class="modal-select"><option value="">தேர்ந்தெடுக்கவும்...</option></select></div>
-      <div class="form-group" id="ob-fg-village"><label id="ob-lbl-village">ஊராட்சி <span class="ob-en">Village Panchayat</span></label>
-        <select id="ob-village" class="modal-select" disabled><option value="">முதலில் தொகுதி</option></select></div>
-      <div class="form-group" id="ob-fg-ward"><label>வார்டு எண் <span class="ob-en">Ward No</span></label>
-        <select id="ob-ward" class="modal-select" disabled><option value="">முதலில் ஊராட்சி</option></select></div>
-      <div class="ob-err" id="ob-err-4" hidden></div>
-      <div class="ob-actions"><button class="btn btn-outline ob-back" type="button" onclick="obGo(3)">பின்</button>
-      <button class="btn btn-gold ob-next" type="button" onclick="obFinish()">ENTER</button></div>
-    </div>
-  </div>
-</div>
-<style>
-.ob-overlay{position:fixed;inset:0;z-index:900;background:var(--c-navy);
-  display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto;}
-.ob-card{background:var(--c-white);border-radius:16px;max-width:420px;width:100%;
-  padding:26px 26px 24px;box-shadow:0 24px 60px rgba(0,0,0,.4);}
-.ob-brand{display:flex;align-items:center;gap:10px;font-family:var(--font-display);
-  font-size:19px;font-weight:800;color:var(--c-navy);margin-bottom:18px;}
-.ob-logo{width:34px;height:34px;border-radius:9px;background:var(--c-golden);color:var(--c-navy);
-  display:grid;place-items:center;font-size:13px;font-weight:800;}
-.ob-steps{display:flex;gap:6px;margin-bottom:20px;}
-.ob-steps i{flex:1;height:4px;border-radius:2px;background:var(--c-light);}
-.ob-steps i.on{background:var(--c-golden);}
-.ob-pane h3{font-family:var(--font-display);font-size:20px;color:var(--c-navy);margin:0 0 16px;}
-.ob-pane h3 span{font-size:12px;color:var(--c-text-muted);font-weight:500;display:block;margin-top:2px;}
-.ob-en{color:var(--c-text-muted);font-weight:400;font-size:11px;}
-.ob-note{font-size:11.5px;color:var(--c-text-muted);line-height:1.5;margin:-4px 0 14px;}
-.ob-err{background:#FDECEA;color:#C62828;font-size:12.5px;padding:9px 12px;
-  border-radius:8px;margin-bottom:12px;font-weight:600;}
-.ob-choices{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
-.ob-choices.ob-col{grid-template-columns:1fr;}
-.ob-choice{text-align:left;padding:13px 15px;border:1.5px solid var(--c-light);background:var(--c-white);
-  border-radius:11px;cursor:pointer;transition:.15s;font-family:inherit;}
-.ob-choice:hover{border-color:var(--c-golden);}
-.ob-choice.sel{border-color:var(--c-golden);background:var(--c-warm);box-shadow:0 0 0 3px rgba(198,160,75,.16);}
-.ob-choice b{display:block;font-size:14px;color:var(--c-navy);}
-.ob-choice span{font-size:11px;color:var(--c-text-muted);}
-.ob-next{width:100%;padding:12px;font-size:14px;letter-spacing:.04em;}
-.ob-actions{display:flex;gap:10px;}
-.ob-actions .ob-back{flex:0 0 34%;color:var(--c-brown-mid);border-color:var(--c-brown-light);}
-.ob-actions .ob-next{flex:1;}
-@media(max-width:420px){.ob-choices{grid-template-columns:1fr;}}
-.bw-alias{background:var(--c-warm);border:1px solid var(--c-golden);border-radius:9px;
-  padding:10px 13px;font-size:12.5px;color:var(--c-brown-dark);line-height:1.55;margin:12px 0 0;}
-.bw-alias b{color:var(--c-navy);}
-</style>
-<script>
-var OB={step:1,name:'',phone:'',role:'',party:'',pos:'',ac:'',village:'',ward:''};
-function obGo(n){
-  OB.step=n;
-  document.querySelectorAll('.ob-pane').forEach(function(p){
-    p.hidden = parseInt(p.dataset.step,10)!==n;
-  });
-  var order=[1,2,5,3,4], idx=order.indexOf(n)+1;
-  var s=document.getElementById('ob-steps'), h='';
-  for(var q=1;q<=5;q++) h+='<i class="'+(q<=idx?'on':'')+'"></i>';
-  s.innerHTML=h;
-  if(n===4)obBuildArea();
-}
-function obErr(step,msg){
-  var e=document.getElementById('ob-err-'+step);
-  if(!e)return; e.textContent=msg; e.hidden=!msg;
-}
-function obLogin(){
-  var n=document.getElementById('ob-name').value.trim();
-  var p=document.getElementById('ob-phone').value.trim();
-  var o=document.getElementById('ob-otp').value.trim();
-  if(!n)return obErr(1,'பெயரை உள்ளிடவும்.');
-  if(!/^\d{10}$/.test(p))return obErr(1,'10 இலக்க கைபேசி எண் வேண்டும்.');
-  if(o!=='1234')return obErr(1,'OTP தவறு. டெமோ OTP: 1234');
-  obErr(1,''); OB.name=n; OB.phone=p; obGo(2);
-}
-function obPick(wrap,key){
-  document.querySelectorAll('#'+wrap+' .ob-choice').forEach(function(b){
-    b.addEventListener('click',function(){
-      document.querySelectorAll('#'+wrap+' .ob-choice').forEach(function(x){x.classList.remove('sel');});
-      b.classList.add('sel'); OB[key]=b.dataset.val;
-    });
-  });
-}
-function obStep2(){ if(!OB.role)return obErr(2,'பங்கைத் தேர்ந்தெடுக்கவும்.'); obErr(2,''); obBuildParty(); obGo(5); }
-function obBuildParty(){
-  const wrap=document.getElementById('ob-party-choices');
-  const keys=Object.keys(constituencies);
-  const ALL=['INC','DMK','ADMK','TVK'];
-  const norm=function(p){return p==='AIADMK'?'ADMK':p;};
-  wrap.innerHTML=ALL.map(function(p){
-    const seats=keys.filter(function(k){return partiesFor(k).map(norm).indexOf(p)>-1;});
-    const sub=seats.length?seats.join(' · ')
-      :'கூட்டணி வாக்குகள் ' + (ALLY_ALIAS[p]||'') + ' பெயரில் பதிவு';
-    return '<button class="ob-choice" type="button" data-val="'+p+'"><b>'+p+'</b><span>'+sub+'</span></button>';
-  }).join('');
-  obPick('ob-party-choices','party');
-}
-function obStepParty(){ if(!OB.party)return obErr(5,'கட்சியைத் தேர்ந்தெடுக்கவும்.'); obErr(5,''); obGo(3); }
-function obStep3(){ if(!OB.pos)return obErr(3,'பதவியைத் தேர்ந்தெடுக்கவும்.'); obErr(3,''); obGo(4); }
-function obBuildArea(){
-  var ac=document.getElementById('ob-ac');
-  if(!ac.dataset.init){
-    Object.keys(constituencies).forEach(function(k){
-      var o=document.createElement('option'); o.value=k; o.textContent=k; ac.appendChild(o);
-    });
-    ac.dataset.init='1';
-    ac.addEventListener('change',obAcChange);
-    document.getElementById('ob-village').addEventListener('change',obVillageChange);
-  }
-  var isCO=OB.pos==='CO', isWM=OB.pos==='WM';
-  document.getElementById('ob-lbl-village').innerHTML=(isCO?'ஒன்றிய வார்டு':'ஊராட்சி')+' <span class="ob-en">'+(isCO?'Union Ward':'Village Panchayat')+'</span>';
-  document.getElementById('ob-fg-ward').style.display=isWM?'':'none';
-  obAcChange();
-}
-function obAcChange(){
-  var key=document.getElementById('ob-ac').value;
-  var vs=document.getElementById('ob-village');
-  var ws=document.getElementById('ob-ward');
-  ws.innerHTML='<option value="">முதலில் ஊராட்சி</option>'; ws.disabled=true;
-  if(!key){ vs.innerHTML='<option value="">முதலில் தொகுதி</option>'; vs.disabled=true; return; }
-  vs.disabled=false;
-  if(OB.pos==='CO'){
-    vs.innerHTML='<option value="">தேர்ந்தெடுக்கவும்...</option>';
-    councillorGroups(key).forEach(function(g){
-      var o=document.createElement('option'); o.value=g.id;
-      o.textContent=g.name+' ('+g.members.length+')'; vs.appendChild(o);
-    });
-  }else{
-    vs.innerHTML='<option value="">தேர்ந்தெடுக்கவும்...</option>';
-    constituencies[key].villages.slice().sort(function(a,b){return a.name.localeCompare(b.name);})
-      .forEach(function(v){ var o=document.createElement('option'); o.value=v.name; o.textContent=v.name; vs.appendChild(o); });
-  }
-}
-function obVillageChange(){
-  if(OB.pos!=='WM')return;
-  var key=document.getElementById('ob-ac').value;
-  var vn=document.getElementById('ob-village').value;
-  var ws=document.getElementById('ob-ward');
-  var v=(constituencies[key]||{villages:[]}).villages.find(function(x){return x.name===vn;});
-  var list=villageWards(v);
-  if(!list.length){ ws.innerHTML='<option value="">இந்த ஊராட்சிக்கு வார்டு தரவு இல்லை</option>'; ws.disabled=true; return; }
-  ws.disabled=false;
-  ws.innerHTML='<option value="">தேர்ந்தெடுக்கவும்...</option>';
-  list.forEach(function(w){
-    var o=document.createElement('option'); o.value=w.no;
-    o.textContent=(w.label||('வார்டு '+w.no))+' — '+w.polled.toLocaleString('en-IN')+(w.booths&&w.booths.length?' · booth '+w.booths.join('/'):'')+(w.streets&&w.streets.length?' · '+w.streets.length+' தெரு':'');
-    ws.appendChild(o);
-  });
-}
-function obFinish(){
-  var key=document.getElementById('ob-ac').value;
-  var vn=document.getElementById('ob-village').value;
-  var wd=document.getElementById('ob-ward').value;
-  if(!key)return obErr(4,'தொகுதியைத் தேர்ந்தெடுக்கவும்.');
-  if(!vn)return obErr(4,OB.pos==='CO'?'ஒன்றிய வார்டைத் தேர்ந்தெடுக்கவும்.':'ஊராட்சியைத் தேர்ந்தெடுக்கவும்.');
-  if(OB.pos==='WM'&&!wd&&!document.getElementById('ob-ward').disabled)return obErr(4,'வார்டு எண்ணைத் தேர்ந்தெடுக்கவும்.');
-  obErr(4,'');
-  OB.ac=key; OB.village=vn; OB.ward=wd;
-  if(key!==currentConstituency){ switchConstituency(key); var cs=document.getElementById('constituency-select'); if(cs)cs.value=key; }
-  if(OB.pos==='CO'){ assignedGroup=vn; assignedVillage=''; assignedWard=''; }
-  else{ assignedVillage=vn; assignedGroup=''; assignedWard=OB.pos==='WM'?wd:''; }
-  var meta=STANDING_POSITIONS[OB.pos]||STANDING_POSITIONS.CO;
-  document.getElementById('cand-name').textContent=OB.name;
-  document.getElementById('cand-avatar').textContent=OB.name.split(/\s+/).map(function(w){return w[0];}).join('').slice(0,2).toUpperCase()||'CC';
-  document.getElementById('cand-position').dataset.position=OB.pos;
-  document.getElementById('cand-position').textContent=meta.icon+' Standing for · '+meta.label+' ('+meta.seat+')';
-  document.getElementById('cand-constituency').textContent=constituencies[key].assembly;
-  document.getElementById('cand-mobile1').value='+91 '+OB.phone;
-  currentUserRole=OB.role;
-  myParty=OB.party||'';
-  document.getElementById('role-select').value='candidate';
-  onRoleChange();
-  if(assignedVillage){ document.getElementById('scope-village').value=assignedVillage; onScopeChange(); }
-  saveCandidateProfile();
-  try{ localStorage.setItem('cc_onboard_v1', JSON.stringify(OB)); }catch(e){}
-  document.getElementById('ob-overlay').style.display='none';
-  refreshLocalBodyLine(); renderSeatProfile(); renderCandidateDashboard(); renderBattleWard();
-  document.getElementById('cand-party').textContent=OB.party||document.getElementById('cand-party').textContent;
-  navigate('dashboard');
-}
-function obStart(force){
-  var done=null;
-  try{ done=localStorage.getItem('cc_onboard_v1'); }catch(e){}
-  if(done&&!force)return;
-  document.getElementById('ob-overlay').style.display='flex';
-  obPick('ob-role-choices','role'); obPick('ob-pos-choices','pos');
-  obGo(1);
-}
-function obReset(){ try{ localStorage.removeItem('cc_onboard_v1'); localStorage.removeItem('cc_profile_v1'); }catch(e){} location.reload(); }
-</script>
-
 </body>
 </html>
