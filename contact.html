@@ -2,14 +2,10 @@
   <html lang="en">
   <head>
   <meta charset="UTF-8">
+<meta http-equiv="X-Content-Type-Options" content="nosniff">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-7RNMPLX6D3"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-7RNMPLX6D3');
-  </script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}</script>
+<script src="assets/consent.js?v=2"></script>
   <title>Contact Brand U Max | Branding &amp; Growth, India</title>
     <meta name="description" content="Contact Brand U Max to talk growth, revenue and profit. Get a free marketing audit from our Business Growth Consultant team.">
     <link rel="canonical" href="https://brandumax.com/contact.html">
@@ -33,12 +29,12 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Lora:ital,wght@0,400;0,500;1,400&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="style.css?v=2">
 </head>
 <body>
 <header class="site-header">
   <div class="nav-wrap">
-    <a href="/" class="brand"><img class="brand-logo-img" src="assets/logo-feather.png" alt="Brand U Max logo">Brand U Max</a>
+    <a href="/" class="brand"><img class="brand-logo-img" src="assets/logo-feather.png" width="149" height="128" alt="Brand U Max logo">Brand U Max</a>
       <nav class="nav-links">
         <a href="/">Home</a>
         <a href="about.html">About Us</a>
@@ -57,13 +53,69 @@
       <div class="contact-grid">
         <div class="contact-form">
           <h2>Send Us a Message</h2>
-          <form action="mailto:info@brandumax.com" method="post" enctype="text/plain">
-            <div class="form-group"><label for="name">Full Name</label><input type="text" id="name" name="name" placeholder="Your name" required></div>
-            <div class="form-group"><label for="email">Email Address</label><input type="email" id="email" name="email" placeholder="you@company.com" required></div>
+          <!-- FORMSPREE: replace YOUR_FORM_ID in the action URL below with your Formspree form ID (e.g. xabcdefg) -->
+          <form id="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" novalidate>
+            <div class="form-group"><label for="name">Full Name</label><input type="text" id="name" name="name" placeholder="Your name" required aria-describedby="name-error"><span class="field-error" id="name-error" hidden></span></div>
+            <div class="form-group"><label for="email">Email Address</label><input type="email" id="email" name="email" placeholder="you@company.com" required aria-describedby="email-error"><span class="field-error" id="email-error" hidden></span></div>
             <div class="form-group"><label for="company">Company / Brand Name</label><input type="text" id="company" name="company" placeholder="Your brand"></div>
-            <div class="form-group"><label for="message">Message</label><textarea id="message" name="message" rows="5" placeholder="Tell us about your goals"></textarea></div>
+            <div class="form-group"><label for="message">Message</label><textarea id="message" name="message" rows="5" placeholder="Tell us about your goals" required aria-describedby="message-error"></textarea><span class="field-error" id="message-error" hidden></span></div>
+            <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" style="display:none" aria-hidden="true">
             <button type="submit" class="btn btn-primary" style="border:none;cursor:pointer;">Send Message</button>
+            <p class="form-status" id="form-status" role="status" aria-live="polite" hidden></p>
           </form>
+          <script>
+          (function () {
+            var form = document.getElementById('contact-form');
+            var status = document.getElementById('form-status');
+            var fields = [
+              { id: 'name', msg: 'Please enter your name.' },
+              { id: 'email', msg: 'Please enter a valid email address.' },
+              { id: 'message', msg: 'Please tell us a little about your goals.' }
+            ];
+            function show(kind, text) {
+              status.className = 'form-status ' + (kind === 'ok' ? 'is-success' : 'is-error');
+              status.textContent = text;
+              status.hidden = false;
+            }
+            function validate() {
+              var ok = true;
+              fields.forEach(function (f) {
+                var el = document.getElementById(f.id);
+                var err = document.getElementById(f.id + '-error');
+                var v = el.value.trim();
+                var bad = !v || (f.id === 'email' && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v));
+                el.setAttribute('aria-invalid', bad ? 'true' : 'false');
+                err.textContent = bad ? f.msg : '';
+                err.hidden = !bad;
+                if (bad && ok) { el.focus(); }
+                if (bad) { ok = false; }
+              });
+              return ok;
+            }
+            form.addEventListener('submit', function (e) {
+              e.preventDefault();
+              status.hidden = true;
+              if (!validate()) return;
+              var btn = form.querySelector('button[type="submit"]');
+              btn.disabled = true;
+              fetch(form.action, {
+                method: 'POST',
+                body: new FormData(form),
+                headers: { 'Accept': 'application/json' }
+              }).then(function (res) {
+                if (res.ok) {
+                  form.reset();
+                  show('ok', 'Thanks! Your message has been sent. We will get back to you shortly.');
+                  if (typeof gtag === 'function') { gtag('event', 'contact_form_submit', { page: location.pathname }); }
+                } else {
+                  show('err', 'Sorry, something went wrong. Please email info@brandumax.com or message us on WhatsApp.');
+                }
+              }).catch(function () {
+                show('err', 'Network error. Please email info@brandumax.com or message us on WhatsApp.');
+              }).then(function () { btn.disabled = false; });
+            });
+          })();
+          </script>
         </div>
         <div class="contact-info">
           <div class="card"><h3>Email</h3><p><a href="mailto:info@brandumax.com">info@brandumax.com</a></p></div>
@@ -81,13 +133,14 @@
 <footer class="site-footer">
     <div class="footer-inner">
       <div class="footer-col"><h3>Brand U Max</h3><p>Helping brands scale growth, revenue and profit through smart AI marketing.</p></div>
-      <div class="footer-col"><h3>Quick Links</h3><a href="/">Home</a><a href="about.html">About Us</a><a href="services.html">Services</a><a href="blog.html">Blog</a> <a href="contact.html">Contact Us</a></div>
+      <div class="footer-col"><h3>Quick Links</h3><a href="/">Home</a><a href="about.html">About Us</a><a href="services.html">Services</a><a href="blog.html">Blog</a> <a href="contact.html">Contact Us</a> <a href="privacy-policy.html">Privacy Policy</a></div>
       <div class="footer-col"><h3>Contact</h3><a href="https://www.google.com/search?q=brandumax+coimbatore" target="_blank" rel="noopener" style="display:block;margin:0 0 8px;font-size:14px;">49, Labours Colony, Venkateswara Nagar, Koundampalayam, Coimbatore - 641030</a><a href="mailto:info@brandumax.com">info@brandumax.com</a><a href="tel:+917401555777">+91 7401555777</a></div>
     </div>
     <div class="footer-bottom">&copy; 2026 Brand U Max. All rights reserved.</div>
   </footer>
   <script src="assets/chatbot.js" defer></script>
-  <script src="assets/motion.js" defer></script>`n<script src="assets/lead-capture.js" defer></script>
+  <script src="assets/motion.js" defer></script>
+<script src="assets/lead-capture.js" defer></script>
   <a class="wa-float" href="https://wa.me/917401555777?text=Hi%20Brand%20U%20Max%2C%20I%20want%20a%20free%20audit" target="_blank" rel="noopener" aria-label="Chat with Brand U Max on WhatsApp">
 <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472,14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94,1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04,1.016-1.04,2.479 0,1.462 1.065,2.875 1.213,3.074.149.198 2.096,3.2 5.077,4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421,7.403h-.004a9.87,9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86,9.86 0 0 1-1.51-5.26c.001-5.45,4.436-9.884,9.888-9.884 2.64,0,5.122,1.03,6.988,2.898a9.825,9.825 0 0 1 2.893,6.994c-.003,5.45-4.437,9.884-9.885,9.884m8.413-18.297A11.815,11.815 0 0 0 12.05,0C5.495,0,.16,5.335.157,11.892c0,2.096.547,4.142 1.588,5.945L.057,24l6.305-1.654a11.882,11.882 0 0 0 5.683,1.448h.005c6.554,0,11.89-5.335,11.893-11.893a11.821,11.821 0 0 0-3.48-8.413Z"/></svg>
 </a>
