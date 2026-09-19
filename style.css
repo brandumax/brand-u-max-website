@@ -1053,3 +1053,51 @@ a.card:hover {
     .wa-float { width: 46px; height: 46px; bottom: 16px; right: 16px; }
     .wa-float svg { width: 24px; height: 24px; }
 }
+
+/* ---- Consent banner, form feedback, focus (added) ---- */
+.consent-banner {
+    position: fixed;
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    background: var(--surface-card);
+    color: var(--text-primary);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    box-shadow: 0 10px 30px rgba(20, 18, 15, 0.18);
+    z-index: 10000;
+    font-size: 14px;
+    line-height: 1.5;
+}
+.consent-banner p { margin: 0; flex: 1 1 260px; }
+.consent-banner a { text-decoration: underline; }
+.consent-actions { display: flex; gap: 10px; }
+.consent-actions .btn { padding: 8px 18px; font-size: 14px; cursor: pointer; }
+
+.form-status { margin: 16px 0 0; padding: 12px 14px; border-radius: var(--radius-sm); font-size: 15px; }
+.form-status[hidden] { display: none; }
+.form-status.is-success { background: #ecfdf3; color: #14532d; border: 1px solid #86efac; }
+.form-status.is-error { background: #fef2f2; color: #7f1d1d; border: 1px solid #fca5a5; }
+.field-error { display: block; margin: 6px 0 0; font-size: 13px; color: #b91c1c; }
+.field-error[hidden] { display: none; }
+.form-group input[aria-invalid="true"],
+.form-group textarea[aria-invalid="true"] { border-color: #b91c1c; }
+
+.wa-float:focus-visible,
+.bumax-chat-btn:focus-visible {
+    outline: 3px solid var(--accent-ink);
+    outline-offset: 3px;
+    box-shadow: 0 0 0 6px #fff;
+}
+.legal-page { max-width: 760px; margin: 0 auto; }
+.legal-page h2 { margin: 32px 0 8px; }
+.legal-page p, .legal-page li { line-height: 1.7; }
+.legal-page ul { list-style: disc; padding-left: 22px; }

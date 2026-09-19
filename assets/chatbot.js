@@ -10,17 +10,27 @@
     { k: ['thank'], a: "You're welcome! Let us know if there's anything else you'd like to know." }
   ];
 
+  // Word-boundary matching so "hi" does not fire inside "this"/"which"/"history".
+  // Keywords of 4+ letters also match longer forms at the word start ("advertis" -> "advertising");
+  // shorter ones ("hi", "seo", "ppc") must match a whole word.
+  function keywordRegex(k) {
+    var esc = k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return new RegExp('\\b' + esc + (k.length >= 4 ? '' : '\\b'), 'i');
+  }
+
   function findAnswer(text) {
-    var lower = text.toLowerCase();
     for (var i = 0; i < faq.length; i++) {
       for (var j = 0; j < faq[i].k.length; j++) {
-        if (lower.indexOf(faq[i].k[j]) !== -1) {
+        if (keywordRegex(faq[i].k[j]).test(text)) {
           return faq[i].a;
         }
       }
     }
     return "I'm not totally sure about that one. For anything specific, please reach out on our Contact page and our team will help you directly.";
   }
+
+  if (typeof module !== 'undefined' && module.exports) { module.exports = { findAnswer: findAnswer }; }
+  if (typeof document === 'undefined') { return; }
 
   function addMessage(container, text, who) {
     var msg = document.createElement('div');
@@ -43,13 +53,14 @@
       + '.bumax-msg-bot{background:#e9edf5;color:#1b2a4a;align-self:flex-start;}'
       + '.bumax-msg-user{background:var(--orange,#f5a623);color:#1b2a4a;align-self:flex-end;margin-left:auto;}'
       + '.bumax-chat-input-row{display:flex;border-top:1px solid #eee;padding:8px;gap:8px;}'
-      + '.bumax-chat-input{flex:1;border:1px solid #ddd;border-radius:20px;padding:8px 12px;font-size:14px;outline:none;}'
+      + '.bumax-chat-input{flex:1;border:1px solid #ddd;border-radius:20px;padding:8px 12px;font-size:14px;}'
       + '.bumax-chat-send{background:var(--orange,#f5a623);border:none;color:#1b2a4a;font-weight:700;border-radius:20px;padding:8px 14px;cursor:pointer;}';
     document.head.appendChild(style);
 
     var btn = document.createElement('button');
     btn.className = 'bumax-chat-btn';
-    btn.setAttribute('aria-label', 'Open chat');
+    btn.setAttribute('aria-label', 'Open Brand U Max chat assistant');
+    btn.setAttribute('aria-haspopup', 'dialog');
     btn.textContent = String.fromCodePoint(0x1F4AC);
 
     var win = document.createElement('div');
@@ -57,7 +68,7 @@
     win.innerHTML = ''
       + '<div class="bumax-chat-header"><span>Brand U Max Assistant</span><button class="bumax-chat-close" aria-label="Close chat">&times;</button></div>'
       + '<div class="bumax-chat-body"></div>'
-      + '<div class="bumax-chat-input-row"><input type="text" class="bumax-chat-input" placeholder="Ask about services, pricing..."><button class="bumax-chat-send">Send</button></div>';
+      + '<div class="bumax-chat-input-row"><input type="text" class="bumax-chat-input" aria-label="Type your question" placeholder="Ask about services, pricing..."><button class="bumax-chat-send">Send</button></div>';
 
     document.body.appendChild(btn);
     document.body.appendChild(win);
