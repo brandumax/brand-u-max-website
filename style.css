@@ -1033,8 +1033,8 @@ a.card:hover {
 
 .wa-float {
     position: fixed;
-    bottom: 22px;
-    right: 22px;
+    bottom: 27px;
+    left: 24px;
     width: 54px;
     height: 54px;
     background: #25d366;
@@ -1050,6 +1050,6 @@ a.card:hover {
 .wa-float:hover { background: #1eb154; transform: translateY(-3px) scale(1.04); }
 .wa-float svg { width: 28px; height: 28px; fill: #fff; display: block; }
 @media (max-width: 520px) {
-    .wa-float { width: 46px; height: 46px; bottom: 16px; right: 16px; }
+    .wa-float { width: 46px; height: 46px; bottom: 31px; left: 20px; }
     .wa-float svg { width: 24px; height: 24px; }
 }
