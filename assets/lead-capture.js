@@ -61,14 +61,31 @@
           return;
         }
 
-        track('lead_magnet_email', { page: location.pathname });
         var msg = 'Hi Brand U Max, please send me the free digital marketing audit checklist.'
           + ' My name: ' + name + '. Email: ' + email;
-        window.open(
-          'https://wa.me/' + phone + '?text=' + encodeURIComponent(msg),
-          '_blank'
-        );
-        if (note) { note.textContent = 'Opening WhatsApp... press send there and we\'ll deliver the checklist right away.'; }
+        var waUrl = 'https://wa.me/' + phone + '?text=' + encodeURIComponent(msg);
+
+        // Lead event fires only here, on a validated submit (not on the raw button click).
+        track('lead_magnet_email', { page: location.pathname });
+
+        var opened = window.open(waUrl, '_blank');
+        if (note) {
+          note.setAttribute('role', 'status');
+          note.setAttribute('aria-live', 'polite');
+          note.style.opacity = '1';
+          note.style.fontWeight = '600';
+          if (opened) {
+            note.textContent = "Thanks! We've opened WhatsApp — just press send and we'll deliver the checklist right away.";
+          } else {
+            note.textContent = 'Thanks! Your browser blocked the WhatsApp window — ';
+            var link = document.createElement('a');
+            link.href = waUrl;
+            link.target = '_blank';
+            link.rel = 'noopener';
+            link.textContent = 'tap here to open WhatsApp and press send.';
+            note.appendChild(link);
+          }
+        }
         if (typeof form.reset === 'function') { form.reset(); }
       });
     }
