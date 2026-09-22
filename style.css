@@ -1032,8 +1032,10 @@ a.card:hover {
 .btn-whatsapp:hover { background: #1eb154; transform: translateY(-2px); }
 
 .wa-float {
+    /* Bottom-LEFT corner. Vertically centred against the AI chat button on the
+       right, which is 60px tall at bottom:max(20px, safe-area) -- see section 17. */
     position: fixed;
-    bottom: 27px;
+    bottom: calc(max(20px, env(safe-area-inset-bottom, 0px)) + 3px);
     left: 24px;
     width: 54px;
     height: 54px;
@@ -1049,7 +1051,14 @@ a.card:hover {
 }
 .wa-float:hover { background: #1eb154; transform: translateY(-3px) scale(1.04); }
 .wa-float svg { width: 28px; height: 28px; fill: #fff; display: block; }
-@media (max-width: 520px) {
-    .wa-float { width: 46px; height: 46px; bottom: 31px; left: 20px; }
+@media (max-width: 640px) {
+    /* AI button shrinks to 48px at right:14px / bottom:max(14px, safe-area)
+       below 640px, so mirror it on the left and match its centre line. */
+    .wa-float {
+        width: 46px;
+        height: 46px;
+        bottom: calc(max(14px, env(safe-area-inset-bottom, 0px)) + 1px);
+        left: 14px;
+    }
     .wa-float svg { width: 24px; height: 24px; }
 }
