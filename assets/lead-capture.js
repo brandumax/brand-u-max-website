@@ -1,4 +1,4 @@
-(function () {
+﻿(function () {
   function track(event, params) {
     if (typeof gtag === 'function') {
       try { gtag('event', event, params || {}); } catch (e) { /* ignore */ }
@@ -38,7 +38,7 @@
 
     var form = document.querySelector('.lead-form');
     if (form) {
-      var phone = form.getAttribute('data-lead-phone') || '917401555777';
+      var phone = form.getAttribute('data-lead-phone') || '919941913167';
       var submit = document.getElementById('lead-submit');
       var note = document.getElementById('lead-note');
 

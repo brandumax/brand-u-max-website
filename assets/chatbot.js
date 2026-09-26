@@ -1,10 +1,10 @@
-(function () {
+﻿(function () {
   var faq = [
     { k: ['hello', 'hi', 'hey'], a: "Hi there! I'm the Brand U Max assistant. Ask me about our services, pricing, or how to get in touch." },
     { k: ['service', 'seo', 'ppc', 'advertis', 'social media', 'brand', 'content', 'conversion', 'analytics'], a: "We offer SEO & Content, Paid Advertising, Social Media Marketing, Branding & Creative, Conversion Optimization and Analytics & Reporting. Check out the full Services page for details." },
     { k: ['price', 'cost', 'pricing', 'quote', 'budget'], a: "Pricing depends on your goals and channels. The best next step is a free marketing audit - just head to our Contact page to request one." },
     { k: ['audit'], a: "You can get a free marketing audit by visiting our Contact page and sending us a message, or calling us directly." },
-    { k: ['contact', 'email', 'phone', 'call', 'reach', 'number', 'whatsapp', 'mobile'], a: "You can reach us at info@brandumax.com or call +91 7401555777. Office hours are Monday to Saturday, 9:00 AM to 6:00 PM." },
+    { k: ['contact', 'email', 'phone', 'call', 'reach', 'number', 'whatsapp', 'mobile'], a: "You can reach us at info@brandumax.com or call +91 9941913167. Office hours are Monday to Saturday, 9:00 AM to 6:00 PM." },
     { k: ['hour', 'open', 'time'], a: "Our office hours are Monday to Saturday, 9:00 AM to 6:00 PM." },
     { k: ['about', 'who are you', 'company', 'mission'], a: "Brand U Max is a Business Growth Consultant focused on growth, revenue and profit, not just vanity metrics. Visit our About page to learn more." },
     { k: ['thank'], a: "You're welcome! Let us know if there's anything else you'd like to know." }

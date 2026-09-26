@@ -1,4 +1,4 @@
-# Brand U Max
+﻿# Brand U Max
 
 > Brand U Max is an AI-first branding and business growth consultant helping ambitious brands build identity, open new growth channels, and scale revenue and profit.
 
@@ -40,5 +40,5 @@ Based in Coimbatore, Tamil Nadu, India.
 ## Contact
 
 Email: info@brandumax.com
-Phone: +91 7401555777
+Phone: +91 9941913167
 Address: 49, Labours Colony, Venkateswara Nagar, Koundampalayam, Coimbatore - 641030, Tamil Nadu, India
