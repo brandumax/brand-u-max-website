@@ -1,0 +1,24 @@
+name: Daily trend blog
+on:
+  schedule:
+    - cron: "30 2 * * *" # 08:00 IST every day
+  workflow_dispatch: {}
+permissions:
+  contents: write
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Generate trend post
+        run: python scripts/daily_trend_blog.py
+      - name: Commit and push
+        run: |
+          git config user.name "brandumax-bot"
+          git config user.email "bot@brandumax.com"
+          git add blog.html sitemap.xml llms.txt blog-trend-*.html
+          git diff --cached --quiet || git commit -m "Daily trend blog post"
+          git push
