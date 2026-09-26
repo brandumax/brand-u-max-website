@@ -25,11 +25,12 @@ PHONE_DISP = "+91 9941913167"
 WA_LINK = "https://wa.me/919941913167?text=Hi%20Brand%20U%20Max%2C%20I%20want%20a%20free%20audit"
 
 RELEVANT = ("market", "advertis", "seo", "google", "instagram", "youtube",
-            "facebook", "meta", " ai", "startup", "business", "ecommerce",
-            "e-commerce", "online shopping", "amazon", "flipkart", "brand",
-            "digital", "social media", "whatsapp", "iphone", "android", "app ",
-            "price", "sale", "offer", "phone", "laptop", "election", "budget",
-            "gst", "stock", "ipo", "cricket world", "ipl", "festival", "diwali")
+            "facebook", "meta", " ai", "gpt", "openai", "gemini", "artificial",
+            "startup", "business", "ecommerce", "e-commerce", "online shopping",
+            "amazon", "flipkart", "brand", "digital", "social media", "whatsapp",
+            "iphone", "smartphone", "android", "price", "sale", "offer", "phone",
+            "laptop", "election", "budget", "gst", "stock", "ipo", "festival",
+            "diwali", "pongal", "cricket world", "ipl")
 SKIP = ("weather", "mausam", "kal ka", "lottery", "sangbad", "sambad", "horoscope",
         "rashifal", "mandi bhav", "gold rate today", "petrol price")
 
@@ -122,6 +123,8 @@ def pick_trend(items):
     scored = []
     for it in items:
         low = it["title"].lower()
+        if len(low.strip()) < 3:
+            continue
         if any(s in low for s in SKIP):
             continue
         if any(k in low for k in RELEVANT):
@@ -327,6 +330,11 @@ def main():
         print(f"trend fetch failed ({e}); using evergreen fallback")
         trends = []
     trend = pick_trend(trends)
+    print(f"analysis: fetched {len(trends)} trends")
+    if trend:
+        print(f"analysis: picked '{trend['title']}' ({trend['traffic']} searches)")
+    else:
+        print("analysis: no business-relevant trend, evergreen fallback")
     if trend:
         slug, headline, desc, points, faqs = trend_topic(trend)
         filename = f"blog-trend-{today.strftime('%Y%m%d')}-{slug}.html"
