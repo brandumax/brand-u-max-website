@@ -1,0 +1,34 @@
+name: Weekly site health
+on:
+  schedule:
+    - cron: "0 3 * * MON" # Monday 08:30 IST
+  workflow_dispatch: {}
+permissions:
+  contents: read
+jobs:
+  health:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Validate site
+        run: python scripts/validate_site.py
+      - name: Chatbot tests
+        run: node scripts/test_chatbot.js
+      - name: Check live URLs
+        run: |
+          python3 -c "
+          import urllib.request, xml.etree.ElementTree as ET
+          urls = [u.text for u in ET.parse(urllib.request.urlopen('https://brandumax.com/sitemap.xml', timeout=30)).getroot().iter('{http://www.sitemaps.org/schemas/sitemap/0.9}loc')]
+          bad = []
+          for u in urls:
+              try:
+                  r = urllib.request.urlopen(urllib.request.Request(u, headers={'User-Agent': 'Mozilla/5.0'}), timeout=20)
+                  print(r.status, u)
+                  if r.status != 200: bad.append(u)
+              except Exception as e:
+                  print('FAIL', u, e); bad.append(u)
+          raise SystemExit(1 if bad else 0)
+          "
